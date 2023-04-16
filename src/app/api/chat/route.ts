@@ -10,7 +10,7 @@ async function createStream(req: NextRequest) {
   const presencePenalty = body.presencePenalty ?? "0";
   const maxTokens = body.maxTokens || "";
   const apiKey =
-    body.apiKey || "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";
+    body.apiKey || "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";
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     headers: {
       "Content-Type": "application/json",
