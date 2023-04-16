@@ -77,7 +77,7 @@ export default function Slider() {
           },
         }}
         onClick={() => {
-          const newId = historyList.length + 1;
+          const newId = historyList[0].id + 1;
           setHistoryList([
             {
               title: "新的会话",
