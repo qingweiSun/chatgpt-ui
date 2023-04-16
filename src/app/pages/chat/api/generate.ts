@@ -14,7 +14,7 @@ export async function generateMessage(
   });
   setMessages(newMessages);
   const controller = new AbortController();
-  const response = await fetch("/api/hello", {
+  const response = await fetch("/api/chat", {
     method: "POST",
     body: JSON.stringify({
       messages: messages.map((message) => message.data),
