@@ -1,0 +1,68 @@
+.slider {
+    width: 300px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    background: linear-gradient(135deg, #f3f3f3, #f3f3f3);
+    gap: 12px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.operate {
+    transition: all linear 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.hide {
+    opacity: 0;
+}
+
+.historyItem:hover div.operate {
+    opacity: 1;
+}
+
+.title {
+    font-family: 'Audiowide', system-ui;
+    background: linear-gradient(135deg, #52e5e7, #167aff, #965aed);
+    -webkit-background-clip: text;
+    line-height: 1;
+    font-size: 28px;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 4px rgb(22 122 255 / 6%), 0 0 2px rgb(22 122 255 / 2%);
+}
+
+.sub {
+    font-family: 'Audiowide', system-ui;
+    background: linear-gradient(135deg, #52e5e7, #167aff, #965aed);
+    -webkit-background-clip: text;
+    line-height: 1;
+    font-size: 10px;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 4px rgb(22 122 255 / 6%), 0 0 2px rgb(22 122 255 / 2%);
+}
+
+.delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete:hover {
+    color: #965aed;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 0;
+    padding: 12px;
+    width: 100%;
+    display: flex;
+    background: rgba(243, 243, 243, 0.4);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+}

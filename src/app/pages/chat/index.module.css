@@ -1,0 +1,86 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-y: scroll;
+    background: linear-gradient(135deg, #f7f7f7, #f7f7f7);
+    flex: 1;
+}
+
+.appbar {
+    display: flex;
+    margin-left: 300px;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid #eeeeee;
+    z-index: 1;
+    background: rgba(247, 247, 247, 0.7);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    position: absolute;
+    top: 0;
+    align-items: center;
+    left: 0;
+    right: 0;
+}
+
+
+.bot {
+    color: #333333;
+    background: linear-gradient(135deg, #ffffff, #ffffff);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%);
+    border-radius: 4px 12px 12px 12px;
+    padding: 1rem;
+    overflow: hidden;
+    position: relative;
+    width: auto;
+    overflow-wrap: break-word;
+    -webkit-touch-callout: unset !important;
+    -moz-user-select: text !important; /*火狐*/
+    -webkit-user-select: text !important; /*webkit浏览器*/
+    -ms-user-select: text !important; /*IE10*/
+}
+
+.user {
+    padding: 1rem;
+    color: #333333;
+    overflow: hidden;
+    position: relative;
+    overflow-wrap: break-word;
+    border-radius: 14px 4px 14px 14px;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%);
+    transition: box-shadow 0.3s ease-in-out;
+    -webkit-touch-callout: unset !important;
+    -moz-user-select: text !important; /*火狐*/
+    -webkit-user-select: text !important; /*webkit浏览器*/
+    -ms-user-select: text !important; /*IE10*/
+    background: linear-gradient(-135deg, #e7f5ff, #e7f5ff);
+}
+
+.code {
+    font-size: 13px;
+}
+
+.link:hover {
+    color: #965aed;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-left: 300px;
+    z-index: 1;
+    background: rgba(247, 247, 247, 0.4);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    padding: 16px;
+    display: flex;
+    gap: 12px;
+}
+
+.input {
+    background: rgba(255, 255, 255, 0.6);
+    width: 100%;
+}
