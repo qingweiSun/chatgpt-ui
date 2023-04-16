@@ -10,7 +10,7 @@ export default function RootLayout({
     <html lang="zh">
       <head>
         <link rel="shortcut icon" href="favicon.svg" />
-        <meta name="theme-color" content="#2196f3" />
+        <meta name="theme-color" content="#0072f5" />
         <meta
           name="keywords"
           content="HTML5, CSS3, JavaScript, TypeScript, Vue, React, 前端, 个人博客"
