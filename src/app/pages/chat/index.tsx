@@ -1,12 +1,12 @@
 import styles from "./index.module.css";
 import { Button, Input, Navbar, Tooltip } from "@nextui-org/react";
 import { useEffect, useRef } from "react";
-import BotChatTextView from "@/app/pages/chat/bot-chat-text-view";
 import UserView from "@/app/pages/chat/user-chat-view";
 import { ChevronUp, Delete, Download, Edit, Send } from "react-iconly";
 import toast from "react-hot-toast";
 import useStateSync from "@/app/hooks/use-state-with-call";
 import { generateMessage } from "@/app/pages/chat/api/generate";
+import BotChatTextView from "@/app/pages/chat/bot-chat-text-view";
 
 export interface ChatMessage {
   data: GptMessage;
