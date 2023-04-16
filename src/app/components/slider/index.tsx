@@ -41,10 +41,14 @@ export default function Slider() {
           selected: true,
         },
       ]);
-      router.replace("/?id=1");
+      //router.replace("/?id=1");
+      setId({ id: 1, name: "新的会话" });
     } else {
-      const id = historyList.find((item) => item.selected)?.id || -1;
-      router.replace("/?id=" + id);
+      const item = historyList.find((item) => item.selected);
+      if (item) {
+       // router.replace("/?id=" + item.id);
+        setId({ id: item.id, name: item.title });
+      }
     }
     localStorage.setItem("historyList", JSON.stringify(historyList));
   }, [historyList]);

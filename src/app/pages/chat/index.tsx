@@ -30,8 +30,9 @@ export interface GptMessage {
   content: string | "loading";
 }
 
-export default function ChatView(props: { id?: number }) {
+export default function ChatView() {
   const [name, setName] = useState("");
+  const chatId = useRef(-1);
   const [messages, setMessages] = useStateSync<ChatMessage[]>([
     {
       data: {
@@ -42,15 +43,11 @@ export default function ChatView(props: { id?: number }) {
   ]);
   const { current, setId } = useContext(IdContext);
 
-  const scrollRef = useRef(null); //监听滚动
-  useScroll(scrollRef);
-  const inputText = useRef<HTMLTextAreaElement>();
-  const [loading, setLoading] = useStateSync(false);
-  const [controller, setController] = useState<AbortController>(); //中断请求
   useEffect(() => {
-    if (props.id) {
+    if (chatId.current != current.id) {
+      chatId.current = current.id;
       const list =
-        JSON.parse(localStorage.getItem("historyList" + props.id) || "[]") ||
+        JSON.parse(localStorage.getItem("historyList" + current.id) || "[]") ||
         [];
       if (list.length > 0) {
         setMessages(list);
@@ -58,7 +55,7 @@ export default function ChatView(props: { id?: number }) {
       const nameValue = JSON.parse(
         localStorage.getItem("historyList") || "[]"
       ).find((e: HistoryItem) => {
-        return e.id == props.id;
+        return e.id == current.id;
       })?.title;
       if (nameValue) {
         setName(nameValue);
@@ -66,11 +63,19 @@ export default function ChatView(props: { id?: number }) {
         setName("新的会话");
       }
     }
-  }, [props.id]);
+  }, [current.id]);
+  const scrollRef = useRef(null); //监听滚动
+  useScroll(scrollRef);
+  const inputText = useRef<HTMLTextAreaElement>();
+  const [loading, setLoading] = useStateSync(false);
+  const [controller, setController] = useState<AbortController>(); //中断请求
 
   useEffect(() => {
-    if (props.id) {
-      localStorage.setItem("historyList" + props.id, JSON.stringify(messages));
+    if (current.id) {
+      localStorage.setItem(
+        "historyList" + current.id,
+        JSON.stringify(messages)
+      );
     }
     if (name === "新的会话") {
       const tempName =
@@ -80,7 +85,7 @@ export default function ChatView(props: { id?: number }) {
 
       if (tempName != "") {
         setName(tempName);
-        setId({ id: props.id || -1, name: tempName });
+        setId({ id: current.id || -1, name: tempName });
       }
     }
   }, [messages]);
@@ -137,7 +142,7 @@ export default function ChatView(props: { id?: number }) {
               name={name}
               setName={(text) => {
                 setName(text);
-                setId({ id: props.id || -1, name: text });
+                setId({ id: current.id || -1, name: text });
               }}
             >
               <div
@@ -150,7 +155,7 @@ export default function ChatView(props: { id?: number }) {
                   cursor: "pointer",
                 }}
               >
-                {name} <Edit set="light" size={24} />
+                {name || "新的会话"} <Edit set="light" size={24} />
               </div>
             </EditName>
             <div style={{ fontSize: 13 }}>共{messages.length}条记录</div>
@@ -161,7 +166,7 @@ export default function ChatView(props: { id?: number }) {
             <SelectView
               onDelete={() => {
                 setMessages([]);
-                localStorage.removeItem("historyList" + props.id);
+                localStorage.removeItem("historyList" + current.id);
                 toast.success("已重置");
               }}
               title={"提示"}

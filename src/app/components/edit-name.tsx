@@ -2,7 +2,7 @@ import { Button, Input, Modal, Text } from "@nextui-org/react";
 import React, { useEffect, useRef, useState } from "react";
 
 export default function EditName(props: {
-  name: string;
+  name?: string;
   setName: (name: string) => void;
   children: React.ReactNode;
 }) {
