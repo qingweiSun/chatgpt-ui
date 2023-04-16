@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import useStateSync from "@/app/hooks/use-state-with-call";
 import { generateMessage } from "@/app/pages/chat/api/generate";
 import BotChatTextView from "@/app/pages/chat/bot-chat-text-view";
+import { useScroll } from "@/app/hooks/use-scroll";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -27,6 +28,9 @@ export default function ChatView(props: { id?: number }) {
       },
     },
   ]);
+  const scrollRef = useRef(null); //监听滚动
+
+  useScroll(scrollRef);
   const inputText = useRef<HTMLTextAreaElement>();
 
   useEffect(() => {
@@ -128,7 +132,10 @@ export default function ChatView(props: { id?: number }) {
           </Tooltip>
         </Navbar.Content>
       </Navbar>
-      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <div
+        style={{ display: "flex", flexDirection: "column", gap: 24 }}
+        ref={scrollRef}
+      >
         <div />
         {messages.map((item, index) => {
           return (
@@ -150,6 +157,7 @@ export default function ChatView(props: { id?: number }) {
           );
         })}
         <div style={{ height: 140 }} />
+        <div id={"home_end"} />
       </div>
       <div className={styles.bottom}>
         <Input

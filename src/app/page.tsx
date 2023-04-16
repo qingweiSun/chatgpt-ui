@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Home from "@/app/pages/home";
 import IdContext from "@/app/hooks/use-chat-id";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@vercel/analytics/react";
 
 const theme = createTheme({
   type: "light", // it could be "light" or "dark"
@@ -30,6 +31,7 @@ export default function Index() {
         <NextUIProvider theme={theme}>
           <IdContext.Provider value={{ current, setId }}>
             <Home />
+            <Analytics />
             {/*https://github.com/timolins/react-hot-toast*/}
             <Toaster />
           </IdContext.Provider>

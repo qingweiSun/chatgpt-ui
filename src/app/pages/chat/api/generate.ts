@@ -13,7 +13,6 @@ export async function generateMessage(
     time: new Date().toLocaleString(),
   });
   setMessages(newMessages);
-
   const controller = new AbortController();
   const response = await fetch("/api/hello", {
     method: "POST",
