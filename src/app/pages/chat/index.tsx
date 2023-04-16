@@ -155,7 +155,8 @@ export default function ChatView() {
                   cursor: "pointer",
                 }}
               >
-                {name || "新的会话"} <Edit set="light" size={24} />
+                {name || "新的会话"}
+                {current.id} <Edit set="light" size={24} />
               </div>
             </EditName>
             <div style={{ fontSize: 13 }}>共{messages.length}条记录</div>
