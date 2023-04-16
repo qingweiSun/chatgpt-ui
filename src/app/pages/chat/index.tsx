@@ -62,6 +62,8 @@ export default function ChatView(props: { id?: number }) {
       })?.title;
       if (nameValue) {
         setName(nameValue);
+      } else {
+        setName("新的会话");
       }
     }
   }, [props.id]);
