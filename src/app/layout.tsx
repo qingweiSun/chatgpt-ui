@@ -1,6 +1,5 @@
 import "./globals.css";
 import React from "react";
-import Head from "next/head";
 
 export const metadata = {
   title: "Welcome use AI.",
@@ -14,9 +13,7 @@ export default function RootLayout({
   return (
     <html lang="zh">
       <head>
-        <title>valcosmos</title>
         <link rel="shortcut icon" href="favicon.svg" />
-        <meta name="description" content="description" />
 
         <meta
           name="keywords"
