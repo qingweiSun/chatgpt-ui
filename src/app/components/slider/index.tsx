@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import styles from "./index.module.css";
-import { Button, Grid, Popover, Row, Text } from "@nextui-org/react";
-import { Chat, Delete, Edit, Plus, Scan, Setting } from "react-iconly";
+import { Button, Popover } from "@nextui-org/react";
+import { Delete, Edit, Plus, Scan, Setting } from "react-iconly";
 import Image from "next/image";
 import ChatGptLogo from "../../icons/chatgpt.svg";
 import IdContext from "@/app/hooks/use-chat-id";
 import { useRouter } from "next/navigation";
+import { SelectView } from "@/app/components/delete-view";
 
 //https://react-iconly.jrgarciadev.com/ 图标
 
@@ -23,6 +24,15 @@ export default function Slider() {
   const router = useRouter();
 
   useEffect(() => {
+    const newList = historyList.map((item) => {
+      if (item.id == current.id) {
+        item.title = current.name;
+      }
+      return item;
+    });
+    setHistoryList(newList);
+  }, [current.name]);
+  useEffect(() => {
     if (historyList.length == 0) {
       setHistoryList([
         {
@@ -31,13 +41,9 @@ export default function Slider() {
           selected: true,
         },
       ]);
-      setId({ id: 1 });
       router.replace("/?id=1");
     } else {
       const id = historyList.find((item) => item.selected)?.id || -1;
-      if (current.id != id) {
-        setId({ id: historyList.find((item) => item.selected)?.id || -1 });
-      }
       router.replace("/?id=" + id);
     }
     localStorage.setItem("historyList", JSON.stringify(historyList));
@@ -67,37 +73,6 @@ export default function Slider() {
         <div className={styles.title}>ChatGPT</div>
         <div className={styles.sub}>Based on OpenAI API (gpt-3.5-turbo).</div>
       </div>
-      <Button
-        css={{
-          margin: "0 12px",
-          flex: "0 0 auto",
-          height: 44,
-          "&:hover": {
-            background: "#096dd9",
-          },
-        }}
-        onClick={() => {
-          const newId = historyList[0].id + 1;
-          setHistoryList([
-            {
-              title: "新的会话",
-              id: newId,
-              selected: true,
-            },
-            ...historyList.map((item) => {
-              return {
-                ...item,
-                selected: false,
-              };
-            }),
-          ]);
-        }}
-      >
-        <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
-          <div>新建会话</div>
-          <Plus set="curved" size={18} />
-        </div>
-      </Button>
       <div
         style={{
           overflowY: "scroll",
@@ -166,6 +141,39 @@ export default function Slider() {
         <Button auto light>
           <Scan set="two-tone" />
         </Button>
+        <div style={{ flex: 1 }} />
+        <Button
+          auto
+          bordered
+          borderWeight={"light"}
+          css={{
+            flex: "0 0 auto",
+            "&:hover": {
+              background: "#ffffff",
+            },
+          }}
+          onClick={() => {
+            const newId = historyList[0].id + 1;
+            setHistoryList([
+              {
+                title: "新的会话",
+                id: newId,
+                selected: true,
+              },
+              ...historyList.map((item) => {
+                return {
+                  ...item,
+                  selected: false,
+                };
+              }),
+            ]);
+          }}
+        >
+          <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+            <div>新建会话</div>
+            <Plus set="curved" size={18} />
+          </div>
+        </Button>
       </div>
     </div>
   );
@@ -178,7 +186,6 @@ function HistoryItemView(props: {
   onDelete: () => void;
   onRename: () => void;
 }) {
-  const [showDelete, setShowDelete] = useState(false);
   return (
     <Button
       bordered
@@ -188,7 +195,6 @@ function HistoryItemView(props: {
         color: props.current ? undefined : "#8c8c8c",
         borderWidth: 1,
         margin: "0 12px",
-        height: 44,
         flex: "0 0 auto",
         justifyContent: "start",
         display: "unset",
@@ -209,7 +215,7 @@ function HistoryItemView(props: {
           gap: 4,
         }}
       >
-        <Chat set="curved" />
+        {/*<Chat set="curved" />*/}
         <div
           style={{
             textOverflow: "ellipsis",
@@ -241,67 +247,16 @@ function HistoryItemView(props: {
               <div>xx</div>
             </Popover.Content>
           </Popover>
-          <Popover
-            isBordered
-            offset={16}
-            isOpen={showDelete}
-            onOpenChange={(isOpen) => {
-              setShowDelete(isOpen);
-            }}
+          <SelectView
+            placement={"bottom-right"}
+            onDelete={props.onDelete}
+            title={"提示"}
+            description={"确定要删除这个会话吗？"}
           >
-            <Popover.Trigger>
-              <a
-                className={styles.delete}
-                onClick={() => {
-                  setShowDelete(true);
-                }}
-              >
-                <Delete set="curved" size={18} />
-              </a>
-            </Popover.Trigger>
-            <Popover.Content>
-              <DeleteView
-                onDelete={() => {
-                  props.onDelete();
-                  setShowDelete(false);
-                }}
-                onCancel={() => {
-                  setShowDelete(false);
-                }}
-              />
-            </Popover.Content>
-          </Popover>
+            <Delete set="curved" size={18} />
+          </SelectView>
         </div>
       </div>
     </Button>
   );
 }
-
-export const DeleteView = (props: {
-  onDelete: () => void;
-  onCancel: () => void;
-}) => {
-  return (
-    <Grid.Container
-      css={{ borderRadius: "14px", padding: "0.75rem", width: "220px" }}
-    >
-      <Row justify="center" align="center">
-        <Text b>提示</Text>
-      </Row>
-      <Row>
-        <div style={{ padding: 16 }}>
-          <Text>{"确定要删除这个会话吗？"}</Text>
-        </div>
-      </Row>
-      <Row justify="flex-end" align="center">
-        <Button size="sm" light auto onPress={props.onCancel}>
-          取消
-        </Button>
-        <div style={{ width: 8 }} />
-        <Button size="sm" shadow color="error" auto onPress={props.onDelete}>
-          确定
-        </Button>
-      </Row>
-    </Grid.Container>
-  );
-};

@@ -1,13 +1,24 @@
 import styles from "./index.module.css";
 import { Button, Input, Navbar, Tooltip } from "@nextui-org/react";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import UserView from "@/app/pages/chat/user-chat-view";
-import { ChevronUp, Delete, Download, Edit, Send } from "react-iconly";
+import {
+  ChevronUp,
+  CloseSquare,
+  Delete,
+  Download,
+  Edit,
+  Send,
+} from "react-iconly";
 import toast from "react-hot-toast";
 import useStateSync from "@/app/hooks/use-state-with-call";
 import { generateMessage } from "@/app/pages/chat/api/generate";
 import BotChatTextView from "@/app/pages/chat/bot-chat-text-view";
 import { useScroll } from "@/app/hooks/use-scroll";
+import { SelectView } from "@/app/components/delete-view";
+import { HistoryItem } from "@/app/components/slider";
+import EditName from "@/app/components/edit-name";
+import IdContext from "@/app/hooks/use-chat-id";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -20,6 +31,7 @@ export interface GptMessage {
 }
 
 export default function ChatView(props: { id?: number }) {
+  const [name, setName] = useState("");
   const [messages, setMessages] = useStateSync<ChatMessage[]>([
     {
       data: {
@@ -28,11 +40,13 @@ export default function ChatView(props: { id?: number }) {
       },
     },
   ]);
-  const scrollRef = useRef(null); //监听滚动
+  const { current, setId } = useContext(IdContext);
 
+  const scrollRef = useRef(null); //监听滚动
   useScroll(scrollRef);
   const inputText = useRef<HTMLTextAreaElement>();
-
+  const [loading, setLoading] = useStateSync(false);
+  const [controller, setController] = useState<AbortController>(); //中断请求
   useEffect(() => {
     if (props.id) {
       const list =
@@ -41,6 +55,14 @@ export default function ChatView(props: { id?: number }) {
       if (list.length > 0) {
         setMessages(list);
       }
+      const nameValue = JSON.parse(
+        localStorage.getItem("historyList") || "[]"
+      ).find((e: HistoryItem) => {
+        return e.id == props.id;
+      })?.title;
+      if (nameValue) {
+        setName(nameValue);
+      }
     }
   }, [props.id]);
 
@@ -48,9 +70,29 @@ export default function ChatView(props: { id?: number }) {
     if (props.id) {
       localStorage.setItem("historyList" + props.id, JSON.stringify(messages));
     }
+    if (name === "新的会话") {
+      const tempName =
+        messages.find((e) => {
+          return e.data.role === "user";
+        })?.data.content || "";
+
+      if (tempName != "") {
+        setName(tempName);
+        setId({ id: props.id || -1, name: tempName });
+      }
+    }
   }, [messages]);
 
   const send = async () => {
+    if (loading) {
+      if (controller) {
+        controller.abort();
+      }
+      toast.error("请求已取消");
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
     if (inputText.current?.value === "") {
       toast.error("请输入内容");
       return;
@@ -63,11 +105,15 @@ export default function ChatView(props: { id?: number }) {
         time: new Date().toLocaleString(),
       },
     ];
-    await setMessages(newMessage, (newState) => {
-      generateMessage(newState, (newMessages) => {
-        console.log("newMessages", newMessages);
+    await setMessages(newMessage, async (newState) => {
+      const controllerValue = new AbortController();
+      setController(controllerValue);
+      await generateMessage(newState, controllerValue, (newMessages) => {
         setMessages(newMessages);
       });
+      setLoading(false);
+      // @ts-ignore
+      inputText.current.value = "";
     });
   };
 
@@ -85,39 +131,45 @@ export default function ChatView(props: { id?: number }) {
       >
         <Navbar.Brand>
           <div>
-            <div
-              style={{
-                fontWeight: 500,
-                fontSize: 20,
-                display: "flex",
-                alignItems: "center",
+            <EditName
+              name={name}
+              setName={(text) => {
+                setName(text);
+                setId({ id: props.id || -1, name: text });
               }}
             >
-              {/*<Navbar.Toggle aria-label="toggle navigation" />*/}
-              新的聊天 <Edit set="curved" size={18} />
-            </div>
-            <div style={{ fontSize: 13 }}>共11条3录</div>
+              <div
+                className={styles.name}
+                style={{
+                  fontWeight: 500,
+                  fontSize: 22,
+                  display: "flex",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+              >
+                {name} <Edit set="light" size={24} />
+              </div>
+            </EditName>
+            <div style={{ fontSize: 13 }}>共{messages.length}条记录</div>
           </div>
         </Navbar.Brand>
         <Navbar.Content>
-          <Tooltip
-            content={"重置"}
-            placement={"left"}
-            trigger="hover"
-            color={"primary"}
-          >
-            <Navbar.Item>
-              <div
-                className={styles.link}
-                onClick={() => {
-                  setMessages([]);
-                  localStorage.removeItem("historyList" + props.id);
-                }}
-              >
-                <Delete set="curved" size={22} />
-              </div>
-            </Navbar.Item>
-          </Tooltip>
+          <Navbar.Item>
+            <SelectView
+              onDelete={() => {
+                setMessages([]);
+                localStorage.removeItem("historyList" + props.id);
+                toast.success("已重置");
+              }}
+              title={"提示"}
+              description={"确定要重置此会话吗？"}
+              placement={"bottom-right"}
+              className={styles.link}
+            >
+              <Delete set="curved" size={22} />
+            </SelectView>
+          </Navbar.Item>
           <Tooltip
             content={"导出"}
             placement={"left"}
@@ -172,6 +224,28 @@ export default function ChatView(props: { id?: number }) {
           bordered
           css={{ padding: 0 }}
           contentRightStyling={false}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && e.altKey) {
+              e.preventDefault();
+              // @ts-ignore
+              const { selectionStart, selectionEnd, value } = e.target;
+              const textBeforeCursor = value.substring(0, selectionStart);
+              const textAfterCursor = value.substring(
+                selectionEnd,
+                value.length
+              );
+              // @ts-ignore
+              inputText.current.value = `${textBeforeCursor}\n${textAfterCursor}`;
+              // 将光标移到新行的开头
+              // @ts-ignore
+              e.target.selectionStart = selectionEnd + 1;
+              // @ts-ignore
+              e.target.selectionEnd = selectionEnd + 1;
+            } else if (e.key === "Enter") {
+              e.preventDefault();
+              send();
+            }
+          }}
           // contentLeftStyling={false}
           // contentLeft={
           //   <a>
@@ -194,8 +268,12 @@ export default function ChatView(props: { id?: number }) {
               justifyContent: "center",
             }}
           >
-            发送
-            <Send set="curved" size={"small"} />
+            {loading ? "停止" : "发送"}
+            {loading ? (
+              <CloseSquare set="curved" size={"small"} />
+            ) : (
+              <Send set="curved" size={"small"} />
+            )}
           </div>
         </Button>
       </div>

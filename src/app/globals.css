@@ -82,10 +82,10 @@ a {
 }
 
 p {
-    font-family: system-ui, sans-serif !important;
     color: unset !important;
     font-size: 14px !important;
-    line-height: unset !important;
+    line-height: 1.6 !important;
+    font-weight: 500 !important;
     margin-bottom: 0 !important;
 }
 
@@ -94,23 +94,22 @@ ul, ol {
 }
 
 code {
-    font-family: system-ui, sans-serif !important;
+    font-weight: 500 !important;
     color: unset !important;
     background: #fafafa !important;
 }
 
 pre {
     margin: 0 !important;
-    font-family: system-ui, sans-serif !important;
     padding: 0 !important;
 }
 
 span {
-    font-family: system-ui, sans-serif !important;
+   
 }
 
 li {
-    font-family: system-ui, sans-serif !important;
+   
     font-size: 14px !important;
 }
 

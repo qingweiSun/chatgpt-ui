@@ -26,9 +26,9 @@
 
 
 .bot {
-    color: #333333;
+    color: #444444;
     background: linear-gradient(135deg, #ffffff, #ffffff);
-    box-shadow: 0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%);
+    border: 1px solid #eeeeee;
     border-radius: 4px 12px 12px 12px;
     padding: 1rem;
     overflow: hidden;
@@ -43,12 +43,12 @@
 
 .user {
     padding: 1rem;
-    color: #333333;
+    color: #444444;
     overflow: hidden;
+    border: 1px solid #eeeeee;
     position: relative;
     overflow-wrap: break-word;
     border-radius: 14px 4px 14px 14px;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%);
     transition: box-shadow 0.3s ease-in-out;
     -webkit-touch-callout: unset !important;
     -moz-user-select: text !important; /*火狐*/
@@ -61,8 +61,17 @@
     font-size: 13px;
 }
 
+.link {
+    color: #444444;
+}
+
 .link:hover {
-    color: #965aed;
+    color: #167aff;
+}
+
+.name:hover {
+    color: #167aff;
+    text-decoration: underline;
 }
 
 .bottom {

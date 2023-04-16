@@ -21,7 +21,7 @@ export default function Index() {
     setLoading(false);
   }, []);
 
-  const [current, setId] = useState({ id: -1 });
+  const [current, setId] = useState({ id: -1, name: "" });
 
   return (
     <div>

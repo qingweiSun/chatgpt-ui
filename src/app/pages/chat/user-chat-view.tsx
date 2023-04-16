@@ -2,7 +2,7 @@ import styles from "./index.module.css";
 import React from "react";
 import MarkdownText from "@/app/pages/chat/markdown-text";
 import { Avatar } from "@nextui-org/react";
-import {ChatMessage} from "@/app/pages/chat/index";
+import { ChatMessage } from "@/app/pages/chat/index";
 
 const UserView = (props: { children: ChatMessage }) => {
   return (
@@ -17,7 +17,7 @@ const UserView = (props: { children: ChatMessage }) => {
     >
       <Avatar
         squared
-        style={{ zIndex: 0 }}
+        style={{ zIndex: 0, position: "sticky", top: 92 }}
         icon={<div style={{ fontSize: 22 }}>🤠</div>}
       />
       <div className={styles.user}>

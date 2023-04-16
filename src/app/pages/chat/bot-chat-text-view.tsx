@@ -17,7 +17,16 @@ const BotChatTextView = (props: { children: ChatMessage }) => {
         flexDirection: "row",
       }}
     >
-      <Image src={AiLOGO} style={{ width: 40, height: 40 }} alt={"chatgpt"} />
+      <Image
+        src={AiLOGO}
+        style={{
+          width: 40,
+          height: 40,
+          position: "sticky",
+          top: 92,
+        }}
+        alt={"chatgpt"}
+      />
 
       <div
         style={{

@@ -1,0 +1,9 @@
+.delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete:hover {
+    color: #965aed;
+}
