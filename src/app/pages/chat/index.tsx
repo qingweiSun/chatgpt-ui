@@ -49,9 +49,7 @@ export default function ChatView() {
       const list =
         JSON.parse(localStorage.getItem("historyList" + current.id) || "[]") ||
         [];
-      if (list.length > 0) {
-        setMessages(list);
-      }
+      setMessages(list);
       const nameValue = JSON.parse(
         localStorage.getItem("historyList") || "[]"
       ).find((e: HistoryItem) => {
