@@ -49,7 +49,18 @@ export default function ChatView() {
       const list =
         JSON.parse(localStorage.getItem("historyList" + current.id) || "[]") ||
         [];
-      setMessages(list);
+      if (list.length == 0) {
+        setMessages([
+          {
+            data: {
+              role: "system",
+              content: "AI小助手",
+            },
+          },
+        ]);
+      } else {
+        setMessages(list);
+      }
       const nameValue = JSON.parse(
         localStorage.getItem("historyList") || "[]"
       ).find((e: HistoryItem) => {
