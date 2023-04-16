@@ -1,10 +1,6 @@
 import "./globals.css";
 import React from "react";
 
-export const metadata = {
-  title: "Welcome use AI.",
-};
-
 export default function RootLayout({
   children,
 }: {
@@ -14,7 +10,7 @@ export default function RootLayout({
     <html lang="zh">
       <head>
         <link rel="shortcut icon" href="favicon.svg" />
-
+        <meta name="theme-color" content="#2196f3" />
         <meta
           name="keywords"
           content="HTML5, CSS3, JavaScript, TypeScript, Vue, React, 前端, 个人博客"
@@ -34,6 +30,7 @@ export default function RootLayout({
         <link href="/icon-mac.png" rel="icon" type="image/png" sizes="16x16" />
 
         <link rel="apple-touch-icon" href="/favicon.svg"></link>
+        <title>Welcome use AI.</title>
       </head>
       <body>{children}</body>
     </html>
