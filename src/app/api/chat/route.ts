@@ -1,7 +1,6 @@
 import {createParser} from "eventsource-parser";
-import {NextRequest} from "next/server";
 
-async function createStream(req: NextRequest) {
+async function createStream(req: Request) {
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
     const body = await req.json();
@@ -49,7 +48,7 @@ async function createStream(req: NextRequest) {
     });
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
     try {
         const stream = await createStream(req);
         return new Response(stream);
