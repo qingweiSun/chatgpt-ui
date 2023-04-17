@@ -17,7 +17,7 @@ export async function generateMessage(
   });
   setMessages(newMessages);
   const url =
-    process.env.NODE_ENV === "production" ? "/api/gpt" : "/api/gpt";
+    process.env.NODE_ENV === "production" ? "/api/chat" : "/api/chat";
 
   let param = messages.filter(
     (message) =>

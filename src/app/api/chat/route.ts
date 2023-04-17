@@ -1,4 +1,5 @@
 import {createParser} from "eventsource-parser";
+import fetch from "node-fetch";
 
 async function createStream(req: Request) {
     const encoder = new TextEncoder();
