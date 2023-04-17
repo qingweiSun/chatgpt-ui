@@ -1,8 +1,30 @@
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+.cardMode {
+    padding: 40px 200px;
+}
+
+.cardModeContent {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+}
+
 .home {
     display: flex;
     flex-direction: row;
-    height: 100%;
     width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slider {
+    height: 100%;
 }
 
 /*媒体查询*/

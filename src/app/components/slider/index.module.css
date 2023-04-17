@@ -1,10 +1,11 @@
 .slider {
     width: 300px;
-    height: 100vh;
     display: flex;
     flex-direction: column;
     position: absolute;
-    background: linear-gradient(135deg, #f3f3f3, #f3f3f3);
+    bottom: 0;
+    top: 0;
+    background: linear-gradient(135deg, #e7f5ff, #e7f5ff);
     gap: 12px;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -79,7 +80,7 @@
     align-items: center;
     width: 100%;
     display: flex;
-    background: rgba(243, 243, 243, 0.4);
-    backdrop-filter: blur(12px) saturate(160%);
-    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    background: rgba(231, 245, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }

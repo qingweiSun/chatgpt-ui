@@ -1,296 +1,339 @@
 import styles from "./index.module.css";
-import {Button, Input, Navbar, Tooltip} from "@nextui-org/react";
-import {useContext, useEffect, useRef, useState} from "react";
+import { Button, Input, Navbar, Tooltip } from "@nextui-org/react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import UserView from "@/app/pages/chat/user-chat-view";
-import {ChevronUp, CloseSquare, Delete, Download, Edit, MoreSquare, Send,} from "react-iconly";
+import {
+  ChevronUp,
+  CloseSquare,
+  Delete,
+  Download,
+  EditSquare,
+  MoreSquare,
+  Send,
+} from "react-iconly";
 import toast from "react-hot-toast";
 import useStateSync from "@/app/hooks/use-state-with-call";
-import {generateMessage} from "@/app/pages/chat/api/generate";
+import { generateMessage } from "@/app/pages/chat/api/generate";
 import BotChatTextView from "@/app/pages/chat/bot-chat-text-view";
-import {useScroll} from "@/app/hooks/use-scroll";
-import {SelectView} from "@/app/components/delete-view";
+import { useScroll } from "@/app/hooks/use-scroll";
+import { SelectView } from "@/app/components/delete-view";
 import EditName from "@/app/components/edit-name";
 import IdContext from "@/app/hooks/use-chat-id";
 import MobileSlider from "@/app/components/slider/mobile";
-import {exportMarkdown} from "@/app/components/setting";
+import { exportMarkdown } from "@/app/components/setting";
+import PromptView from "@/app/components/prompt-view";
 
 export interface ChatMessage {
-    data: GptMessage;
-    time?: string;
+  data: GptMessage;
+  time?: string;
 }
 
 export interface GptMessage {
-    role: "system" | "user" | "assistant";
-    content: string | "loading";
+  role: "system" | "user" | "assistant";
+  content: string | "loading";
 }
 
 export default function ChatView() {
-    const [name, setName] = useState("");
-    const chatId = useRef(-1);
-    const [messages, setMessages] = useStateSync<ChatMessage[]>([
-        {
-            data: {
-                role: "system",
-                content: "AI小助手",
-            },
-        },
-    ]);
-    const {current, setId} = useContext(IdContext);
+  const [name, setName] = useState("");
+  const chatId = useRef(-1);
 
-    useEffect(() => {
-        if (chatId.current != current.id || name != current.name) {
-            chatId.current = current.id;
-            const list =
-                JSON.parse(localStorage.getItem("historyList" + current.id) || "[]") ||
-                [];
-            if (list.length == 0) {
-                setMessages([
-                    {
-                        data: {
-                            role: "system",
-                            content: "AI小助手",
-                        },
-                    },
-                ]);
-            } else {
-                setMessages(list);
-            }
-            setName(current.name);
-        }
-    }, [current.id, current.name]);
-    const scrollRef = useRef(null); //监听滚动
-    useScroll(scrollRef);
-    const inputText = useRef<HTMLTextAreaElement>();
-    const [loading, setLoading] = useStateSync(false);
-    const [controller, setController] = useState<AbortController>(); //中断请求
+  const [prompt, setPrompt] = useStateSync<ChatMessage>({
+    data: {
+      role: "system",
+      content: "你是AI小助手",
+    },
+  });
+  const [messages, setMessages] = useStateSync<ChatMessage[]>([prompt]);
+  const { current, setId } = useContext(IdContext);
 
-    useEffect(() => {
-        if (current.id) {
-            localStorage.setItem(
-                "historyList" + current.id,
-                JSON.stringify(messages)
-            );
-        }
-        if (name === "新的会话") {
-            const tempName =
-                messages.find((e) => {
-                    return e.data.role === "user";
-                })?.data.content || "";
+  useEffect(() => {
+    if (chatId.current != current.id || name != current.name) {
+      chatId.current = current.id;
+      const list =
+        JSON.parse(localStorage.getItem("historyList" + current.id) || "[]") ||
+        [];
+      if (list.length == 0) {
+        setMessages([]);
+      } else {
+        setMessages(list);
+      }
+      setName(current.name);
+    }
+  }, [current.id, current.name]);
+  const scrollRef = useRef(null); //监听滚动
+  useScroll(scrollRef);
+  const inputText = useRef<HTMLTextAreaElement>();
+  const [loading, setLoading] = useStateSync(false);
+  const [controller, setController] = useState<AbortController>(); //中断请求
 
-            if (tempName != "") {
-                setName(tempName);
-                setId({id: current.id || -1, name: tempName});
-            }
-        }
-    }, [messages]);
+  useEffect(() => {
+    if (current.id) {
+      localStorage.setItem(
+        "historyList" + current.id,
+        JSON.stringify(messages)
+      );
+    }
+    if (name === "新的会话") {
+      const tempName =
+        messages.find((e) => {
+          return e.data.role === "user";
+        })?.data.content || "";
 
-    const send = async () => {
-        if (loading) {
-            if (controller) {
-                controller.abort();
-            }
-            toast.error("请求已取消");
-            setLoading(false);
-            return;
-        }
-        setLoading(true);
-        if (inputText.current?.value === "") {
-            toast.error("请输入内容");
-            return;
-        }
+      if (tempName != "") {
+        setName(tempName);
+        setId({ id: current.id || -1, name: tempName });
+      }
+    }
+  }, [messages]);
 
-        const newMessage: ChatMessage[] = [
-            ...messages,
-            {
-                data: {role: "user", content: inputText.current?.value || ""},
-                time: new Date().toLocaleString(),
-            },
-        ];
-        await setMessages(newMessage, async (newState) => {
-            const controllerValue = new AbortController();
-            setController(controllerValue);
-            await generateMessage(newState, controllerValue, (newMessages) => {
-                setMessages(newMessages);
-            });
-            setLoading(false);
-            // @ts-ignore
-            inputText.current.value = "";
-        });
-    };
+  const send = async () => {
+    if (loading) {
+      if (controller) {
+        controller.abort();
+      }
+      toast.error("请求已取消");
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    if (inputText.current?.value === "") {
+      toast.error("请输入内容");
+      return;
+    }
 
-    return (
-        <div className={styles.container}>
-            <Navbar
-                variant="sticky"
-                maxWidth={"fluid"}
-                disableShadow
-                containerCss={{
-                    backgroundColor: "rgba(247, 247, 247, 0.7) !important",
-                    borderBottom: "1px solid #eeeeee",
-                    boxShadow: "0 2px 4px rgb(0 0 0 / 1%)",
-                }}
-            >
+    const newMessage: ChatMessage[] = [
+      ...messages,
+      {
+        data: { role: "user", content: inputText.current?.value || "" },
+        time: new Date().toLocaleString(),
+      },
+    ];
+    await setMessages(newMessage, async (newState) => {
+      const controllerValue = new AbortController();
+      setController(controllerValue);
+      await generateMessage(newState, controllerValue, (newMessages) => {
+        setMessages(newMessages);
+      });
+      setLoading(false);
+      // @ts-ignore
+      inputText.current.value = "";
+    });
+  };
 
-                <Navbar.Brand>
-                    <div>
-                        <div style={{display: "flex", alignItems: "center"}}>
-                            <div className={styles.toggle} onClick={() => {
-
-                            }}>
-                                <MobileSlider>
-                                    <MoreSquare set="curved" size={22}/>
-                                </MobileSlider>
-                            </div>
-                            <EditName
-                                name={name}
-                                setName={(text) => {
-                                    setName(text);
-                                    setId({id: current.id || -1, name: text});
-                                }}
-                            >
-                                <div
-                                    className={styles.link}
-                                    style={{
-                                        fontWeight: 500,
-                                        fontSize: 22,
-                                        display: "flex",
-                                        alignItems: "center",
-                                        cursor: "pointer",
-                                    }}
-                                >
-                                    <div className={styles.name}>{name || "新的会话"}</div>
-                                    <Edit set="light" size={24}/>
-                                </div>
-                            </EditName>
-                        </div>
-                        <div style={{fontSize: 13}}>共{messages.length}条记录</div>
-                    </div>
-                </Navbar.Brand>
-                <Navbar.Content>
-                    <Navbar.Item>
-                        <SelectView
-                            onDelete={() => {
-                                setMessages([]);
-                                localStorage.removeItem("historyList" + current.id);
-                                toast.success("已重置");
-                            }}
-                            title={"提示"}
-                            description={"确定要重置此会话吗？"}
-                            placement={"bottom-right"}
-                            className={styles.link}
-                        >
-                            <Delete set="curved" size={22}/>
-                        </SelectView>
-                    </Navbar.Item>
-                    <Tooltip
-                        content={"导出"}
-                        placement={"left"}
-                        trigger="hover"
-                        color={"primary"}
-                    >
-                        <Navbar.Item>
-                            <div className={styles.link} onClick={() => {
-                                exportMarkdown({messages})
-                            }}>
-                                <Download set="curved" size={22}/>
-                            </div>
-                        </Navbar.Item>
-                    </Tooltip>
-                </Navbar.Content>
-            </Navbar>
-            <div
-                style={{display: "flex", flexDirection: "column", gap: 24}}
-                ref={scrollRef}
-            >
-                <div/>
-                {messages.map((item, index) => {
-                    return (
-                        <div
-                            key={index}
-                            className={styles.chatItem}
-                            style={{
-                                display: "flex",
-                                justifyContent:
-                                    item.data.role == "user" ? "flex-end" : "flex-start",
-                            }}
-                        >
-                            {item.data.role == "user" ? (
-                                <UserView>{item}</UserView>
-                            ) : (
-                                <BotChatTextView>{item}</BotChatTextView>
-                            )}
-                        </div>
-                    );
-                })}
-                <div style={{height: 140}}/>
-                <div id={"home_end"}/>
-            </div>
-            <div className={styles.bottom}>
-                <Input
-                    placeholder="请输入你想提问的问题（⌥+Return换行）..."
-                    className={styles.input}
-                    color="primary"
-                    autoFocus
-                    borderWeight={"light"}
-                    // @ts-ignore
-                    ref={inputText}
-                    fullWidth
-                    bordered
-                    css={{padding: 0}}
-                    contentRightStyling={false}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter" && e.altKey) {
-                            e.preventDefault();
-                            // @ts-ignore
-                            const {selectionStart, selectionEnd, value} = e.target;
-                            const textBeforeCursor = value.substring(0, selectionStart);
-                            const textAfterCursor = value.substring(
-                                selectionEnd,
-                                value.length
-                            );
-                            // @ts-ignore
-                            inputText.current.value = `${textBeforeCursor}\n${textAfterCursor}`;
-                            // 将光标移到新行的开头
-                            // @ts-ignore
-                            e.target.selectionStart = selectionEnd + 1;
-                            // @ts-ignore
-                            e.target.selectionEnd = selectionEnd + 1;
-                        } else if (e.key === "Enter") {
-                            e.preventDefault();
-                            send();
-                        }
-                    }}
-                    // contentLeftStyling={false}
-                    // contentLeft={
-                    //   <a>
-                    //     <Search set="curved" size={"small"} />
-                    //   </a>
-                    // }
-                    contentRight={
-                        <Button auto light>
-                            <ChevronUp set="curved" size={20}/>
-                        </Button>
-                    }
-                />
-
-                <Button auto onPress={send}>
-                    <div
-                        style={{
-                            display: "flex",
-                            gap: 4,
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}
-                    >
-                        {loading ? "停止" : "发送"}
-                        {loading ? (
-                            <CloseSquare set="curved" size={"small"}/>
-                        ) : (
-                            <Send set="curved" size={"small"}/>
-                        )}
-                    </div>
-                </Button>
-            </div>
+  const MessageViewList = useMemo(() => {
+    return messages.map((message, index) => {
+      return (
+        <div
+          key={index}
+          className={styles.chatItem}
+          style={{
+            display: "flex",
+            justifyContent:
+              message.data.role == "user" ? "flex-end" : "flex-start",
+          }}
+        >
+          {message.data.role != "assistant" ? (
+            <UserView>{message}</UserView>
+          ) : (
+            <BotChatTextView>{message}</BotChatTextView>
+          )}
         </div>
-    );
+      );
+    });
+  }, [messages]);
+
+  return (
+    <div className={styles.container}>
+      <Navbar
+        variant="sticky"
+        maxWidth={"fluid"}
+        disableShadow
+        containerCss={{
+          backgroundColor: "rgba(247, 247, 247, 0.7) !important",
+          borderBottom: "1px solid #eeeeee",
+          boxShadow: "0 2px 4px rgb(0 0 0 / 1%)",
+        }}
+      >
+        <Navbar.Brand>
+          <div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div className={styles.toggle} onClick={() => {}}>
+                <MobileSlider>
+                  <MoreSquare set="curved" size={22} />
+                </MobileSlider>
+              </div>
+              <EditName
+                name={name || "新的会话"}
+                setName={(text) => {
+                  setName(text);
+                  setId({ id: current.id || -1, name: text });
+                }}
+              >
+                <div
+                  className={styles.link}
+                  style={{
+                    fontWeight: 500,
+                    fontSize: 22,
+                    display: "flex",
+                    alignItems: "center",
+                    cursor: "pointer",
+                  }}
+                >
+                  <div className={styles.name}>{name || "新的会话"}</div>
+                </div>
+              </EditName>
+            </div>
+            <div style={{ fontSize: 13 }}>共{messages.length}条记录</div>
+          </div>
+        </Navbar.Brand>
+        <Navbar.Content>
+          <Tooltip
+            content={"重命名"}
+            placement={"left"}
+            trigger="hover"
+            color={"primary"}
+          >
+            <Navbar.Item>
+              <EditName
+                name={name || "新的会话"}
+                setName={(text) => {
+                  setName(text);
+                  setId({ id: current.id || -1, name: text });
+                }}
+              >
+                <div className={styles.link}>
+                  {/*<Edit set="light" size={22} />*/}
+                  <EditSquare set="curved" size={22} />
+                </div>
+              </EditName>
+            </Navbar.Item>
+          </Tooltip>
+          <Navbar.Item>
+            <SelectView
+              onDelete={() => {
+                setMessages([prompt]);
+                localStorage.removeItem("historyList" + current.id);
+                toast.success("已重置");
+              }}
+              title={"提示"}
+              description={"确定要重置此会话吗？"}
+              placement={"bottom-right"}
+              className={styles.link}
+            >
+              <Delete set="curved" size={22} />
+            </SelectView>
+          </Navbar.Item>
+          <Tooltip
+            content={"导出"}
+            placement={"left"}
+            trigger="hover"
+            color={"primary"}
+          >
+            <Navbar.Item>
+              <div
+                className={styles.link}
+                onClick={() => {
+                  exportMarkdown({ messages });
+                }}
+              >
+                <Download set="curved" size={22} />
+              </div>
+            </Navbar.Item>
+          </Tooltip>
+        </Navbar.Content>
+      </Navbar>
+      <div
+        style={{ display: "flex", flexDirection: "column", gap: 24 }}
+        ref={scrollRef}
+      >
+        <div />
+        {messages.length == 0 && (
+          <PromptView
+            setPrompt={(text) => {
+              setPrompt(
+                {
+                  data: {
+                    role: "system",
+                    content: text,
+                  },
+                },
+                (newState) => {
+                  setMessages([newState]);
+                }
+              );
+            }}
+          />
+        )}
+        {MessageViewList}
+        <div style={{ height: 140 }} />
+        <div id={"home_end"} />
+      </div>
+      <div className={styles.bottom}>
+        <Input
+          placeholder="请输入你想提问的问题（⌥+Return换行）..."
+          className={styles.input}
+          color="primary"
+          autoFocus
+          borderWeight={"light"}
+          // @ts-ignore
+          ref={inputText}
+          fullWidth
+          bordered
+          css={{ padding: 0 }}
+          contentRightStyling={false}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && e.altKey) {
+              e.preventDefault();
+              // @ts-ignore
+              const { selectionStart, selectionEnd, value } = e.target;
+              const textBeforeCursor = value.substring(0, selectionStart);
+              const textAfterCursor = value.substring(
+                selectionEnd,
+                value.length
+              );
+              // @ts-ignore
+              inputText.current.value = `${textBeforeCursor}\n${textAfterCursor}`;
+              // 将光标移到新行的开头
+              // @ts-ignore
+              e.target.selectionStart = selectionEnd + 1;
+              // @ts-ignore
+              e.target.selectionEnd = selectionEnd + 1;
+            } else if (e.key === "Enter") {
+              e.preventDefault();
+              send();
+            }
+          }}
+          // contentLeftStyling={false}
+          // contentLeft={
+          //   <a>
+          //     <Search set="curved" size={"small"} />
+          //   </a>
+          // }
+          contentRight={
+            <Button auto light>
+              <ChevronUp set="curved" size={20} />
+            </Button>
+          }
+        />
+
+        <Button auto onPress={send}>
+          <div
+            style={{
+              display: "flex",
+              gap: 4,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {loading ? "停止" : "发送"}
+            {loading ? (
+              <CloseSquare set="curved" size={"small"} />
+            ) : (
+              <Send set="curved" size={"small"} />
+            )}
+          </div>
+        </Button>
+      </div>
+    </div>
+  );
 }

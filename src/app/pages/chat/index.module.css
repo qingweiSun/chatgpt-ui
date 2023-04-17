@@ -1,7 +1,7 @@
 .container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
     overflow-y: scroll;
     background: linear-gradient(135deg, #f7f7f7, #f7f7f7);
     flex: 1;
@@ -180,3 +180,20 @@
     opacity: 1;
 }
 
+.fade-enter {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.fade-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 500ms ease-in-out;
+}
+
+.transition_group {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 24px;
+}

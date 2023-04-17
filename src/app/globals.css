@@ -184,4 +184,10 @@ body {
     -moz-user-select: none; /*火狐*/
     -webkit-user-select: none; /*webkit浏览器*/
     -ms-user-select: none; /*IE10*/
+
+    height: 100% !important;
+}
+
+html {
+    height: 100% !important;
 }
