@@ -4,25 +4,26 @@ import { Loading } from "@nextui-org/react";
 import AiLOGO from "../../icons/bot.svg";
 import Image from "next/image";
 import { ChatMessage } from "@/app/pages/chat/index";
-import MarkdownText from "@/app/pages/chat/markdown-text";
+import MarkdownText, { copyToClipboard } from "@/app/pages/chat/markdown-text";
 
 const BotChatTextView = (props: { children: ChatMessage }) => {
   return (
     <div
+      className={styles.message}
       style={{
-        marginLeft: 12,
-        marginRight: 12,
         gap: 8,
+        paddingLeft: 12,
         width: "100%",
         display: "flex",
         flexDirection: "row",
       }}
     >
       <Image
+        className={styles.avatar}
         src={AiLOGO}
         style={{
-          width: 40,
-          height: 40,
+          width: 36,
+          height: 36,
           position: "sticky",
           borderRadius: 14,
           boxShadow: "0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%)",
@@ -40,8 +41,30 @@ const BotChatTextView = (props: { children: ChatMessage }) => {
           alignItems: "start",
         }}
       >
-        <div style={{ color: "#a0a0a0", fontSize: 12 }}>
+        <div
+          style={{
+            color: "#a0a0a0",
+            fontSize: 12,
+            gap: 8,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           {props.children.time}
+          {props.children.time && (
+            <div
+              className={styles["chat-message-top-action-item"]}
+              onClick={() => copyToClipboard(props.children.data.content)}
+            >
+              复制
+            </div>
+          )}
+          {/*<div*/}
+          {/*  className={styles["chat-message-top-action-item"]}*/}
+          {/*  onClick={() => copyToClipboard(String("xx"))}*/}
+          {/*>*/}
+          {/*  重试*/}
+          {/*</div>*/}
         </div>
         <div className={styles.bot}>
           {props.children.data.content == "loading" && (

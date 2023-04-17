@@ -16,7 +16,6 @@ import { generateMessage } from "@/app/pages/chat/api/generate";
 import BotChatTextView from "@/app/pages/chat/bot-chat-text-view";
 import { useScroll } from "@/app/hooks/use-scroll";
 import { SelectView } from "@/app/components/delete-view";
-import { HistoryItem } from "@/app/components/slider";
 import EditName from "@/app/components/edit-name";
 import IdContext from "@/app/hooks/use-chat-id";
 
@@ -146,7 +145,7 @@ export default function ChatView() {
               }}
             >
               <div
-                className={styles.name}
+                className={styles.link}
                 style={{
                   fontWeight: 500,
                   fontSize: 22,
@@ -155,7 +154,7 @@ export default function ChatView() {
                   cursor: "pointer",
                 }}
               >
-                {name || "新的会话"}
+                <div className={styles.name}>{name || "新的会话"}</div>
                 <Edit set="light" size={24} />
               </div>
             </EditName>
