@@ -65,17 +65,16 @@ export default function Slider(props: {
         props.isMobile ? styles.mobile : undefined
       }`}
     >
-      {/*<div*/}
-      {/*  style={{*/}
-      {/*    position: "fixed",*/}
-      {/*    left: -10,*/}
-      {/*    bottom: -10,*/}
-      {/*    zIndex: 1,*/}
-      {/*    overflow: "hidden",*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  <Image src={ChatGptLogo} alt={"logo"} />*/}
-      {/*</div>*/}
+      <div
+        style={{
+          position: "absolute",
+          left: -10,
+          top: -10,
+          overflow: "hidden",
+        }}
+      >
+        <Image src={ChatGptLogo} alt={"logo"} />
+      </div>
       <div
         style={{
           padding: "16px 16px",

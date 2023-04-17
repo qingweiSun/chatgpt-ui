@@ -294,7 +294,9 @@ export default function PromptView(props: {
                               props.setPrompt(value.desc);
                             }}
                           >
-                            <div style={{ fontSize: 11 }}>{value.name}</div>
+                            <div style={{ fontSize: 11, fontWeight: 400 }}>
+                              {value.name}
+                            </div>
                           </Badge>
                         </Tooltip>
                       </div>
