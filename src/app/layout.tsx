@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <html lang="zh">
       <head>
-        <link rel="shortcut icon" href="favicon.svg" />
+        <link rel="shortcut icon" href="/bot.svg" />
         <meta name="theme-color" content="#eae9e9" />
         <meta
           name="keywords"
@@ -27,9 +27,9 @@ export default function RootLayout({
 
         <link rel="manifest" href="/manifest.json" />
 
-        <link href="/icon-mac.png" rel="icon" type="image/png" sizes="16x16" />
+        <link href="/bot.svg" rel="icon" type="image/png" sizes="16x16" />
 
-        <link rel="apple-touch-icon" href="/favicon.svg"></link>
+        <link rel="apple-touch-icon" href="/bot.svg"></link>
         <title>Welcome use AI.</title>
       </head>
       <body>{children}</body>
