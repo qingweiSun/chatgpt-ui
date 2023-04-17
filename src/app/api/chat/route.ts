@@ -18,6 +18,7 @@ async function createStream(req: NextRequest) {
             model: "gpt-3.5-turbo",
             messages,
             stream: true,
+            max_tokens: 4097,
         }),
     });
 
