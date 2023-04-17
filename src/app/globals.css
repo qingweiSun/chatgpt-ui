@@ -84,8 +84,8 @@ a {
 p {
     color: unset !important;
     font-size: 14px !important;
-    line-height: 1.6 !important;
     font-weight: 500 !important;
+    line-height: 1.6 !important;
     margin-bottom: 0 !important;
 }
 
@@ -94,9 +94,8 @@ ul, ol {
 }
 
 code {
-    font-weight: 500 !important;
     color: unset !important;
-    background: #fafafa !important;
+    background: transparent !important;
 }
 
 pre {

@@ -13,6 +13,7 @@ const BotChatTextView = (props: { children: ChatMessage }) => {
         marginLeft: 12,
         marginRight: 12,
         gap: 8,
+        width: "100%",
         display: "flex",
         flexDirection: "row",
       }}
@@ -23,6 +24,8 @@ const BotChatTextView = (props: { children: ChatMessage }) => {
           width: 40,
           height: 40,
           position: "sticky",
+          borderRadius: 14,
+          boxShadow: "0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%)",
           top: 92,
         }}
         alt={"chatgpt"}
@@ -32,6 +35,7 @@ const BotChatTextView = (props: { children: ChatMessage }) => {
         style={{
           display: "flex",
           flexDirection: "column",
+          width: "100%",
           gap: 8,
           alignItems: "start",
         }}
@@ -48,7 +52,7 @@ const BotChatTextView = (props: { children: ChatMessage }) => {
           )}
         </div>
       </div>
-      <div style={{ width: 90 }} />
+      {/*<div style={{ width: 90 }} />*/}
     </div>
   );
 };
