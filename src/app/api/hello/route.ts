@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     // } else {
     //
     // }
-    return new ReadableStream({
+    return new Response(new ReadableStream({
         async start(controller) {
             function onParse(event: any) {
                 if (event.type === "event") {
@@ -52,5 +52,5 @@ export async function POST(request: Request) {
             }
             controller.close();
         },
-    });
+    }))
 }
