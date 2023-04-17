@@ -5,9 +5,13 @@
 
 .cardMode {
     padding: 40px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .cardModeContent {
+    max-width: 1080px;
     border-radius: 20px;
     overflow: hidden;
     border: 1px solid #e8e8e8;
