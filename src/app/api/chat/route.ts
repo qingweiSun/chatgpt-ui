@@ -20,11 +20,7 @@ async function createStream(req: NextRequest) {
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
       messages,
-      temperature: +temperature,
-      presence_penalty: +presencePenalty,
       stream: true,
-      max_tokens:
-        maxTokens != "" && maxTokens != "NaN" ? +maxTokens : undefined,
     }),
   });
 
