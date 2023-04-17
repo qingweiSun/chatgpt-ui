@@ -8,6 +8,21 @@
     gap: 12px;
     overflow-x: hidden;
     overflow-y: scroll;
+
+}
+
+.mobile {
+    /*添加一个从左向右出来的抽屉动画*/
+    animation: slideIn 0.2s linear;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
 }
 
 .operate {
@@ -31,6 +46,7 @@
     background: linear-gradient(135deg, #167aff, #965aed);
     -webkit-background-clip: text;
     line-height: 1;
+    text-align: start;
     font-size: 28px;
     -webkit-text-fill-color: transparent;
     text-shadow: 0 4px 4px rgb(22 122 255 / 6%), 0 0 2px rgb(22 122 255 / 2%);

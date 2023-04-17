@@ -12,7 +12,6 @@ export default function EditName(props: {
   const [visible, setVisible] = useState(false);
   const nameRef = useRef();
 
-  useEffect(() => {}, [visible]);
 
   const [isMobile, setMobileMode] = useState(
     window.innerWidth < RESPONSIVE_MOBILE
