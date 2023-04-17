@@ -12,12 +12,12 @@ export default function Home() {
   return (
     <div
       className={`${styles.container} ${
-        mode == "card" ? styles.cardMode : undefined
+        mode == "card" && !isMobile ? styles.cardMode : undefined
       }`}
     >
       <div
         className={`${styles.home} ${
-          mode == "card" ? styles.cardModeContent : undefined
+          mode == "card" && !isMobile ? styles.cardModeContent : undefined
         }`}
       >
         {!isMobile && (

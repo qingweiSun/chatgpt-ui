@@ -53,7 +53,7 @@ export default function SettingModal(props: {
               卡片布局
             </Checkbox>
             <div style={{ color: "#777777", fontSize: 14 }}>
-              适用于大屏，UI更美观
+              适用于大屏，UI更美观,移动端不生效
             </div>
           </div>
         </Modal.Body>
