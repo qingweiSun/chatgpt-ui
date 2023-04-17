@@ -2,6 +2,7 @@ import {Button, Modal, Text} from "@nextui-org/react";
 import React, {useCallback, useEffect, useState} from "react";
 import {ChatMessage} from "@/app/pages/chat";
 import toast from "react-hot-toast";
+import packageJson from "../../../package.json";
 
 const RESPONSIVE_MOBILE = 768;
 
@@ -49,7 +50,7 @@ export default function SettingModal(props: {
                     </Text>
                 </Modal.Header>
                 <Modal.Body>
-                    待开发
+                    待开发v{packageJson.version}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
