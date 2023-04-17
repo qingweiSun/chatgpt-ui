@@ -98,6 +98,10 @@
     gap: 12px;
 }
 
+.toggle {
+    display: none;
+}
+
 /*媒体查询*/
 @media screen and (max-width: 768px) {
     .bottom {
@@ -109,15 +113,20 @@
     }
 
     .name {
-        max-width: 200px;
-
+        max-width: 140px;
+        font-size: 16px;
     }
 
     .bot {
         max-width: calc(100% - 16px);
     }
+
     .user {
         max-width: calc(100% - 16px);
+    }
+
+    .toggle {
+        display: flex;
     }
 }
 
