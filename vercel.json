@@ -1,7 +1,7 @@
 {
   "functions": {
-    "api/users/**/*.js": {
-      "maxDuration": 30
+    "api/chat/**/*.js": {
+      "maxDuration": 29
     }
   }
 }
