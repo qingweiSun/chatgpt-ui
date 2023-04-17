@@ -1,5 +1,14 @@
 {
-    "github": {
-        "silent": true
+  "version": 2,
+  "builds": [
+    {
+      "src": "next.config.js",
+      "use": "@vercel/next"
     }
+  ],
+  "functions": {
+    "api/**/*": {
+      "maxDuration": 100
+    }
+  }
 }

@@ -16,9 +16,9 @@ export async function generateMessage(
         time: new Date().toLocaleString(),
     });
     setMessages(newMessages);
-    // const url =
-    //     process.env.NODE_ENV === "production" ? "/api/chat" : "/api/hello";
-    const url = "/api/chat";
+    const url =
+        process.env.NODE_ENV === "production" ? "/api/chat" : "/api/hello";
+
     let param = messages.filter(
         (message) =>
             message.data.content != "loading" &&
