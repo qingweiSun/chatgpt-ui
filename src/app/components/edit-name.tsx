@@ -12,13 +12,19 @@ export default function EditName(props: {
   useEffect(() => {}, [visible]);
   return (
     <>
-      <div
-        onClick={() => {
+      <a
+        style={{
+          height: "auto",
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        onClick={(event) => {
           setVisible(true);
         }}
       >
         {props.children}
-      </div>
+      </a>
       <Modal
         closeButton
         open={visible}

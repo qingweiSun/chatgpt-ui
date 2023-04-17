@@ -44,7 +44,7 @@ export default function ChatView() {
   const { current, setId } = useContext(IdContext);
 
   useEffect(() => {
-    if (chatId.current != current.id) {
+    if (chatId.current != current.id || name != current.name) {
       chatId.current = current.id;
       const list =
         JSON.parse(localStorage.getItem("historyList" + current.id) || "[]") ||
@@ -61,18 +61,9 @@ export default function ChatView() {
       } else {
         setMessages(list);
       }
-      const nameValue = JSON.parse(
-        localStorage.getItem("historyList") || "[]"
-      ).find((e: HistoryItem) => {
-        return e.id == current.id;
-      })?.title;
-      if (nameValue) {
-        setName(nameValue);
-      } else {
-        setName("新的会话");
-      }
+      setName(current.name);
     }
-  }, [current.id]);
+  }, [current.id, current.name]);
   const scrollRef = useRef(null); //监听滚动
   useScroll(scrollRef);
   const inputText = useRef<HTMLTextAreaElement>();

@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import styles from "./index.module.css";
-import { Button, Popover } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { Delete, Edit, Plus, Scan, Setting } from "react-iconly";
 import Image from "next/image";
 import ChatGptLogo from "../../icons/chatgpt.svg";
 import IdContext from "@/app/hooks/use-chat-id";
 import { useRouter } from "next/navigation";
 import { SelectView } from "@/app/components/delete-view";
+import EditName from "@/app/components/edit-name";
 
 //https://react-iconly.jrgarciadev.com/ 图标
 
@@ -46,7 +47,7 @@ export default function Slider() {
     } else {
       const item = historyList.find((item) => item.selected);
       if (item) {
-       // router.replace("/?id=" + item.id);
+        // router.replace("/?id=" + item.id);
         setId({ id: item.id, name: item.title });
       }
     }
@@ -101,7 +102,9 @@ export default function Slider() {
                   })
                 );
               }}
-              onRename={() => {}}
+              onRename={(name) => {
+                setId({ id: item.id, name: name });
+              }}
               onDelete={() => {
                 const newList = historyList.filter((_, i) => i != index);
                 localStorage.removeItem("historyList" + item.id);
@@ -188,7 +191,7 @@ function HistoryItemView(props: {
   current: boolean;
   onClick: () => void;
   onDelete: () => void;
-  onRename: () => void;
+  onRename: (name: string) => void;
 }) {
   return (
     <Button
@@ -236,21 +239,9 @@ function HistoryItemView(props: {
             !props.current ? styles.hide : undefined
           }`}
         >
-          <Popover>
-            <Popover.Trigger>
-              <a
-                className={styles.delete}
-                onClick={() => {
-                  props.onRename();
-                }}
-              >
-                <Edit set="curved" size={18} />
-              </a>
-            </Popover.Trigger>
-            <Popover.Content>
-              <div>xx</div>
-            </Popover.Content>
-          </Popover>
+          <EditName setName={props.onRename} name={props.title}>
+            <Edit set="curved" size={18} />
+          </EditName>
           <SelectView
             placement={"bottom-right"}
             onDelete={props.onDelete}
