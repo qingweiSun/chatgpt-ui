@@ -8,6 +8,7 @@ import {
   Delete,
   Download,
   EditSquare,
+  Filter,
   MoreSquare,
   Send,
 } from "react-iconly";
@@ -23,6 +24,7 @@ import MobileSlider from "@/app/components/slider/mobile";
 import { exportMarkdown } from "@/app/components/setting";
 import PromptView from "@/app/components/prompt-view";
 import LargeInput from "@/app/components/large-input";
+import { Tooltip } from "antd";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -125,7 +127,6 @@ export default function ChatView() {
       return (
         <div
           key={index}
-          className={styles.chatItem}
           style={{
             display: "flex",
             justifyContent:
@@ -157,28 +158,7 @@ export default function ChatView() {
       >
         <Navbar.Brand>
           <div>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <EditName
-                name={name || "新的会话"}
-                setName={(text) => {
-                  setName(text);
-                  setId({ id: current.id || -1, name: text });
-                }}
-              >
-                <div
-                  className={styles.link}
-                  style={{
-                    fontWeight: 500,
-                    fontSize: 20,
-                    display: "flex",
-                    alignItems: "center",
-                    cursor: "pointer",
-                  }}
-                >
-                  <div className={styles.name}>{name || "新的会话"}</div>
-                </div>
-              </EditName>
-            </div>
+            <div className={styles.name}>{name || "新的会话"}</div>
             <div style={{ fontSize: 12 }}>共{messages.length}条记录</div>
           </div>
         </Navbar.Brand>
@@ -200,11 +180,20 @@ export default function ChatView() {
                 setId({ id: current.id || -1, name: text });
               }}
             >
-              <div className={styles.link}>
-                {/*<Edit set="light" size={22} />*/}
-                <EditSquare set="curved" size={22} />
-              </div>
+              <Tooltip title="重命名会话" color={"blue"}>
+                <div className={styles.link}>
+                  {/*<Edit set="light" size={22} />*/}
+                  <EditSquare set="curved" size={22} />
+                </div>
+              </Tooltip>
             </EditName>
+          </Navbar.Item>
+          <Navbar.Item>
+            <div className={styles.link} onClick={() => {}}>
+              <Tooltip title={"本次会话配置"} color={"blue"}>
+                <Filter set="curved" size={22} />
+              </Tooltip>
+            </div>
           </Navbar.Item>
           <Navbar.Item>
             <SelectView
@@ -218,7 +207,9 @@ export default function ChatView() {
               placement={"bottom-right"}
               className={styles.link}
             >
-              <Delete set="curved" size={22} />
+              <Tooltip title="重置会话" color={"blue"}>
+                <Delete set="curved" size={22} />
+              </Tooltip>
             </SelectView>
           </Navbar.Item>
           <Navbar.Item>
@@ -228,7 +219,9 @@ export default function ChatView() {
                 exportMarkdown({ messages });
               }}
             >
-              <Download set="curved" size={22} />
+              <Tooltip title="导出Markdown" color={"blue"}>
+                <Download set="curved" size={22} />
+              </Tooltip>
             </div>
           </Navbar.Item>
         </Navbar.Content>

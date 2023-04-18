@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import styles from "./index.module.css";
 import { Button } from "@nextui-org/react";
-import { Delete, Edit, Plus, Scan, Setting } from "react-iconly";
+import { Delete, Edit, Plus, Setting } from "react-iconly";
 import Image from "next/image";
 import ChatGptLogo from "../../icons/chatgpt.svg";
 import IdContext from "@/app/hooks/use-chat-id";
@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { SelectView } from "@/app/components/delete-view";
 import EditName from "@/app/components/edit-name";
 import SettingModal from "@/app/components/setting";
-import toast from "react-hot-toast";
+import RewardView from "@/app/components/Reward";
 
 //https://react-iconly.jrgarciadev.com/ 图标
 
@@ -153,15 +153,7 @@ export default function Slider(props: {
           <SettingModal>
             <Setting set="two-tone" />
           </SettingModal>
-          <Button
-            auto
-            light
-            onClick={() => {
-              toast.error("待开发");
-            }}
-          >
-            <Scan set="two-tone" />
-          </Button>
+          <RewardView />
         </div>
         <Button
           auto

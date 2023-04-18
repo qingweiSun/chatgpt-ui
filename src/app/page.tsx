@@ -10,6 +10,7 @@ import { Analytics } from "@vercel/analytics/react";
 import MobileProvider from "@/app/hooks/context-mobile";
 import AppContext from "@/app/hooks/use-style";
 import IdContext from "@/app/hooks/use-chat-id";
+import { ConfigProvider } from "antd";
 
 const theme = createTheme({
   type: "light", // it could be "light" or "dark"
@@ -39,13 +40,21 @@ export default function Index() {
         <div />
       ) : (
         <Fragment>
-          <MobileProvider>
-            <IdContext.Provider value={{ current, setId }}>
-              <AppContext.Provider value={{ mode, setMode }}>
-                <Home />
-              </AppContext.Provider>
-            </IdContext.Provider>
-          </MobileProvider>
+          <ConfigProvider
+            theme={{
+              token: {
+                borderRadius: 12,
+              },
+            }}
+          >
+            <MobileProvider>
+              <IdContext.Provider value={{ current, setId }}>
+                <AppContext.Provider value={{ mode, setMode }}>
+                  <Home />
+                </AppContext.Provider>
+              </IdContext.Provider>
+            </MobileProvider>
+          </ConfigProvider>
           <Analytics />
           {/*https://github.com/timolins/react-hot-toast*/}
           <Toaster />

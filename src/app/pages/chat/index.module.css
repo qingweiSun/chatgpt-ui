@@ -9,7 +9,6 @@
 }
 
 
-
 .appbar {
     display: flex;
     justify-content: space-between;
@@ -88,16 +87,14 @@
 
 .name {
     color: #444444;
+    font-weight: 500;
     white-space: nowrap;
     overflow: hidden;
+    font-size: 20px;
     max-width: 400px;
     text-overflow: ellipsis;
 }
 
-
-.name:hover {
-    color: #167aff;
-}
 
 .bottom {
     position: absolute;
@@ -129,15 +126,15 @@
 
     .name {
         max-width: 140px;
-        font-size: 16px;
+        font-size: 20px;
     }
 
     .bot {
-        max-width: calc(100% - 50px);
+        max-width: calc(100vw - 70px);
     }
 
     .user {
-        max-width: calc(100% - 50px);
+        max-width: calc(100vw - 70px);
     }
 
     .toggle {
@@ -212,6 +209,7 @@
     flex-direction: column;
     gap: 24px;
 }
-.navbar{
+
+.navbar {
     -webkit-app-region: drag;
 }
