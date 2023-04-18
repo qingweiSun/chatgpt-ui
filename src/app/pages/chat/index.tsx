@@ -188,27 +188,20 @@ export default function ChatView() {
               </MobileSlider>
             </div>
           </Navbar.Item>
-          <Tooltip
-            content={"重命名"}
-            placement={"left"}
-            trigger="hover"
-            color={"primary"}
-          >
-            <Navbar.Item>
-              <EditName
-                name={name || "新的会话"}
-                setName={(text) => {
-                  setName(text);
-                  setId({ id: current.id || -1, name: text });
-                }}
-              >
-                <div className={styles.link}>
-                  {/*<Edit set="light" size={22} />*/}
-                  <EditSquare set="curved" size={22} />
-                </div>
-              </EditName>
-            </Navbar.Item>
-          </Tooltip>
+          <Navbar.Item>
+            <EditName
+              name={name || "新的会话"}
+              setName={(text) => {
+                setName(text);
+                setId({ id: current.id || -1, name: text });
+              }}
+            >
+              <div className={styles.link}>
+                {/*<Edit set="light" size={22} />*/}
+                <EditSquare set="curved" size={22} />
+              </div>
+            </EditName>
+          </Navbar.Item>
           <Navbar.Item>
             <SelectView
               onDelete={() => {

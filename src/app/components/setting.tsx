@@ -48,6 +48,7 @@ export default function SettingModal(props: {
               isSelected={mode == "card"}
               onChange={(isSelected) => {
                 setMode(isSelected ? "card" : "normal");
+                localStorage.setItem("mode", isSelected ? "card" : "normal");
               }}
             >
               卡片布局

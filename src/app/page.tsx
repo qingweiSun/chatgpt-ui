@@ -24,7 +24,9 @@ export default function Index() {
   }, []);
 
   const [current, setId] = useState({ id: -1, name: "" });
-  const [mode, setMode] = useState<"normal" | "card">("card");
+  const [mode, setMode] = useState<"normal" | "card" | string>(
+    localStorage.getItem("mode") || "card"
+  );
 
   return (
     <div style={{ height: "100%", width: "100%" }}>
@@ -34,9 +36,9 @@ export default function Index() {
         <Fragment>
           <MobileProvider>
             <IdContext.Provider value={{ current, setId }}>
-            <AppContext.Provider value={{ mode, setMode }}>
-              <Home />
-            </AppContext.Provider>
+              <AppContext.Provider value={{ mode, setMode }}>
+                <Home />
+              </AppContext.Provider>
             </IdContext.Provider>
           </MobileProvider>
           <Analytics />
