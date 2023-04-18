@@ -15,7 +15,10 @@ export default function MarkdownText(props: { children: string }) {
             className ?? "language-javascript"
           );
           return !inline && match ? (
-            <div style={{ position: "relative", fontSize: 13, margin: 0 }}>
+            <div
+              style={{ position: "relative", fontSize: 13, margin: 0 }}
+              className={"md-code"}
+            >
               <SyntaxHighlighter
                 // @ts-ignore
                 style={oneLight}
