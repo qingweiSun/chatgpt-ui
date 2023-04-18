@@ -29,18 +29,17 @@ export default function SettingModal(props: {
       </Button>
 
       <Modal
-        width={isMobile ? "90%" : "400px"}
-        closeButton
+        width={isMobile ? "90%" : "700px"}
         open={visible}
         onClose={() => {
           setVisible(false);
         }}
       >
-        <Modal.Header>
+        <div style={{ padding: 16 }}>
           <Text b size={16}>
             设置
           </Text>
-        </Modal.Header>
+        </div>
         <Modal.Body>
           <div style={{ fontSize: 10 }}>
             <Checkbox
@@ -51,9 +50,9 @@ export default function SettingModal(props: {
                 localStorage.setItem("mode", isSelected ? "card" : "normal");
               }}
             >
-              卡片布局
+              <div style={{ fontSize: 16 }}>卡片布局</div>
             </Checkbox>
-            <div style={{ color: "#777777", fontSize: 14 }}>
+            <div style={{ color: "#777777", fontSize: 12 }}>
               适用于大屏，UI更美观,移动端不生效
             </div>
           </div>

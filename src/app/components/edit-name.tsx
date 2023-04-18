@@ -1,5 +1,6 @@
 import { Button, Input, Modal, Text } from "@nextui-org/react";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
+import {context} from "@/app/hooks/context-mobile";
 
 const RESPONSIVE_MOBILE = 768;
 
@@ -11,24 +12,8 @@ export default function EditName(props: {
 }) {
   const [visible, setVisible] = useState(false);
   const nameRef = useRef();
+    const { isMobile } = useContext(context);
 
-
-  const [isMobile, setMobileMode] = useState(
-    window.innerWidth < RESPONSIVE_MOBILE
-  );
-  const updateSiteConfig = useCallback((props: { isMobile: boolean }) => {
-    setMobileMode(props.isMobile);
-  }, []);
-  const updateMobileMode = () => {
-    updateSiteConfig({ isMobile: window.innerWidth < RESPONSIVE_MOBILE });
-  };
-  useEffect(() => {
-    updateMobileMode();
-    window.addEventListener("resize", updateMobileMode);
-    return () => {
-      window.removeEventListener("resize", updateMobileMode);
-    };
-  }, []);
   return (
     <>
       <a
@@ -47,17 +32,16 @@ export default function EditName(props: {
       </a>
       <Modal
         width={isMobile ? "90%" : "400px"}
-        closeButton
         open={visible}
         onClose={() => {
           setVisible(false);
         }}
       >
-        <Modal.Header>
-          <Text b size={16}>
-            重命名会话
-          </Text>
-        </Modal.Header>
+          <div style={{ padding: 16 }}>
+              <Text b size={16}>
+                  重命名
+              </Text>
+          </div>
         <Modal.Body>
           <Input
             autoFocus

@@ -2,7 +2,9 @@ import styles from "./index.module.css";
 import React from "react";
 import MarkdownText from "@/app/pages/chat/markdown-text";
 import { ChatMessage } from "@/app/pages/chat/index";
-
+import Image from "next/image";
+import HeadImage from "../../icons/head.jpeg";
+import UserImage from '../../images/User.jpeg'
 const UserView = (props: { children: ChatMessage }) => {
   return (
     <div
@@ -23,6 +25,7 @@ const UserView = (props: { children: ChatMessage }) => {
             width: 36,
             height: 36,
             display: "flex",
+            overflow: "hidden",
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: "#ffffff",
@@ -30,7 +33,17 @@ const UserView = (props: { children: ChatMessage }) => {
             boxShadow: "0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%)",
           }}
         >
-          {<div style={{ fontSize: 22 }}>🤠</div>}
+          {
+            <Image
+              alt={"用户"}
+              src={HeadImage}
+              objectFit={"cover"}
+              style={{
+                width: 36,
+                height: 36,
+              }}
+            />
+          }
         </div>
       </div>
       <div className={styles.user}>

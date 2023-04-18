@@ -1,5 +1,5 @@
 import styles from "./index.module.css";
-import { Button, Input, Navbar, Tooltip } from "@nextui-org/react";
+import { Button, Input, Navbar } from "@nextui-org/react";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import UserView from "@/app/pages/chat/user-chat-view";
 import {
@@ -22,6 +22,7 @@ import IdContext from "@/app/hooks/use-chat-id";
 import MobileSlider from "@/app/components/slider/mobile";
 import { exportMarkdown } from "@/app/components/setting";
 import PromptView from "@/app/components/prompt-view";
+import LargeInput from "@/app/components/large-input";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -219,16 +220,16 @@ export default function ChatView() {
               <Delete set="curved" size={22} />
             </SelectView>
           </Navbar.Item>
-            <Navbar.Item>
-              <div
-                className={styles.link}
-                onClick={() => {
-                  exportMarkdown({ messages });
-                }}
-              >
-                <Download set="curved" size={22} />
-              </div>
-            </Navbar.Item>
+          <Navbar.Item>
+            <div
+              className={styles.link}
+              onClick={() => {
+                exportMarkdown({ messages });
+              }}
+            >
+              <Download set="curved" size={22} />
+            </div>
+          </Navbar.Item>
         </Navbar.Content>
       </Navbar>
       <div
@@ -259,10 +260,9 @@ export default function ChatView() {
       </div>
       <div className={styles.bottom}>
         <Input
-          placeholder="请输入你想提问的问题（⌥+Return换行）..."
+          placeholder="请输入你想提问的问题..."
           className={styles.input}
           color="primary"
-          autoFocus
           borderWeight={"light"}
           // @ts-ignore
           ref={inputText}
@@ -299,9 +299,17 @@ export default function ChatView() {
           //   </a>
           // }
           contentRight={
-            <Button auto light>
+            <LargeInput
+              className={styles.link}
+              text={inputText.current?.value ?? ""}
+              setText={(text) => {
+                // @ts-ignore
+                inputText.current.value = text;
+                send();
+              }}
+            >
               <ChevronUp set="curved" size={20} />
-            </Button>
+            </LargeInput>
           }
         />
 
