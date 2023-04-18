@@ -1,11 +1,23 @@
 import React from "react";
 
 const AppContext = React.createContext<{
-  mode: "card" | "normal"|string;
-  setMode: (mode: "card" | "normal"|string) => void;
+  mode: {
+    mode: "card" | "normal" | string;
+    size?: "small" | "medium" | "large" | string;
+  };
+  setMode: (mode: {
+    mode: "card" | "normal" | string;
+    size?: "small" | "medium" | "large" | string;
+  }) => void;
 }>({
-  mode: "normal",
-  setMode: (mode: "normal" | "card"|string) => {},
+  mode: {
+    mode: "normal",
+    size: "medium",
+  },
+  setMode: (mode: {
+    mode: "card" | "normal" | string;
+    size?: "small" | "medium" | "large" | string;
+  }) => {},
 });
 
 export default AppContext;

@@ -9,15 +9,28 @@ export default function Home() {
   const { isMobile } = useContext(context);
   const { mode, setMode } = useContext(AppContext);
 
+  const cardStyle = () => {
+    switch (mode.size) {
+      case "small":
+        return styles.cardModeSmall;
+      case "middle":
+        return styles.cardModeMedium;
+      case "large":
+        return styles.cardModeLarge;
+      default:
+        return styles.cardModeMedium;
+    }
+  };
+
   return (
     <div
       className={`${styles.container} ${
-        mode == "card" && !isMobile ? styles.cardMode : undefined
+        mode.mode == "card" && !isMobile ? cardStyle() : undefined
       }`}
     >
       <div
         className={`${styles.home} ${
-          mode == "card" && !isMobile ? styles.cardModeContent : undefined
+          mode.mode == "card" && !isMobile ? styles.cardModeContent : undefined
         }`}
       >
         {!isMobile && (

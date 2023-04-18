@@ -21,13 +21,17 @@ export default function Index() {
 
   useEffect(() => {
     setLoading(false);
-    setMode(localStorage.getItem("mode") || "card")
+    setMode(JSON.parse(localStorage.getItem("mode-new") || "{}") || {});
   }, []);
 
   const [current, setId] = useState({ id: -1, name: "" });
-  const [mode, setMode] = useState<"normal" | "card" | string>(
-    "normal"
-  );
+  const [mode, setMode] = useState<{
+    mode: "card" | "normal" | string;
+    size?: "small" | "medium" | "large" | string;
+  }>({
+    mode: "card",
+    size: "medium",
+  });
 
   return (
     <div style={{ height: "100%", width: "100%" }}>
