@@ -9,6 +9,7 @@
     gap: 12px;
     overflow-x: hidden;
     overflow-y: scroll;
+    -webkit-app-region: drag;
 
 }
 

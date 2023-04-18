@@ -246,10 +246,9 @@ export default function PromptView(props: {
         >
           快速选择您需要的角色
         </div>
-        <div
+        <div className={styles.bot}
           style={{
             padding: "18px",
-            marginRight: 16,
             flex: 1,
             display: "flex",
             backgroundColor: "#fff",

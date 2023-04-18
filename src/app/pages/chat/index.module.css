@@ -212,3 +212,6 @@
     flex-direction: column;
     gap: 24px;
 }
+.navbar{
+    -webkit-app-region: drag;
+}

@@ -145,6 +145,7 @@ export default function ChatView() {
   return (
     <div className={styles.container}>
       <Navbar
+        className={styles.navbar}
         variant="sticky"
         maxWidth={"fluid"}
         disableShadow
