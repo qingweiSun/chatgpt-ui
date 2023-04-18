@@ -169,7 +169,7 @@ export default function ChatView() {
                   className={styles.link}
                   style={{
                     fontWeight: 500,
-                    fontSize: 22,
+                    fontSize: 20,
                     display: "flex",
                     alignItems: "center",
                     cursor: "pointer",
@@ -179,7 +179,7 @@ export default function ChatView() {
                 </div>
               </EditName>
             </div>
-            <div style={{ fontSize: 13 }}>共{messages.length}条记录</div>
+            <div style={{ fontSize: 12 }}>共{messages.length}条记录</div>
           </div>
         </Navbar.Brand>
         <Navbar.Content>
@@ -290,7 +290,9 @@ export default function ChatView() {
               e.target.selectionEnd = selectionEnd + 1;
             } else if (e.key === "Enter") {
               e.preventDefault();
-              send();
+              if (!loading) {
+                send();
+              }
             }
           }}
           // contentLeftStyling={false}
