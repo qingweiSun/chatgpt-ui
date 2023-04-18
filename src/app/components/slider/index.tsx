@@ -61,9 +61,7 @@ export default function Slider(props: {
 
   return (
     <div
-      className={`${styles.slider} ${
-        props.isMobile ? styles.mobile : undefined
-      }`}
+      className={`${styles.slider}`}
     >
       <div
         style={{

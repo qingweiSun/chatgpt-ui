@@ -184,7 +184,9 @@ export default function ChatView() {
           <Navbar.Item>
             <div className={styles.toggle} onClick={() => {}}>
               <MobileSlider>
-                <MoreSquare set="curved" size={22} />
+                <div className={styles.link}>
+                  <MoreSquare set="curved" size={22} />
+                </div>
               </MobileSlider>
             </div>
           </Navbar.Item>
@@ -217,12 +219,6 @@ export default function ChatView() {
               <Delete set="curved" size={22} />
             </SelectView>
           </Navbar.Item>
-          <Tooltip
-            content={"导出"}
-            placement={"left"}
-            trigger="hover"
-            color={"primary"}
-          >
             <Navbar.Item>
               <div
                 className={styles.link}
@@ -233,7 +229,6 @@ export default function ChatView() {
                 <Download set="curved" size={22} />
               </div>
             </Navbar.Item>
-          </Tooltip>
         </Navbar.Content>
       </Navbar>
       <div

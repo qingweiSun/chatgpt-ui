@@ -5,13 +5,14 @@ import Slider from "@/app/components/slider/index";
 const RESPONSIVE_MOBILE = 768;
 
 export default function MobileSlider(props: {
+    className?: string;
     children: React.ReactNode;
 }) {
     const [visible, setVisible] = useState(false);
 
     return (
         <>
-            <a
+            <div
                 style={{
                     height: "auto",
                     display: "inline-flex",
@@ -23,7 +24,7 @@ export default function MobileSlider(props: {
                 }}
             >
                 {props.children}
-            </a>
+            </div>
             <Modal
                 fullScreen
                 open={visible}
