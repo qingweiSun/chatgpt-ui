@@ -4,7 +4,7 @@ import MarkdownText from "@/app/pages/chat/markdown-text";
 import { ChatMessage } from "@/app/pages/chat/index";
 import Image from "next/image";
 import HeadImage from "../../icons/head.jpeg";
-import UserImage from '../../images/User.jpeg'
+import UserImage from '../../images/avatar.jpg'
 const UserView = (props: { children: ChatMessage }) => {
   return (
     <div
@@ -36,7 +36,7 @@ const UserView = (props: { children: ChatMessage }) => {
           {
             <Image
               alt={"用户"}
-              src={HeadImage}
+              src={UserImage}
               objectFit={"cover"}
               style={{
                 width: 36,
