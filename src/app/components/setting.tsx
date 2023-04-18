@@ -9,8 +9,7 @@ export default function SettingModal(props: {
   className?: string;
   children: React.ReactNode;
 }) {
-  const { mode, setMode } = useContext(AppContext);
-  const { isMobile } = useContext(context);
+
 
   return (
     <ApiKeyModal

@@ -10,8 +10,10 @@ import {
   Space,
   Tooltip,
 } from "antd";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Setting } from "react-iconly";
+import AppContext from "@/app/hooks/use-style";
+import { context } from "@/app/hooks/context-mobile";
 
 const { TextArea } = Input;
 
@@ -47,6 +49,9 @@ export default function ApiKeyModal(props: {
   const [showCostType, setShowCostType] = useState<"tokens" | "$" | "none">(
     props.showCostType
   );
+
+  const { mode, setMode } = useContext(AppContext);
+  const { isMobile } = useContext(context);
 
   //余额查询
   async function updateBilling(key: string) {
@@ -286,6 +291,64 @@ export default function ApiKeyModal(props: {
               />
             </ConfigProvider>
           </Space>
+          {!isMobile && (
+            <Space direction={"horizontal"}>
+              <div>布局：</div>
+              <Segmented
+                options={[
+                  {
+                    label: <div>默认</div>,
+                    value: "normal",
+                  },
+                  {
+                    label: <div>卡片</div>,
+                    value: "card",
+                  },
+                ]}
+                style={{ background: "#e9e9e9" }}
+                value={mode.mode}
+                onChange={(value) => {
+                  const modeValue = {
+                    mode: value.toString() as any,
+                    size: "medium",
+                  };
+                  setMode(modeValue);
+                  localStorage.setItem("mode-new", JSON.stringify(modeValue));
+                }}
+              />
+            </Space>
+          )}
+          {mode.mode == "card" && !isMobile && (
+            <Space>
+              <div>卡片边距：</div>
+              <Segmented
+                options={[
+                  {
+                    label: <div>小</div>,
+                    value: "small",
+                  },
+                  {
+                    label: <div>中</div>,
+                    value: "medium",
+                  },
+                  {
+                    label: <div>大</div>,
+                    value: "large",
+                  },
+                ]}
+                style={{ background: "#e9e9e9" }}
+                value={mode.size}
+                onChange={(value) => {
+                  const modeValue = {
+                    mode: "card",
+                    size: value.toString() as any,
+                  };
+                  setMode(modeValue);
+                  localStorage.setItem("mode-new", JSON.stringify(modeValue));
+                }}
+              />
+            </Space>
+          )}
           {balance.length > 0 && (
             <Card bordered={false} style={{ marginTop: 4 }}>
               <Space direction={"vertical"}>
