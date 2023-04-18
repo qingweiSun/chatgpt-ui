@@ -208,7 +208,7 @@ export default function ChatView() {
           <Navbar.Item>
             <SelectView
               onDelete={() => {
-                setMessages([prompt]);
+                setMessages([]);
                 localStorage.removeItem("historyList" + current.id);
                 toast.success("已重置");
               }}
