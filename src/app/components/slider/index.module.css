@@ -27,7 +27,7 @@
 }
 
 .operate {
-    transition: all linear 0.3s;
+    transition: opacity linear 0.3s;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -36,10 +36,14 @@
 
 .hide {
     opacity: 0;
+    width: 0;
+    visibility: hidden;
 }
 
 .historyItem:hover div.operate {
     opacity: 1;
+    visibility: visible;
+    width: unset;
 }
 
 .title {
