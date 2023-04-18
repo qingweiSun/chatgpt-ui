@@ -159,7 +159,7 @@ export default function ChatView() {
         <Navbar.Brand>
           <div>
             <div className={styles.name}>{name || "新的会话"}</div>
-            <div style={{ fontSize: 12 }}>共{messages.length}条记录</div>
+            <div style={{ fontSize: 13 }}>共{messages.length}条记录</div>
           </div>
         </Navbar.Brand>
         <Navbar.Content>

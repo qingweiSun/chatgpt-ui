@@ -292,7 +292,6 @@ export default function PromptView(props: {
                                 style={{
                                   fontSize: 11,
                                   fontWeight: 400,
-                                  transform: "scale(0.9)",
                                 }}
                               >
                                 {value.name}
