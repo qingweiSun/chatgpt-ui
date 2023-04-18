@@ -21,11 +21,12 @@ export default function Index() {
 
   useEffect(() => {
     setLoading(false);
+    setMode(localStorage.getItem("mode") || "card")
   }, []);
 
   const [current, setId] = useState({ id: -1, name: "" });
   const [mode, setMode] = useState<"normal" | "card" | string>(
-    localStorage.getItem("mode") || "card"
+    "normal"
   );
 
   return (
