@@ -35,7 +35,7 @@
     position: relative;
     width: auto;
     max-width: 80%;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%);
+    border: 1px solid #eeeeee;
     overflow-wrap: break-word;
     -webkit-touch-callout: unset !important;
     -moz-user-select: text !important; /*火狐*/
@@ -44,11 +44,13 @@
 }
 
 .bot:hover {
-    background: #eeeeee;
+    box-shadow: 0 0 10px 10px rgb(0 0 0 / 2%);
+    border: 1px solid #e9e9e9
 }
 
 .user:hover {
-    background: #cee7fb;
+    box-shadow: 0 0 10px 10px rgb(0 0 0 / 2%);
+    border: 1px solid #e9e9e9
 }
 
 .user {
@@ -56,9 +58,9 @@
     transition: all 0.5s ease; /* 过渡动画 */
     color: #444444;
     max-width: 80%;
+    border: 1px solid #eeeeee;
     width: auto;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%);
     position: relative;
     overflow-wrap: break-word;
     border-radius: 14px 4px 14px 14px;

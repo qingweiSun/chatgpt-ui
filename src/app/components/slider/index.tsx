@@ -60,9 +60,7 @@ export default function Slider(props: {
   }, [historyList]);
 
   return (
-    <div
-      className={`${styles.slider}`}
-    >
+    <div className={`${styles.slider}`}>
       <div
         style={{
           position: "absolute",
@@ -216,15 +214,17 @@ function HistoryItemView(props: {
       className={styles.historyItem}
       color="primary"
       css={{
-        color: props.current ? undefined : "#8c8c8c",
+        color: props.current ? undefined : "#696969",
         borderWidth: 1,
         margin: "0 12px",
+        fontWeight: props.current ? 500 : 400,
         flex: "0 0 auto",
         justifyContent: "start",
+        backdropFilter: "blur(4px)",
         display: "unset",
-        background: props.current ? "#ffffff" : undefined,
+        background: props.current ? "rgba(255,255,255,0.4)" : undefined,
         borderStyle: props.current ? undefined : "dashed",
-        borderColor: props.current ? undefined : "#8c8c8c",
+        borderColor: props.current ? undefined : "#bfbfbf",
         "&:hover": {
           borderColor: "var(--nextui-colors-primary)",
         },

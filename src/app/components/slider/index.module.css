@@ -44,7 +44,7 @@
 
 .title {
     font-family: 'Audiowide', system-ui;
-    background: linear-gradient(135deg, #167aff, #965aed);
+    background: linear-gradient(45deg, #167aff, #965aed);
     -webkit-background-clip: text;
     line-height: 1;
     text-align: start;
@@ -56,7 +56,7 @@
 .sub {
     text-align: start;
     font-family: 'Audiowide', system-ui;
-    background: linear-gradient(135deg, #167aff, #965aed);
+    background: linear-gradient(45deg, #167aff, #965aed);
     -webkit-background-clip: text;
     line-height: 1;
     font-size: 10px;

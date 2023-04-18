@@ -301,7 +301,6 @@ export default function ChatView() {
           contentRight={
             <LargeInput
               className={styles.link}
-              text={inputText.current?.value ?? ""}
               setText={(text) => {
                 // @ts-ignore
                 inputText.current.value = text;
@@ -313,7 +312,7 @@ export default function ChatView() {
           }
         />
 
-        <Button auto onPress={send}>
+        <Button auto onPress={send} color={loading ? "error" : "primary"}>
           <div
             style={{
               display: "flex",

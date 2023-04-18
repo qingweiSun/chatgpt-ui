@@ -195,3 +195,9 @@ html {
     margin: 0 !important;
     padding: 0 !important;
 }
+
+img {
+    -webkit-touch-callout: none; /* 禁止长按保存图片 */
+    -webkit-user-select: none; /* 禁止选择图片 */
+    -webkit-user-drag: none;
+}

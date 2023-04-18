@@ -1,11 +1,10 @@
 import { Button, Modal, Text, Textarea } from "@nextui-org/react";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { context } from "@/app/hooks/context-mobile";
 
 const RESPONSIVE_MOBILE = 768;
 
 export default function LargeInput(props: {
-  text: string;
   className?: string;
   setText: (text: string) => void;
   children: React.ReactNode;
@@ -49,7 +48,6 @@ export default function LargeInput(props: {
             bordered
             minRows={20}
             maxRows={40}
-            initialValue={props.text}
             // @ts-ignore
             ref={inputRef}
             fullWidth
