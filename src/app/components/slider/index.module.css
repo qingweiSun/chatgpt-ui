@@ -13,7 +13,7 @@
 }
 
 .mobile {
-    /*添加一个从左向右出来的抽s屉动画*/
+    /*添加一个从左向右出来的抽屉动画*/
     animation: slideIn 0.2s linear;
 }
 
