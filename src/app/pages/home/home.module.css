@@ -4,8 +4,11 @@
 }
 
 .cardMode {
+    width: calc(100% - 80px);
+    height: calc(100% - 80px);
     padding: 40px 40px;
     display: flex;
+    margin: 0 auto;
     align-items: center;
     justify-content: center;
 }
@@ -16,7 +19,6 @@
     overflow: hidden;
     border: 1px solid #e8e8e8;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-
 }
 
 .home {

@@ -32,7 +32,7 @@
     overflow: hidden;
     position: relative;
     width: auto;
-    max-width: 90%;
+    max-width: 80%;
     box-shadow: 0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%);
     overflow-wrap: break-word;
     -webkit-touch-callout: unset !important;
@@ -44,7 +44,8 @@
 .user {
     padding: 12px 16px;
     color: #444444;
-    max-width: 90%;
+    max-width: 80%;
+    width: auto;
     overflow: hidden;
     box-shadow: 0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%);
     position: relative;
@@ -118,11 +119,11 @@
     }
 
     .bot {
-        max-width: calc(100% - 16px);
+        max-width: calc(100% - 50px);
     }
 
     .user {
-        max-width: calc(100% - 16px);
+        max-width: calc(100% - 50px);
     }
 
     .toggle {

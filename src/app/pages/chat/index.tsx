@@ -95,12 +95,11 @@ export default function ChatView() {
       setLoading(false);
       return;
     }
-    setLoading(true);
     if (inputText.current?.value === "") {
       toast.error("请输入内容");
       return;
     }
-
+    setLoading(true);
     const newMessage: ChatMessage[] = [
       ...messages,
       {
@@ -157,11 +156,6 @@ export default function ChatView() {
         <Navbar.Brand>
           <div>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <div className={styles.toggle} onClick={() => {}}>
-                <MobileSlider>
-                  <MoreSquare set="curved" size={22} />
-                </MobileSlider>
-              </div>
               <EditName
                 name={name || "新的会话"}
                 setName={(text) => {
@@ -187,6 +181,13 @@ export default function ChatView() {
           </div>
         </Navbar.Brand>
         <Navbar.Content>
+          <Navbar.Item>
+            <div className={styles.toggle} onClick={() => {}}>
+              <MobileSlider>
+                <MoreSquare set="curved" size={22} />
+              </MobileSlider>
+            </div>
+          </Navbar.Item>
           <Tooltip
             content={"重命名"}
             placement={"left"}

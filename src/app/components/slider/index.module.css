@@ -76,10 +76,12 @@
 .bottom {
     position: absolute;
     bottom: 0;
+    left: 0;
+    right: 0;
     padding: 16px;
     align-items: center;
-    width: 100%;
     display: flex;
+    justify-content: space-between;
     background: rgba(231, 245, 255, 0.1);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);

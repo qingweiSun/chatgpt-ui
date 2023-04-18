@@ -104,7 +104,7 @@ export async function generateMessage(
     } catch (e: any) {
         if (e.name === "AbortError") {
             if (
-                newMessages[newMessages.length - 1].data.content == "正在生成中..." &&
+                newMessages[newMessages.length - 1].data.content == "loading" &&
                 tempStatus == ""
             ) {
                 setMessages(newMessages.slice(0, newMessages.length - 2));

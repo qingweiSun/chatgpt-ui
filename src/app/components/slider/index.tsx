@@ -153,19 +153,20 @@ export default function Slider(props: {
         <div style={{ height: 76, width: "100%", flex: "0 0 auto" }} />
       </div>
       <div className={styles.bottom}>
-        <SettingModal>
-          <Setting set="two-tone" />
-        </SettingModal>
-        <Button
-          auto
-          light
-          onClick={() => {
-            toast.error("待开发");
-          }}
-        >
-          <Scan set="two-tone" />
-        </Button>
-        <div style={{ flex: 1 }} />
+        <div style={{ display: "flex" }}>
+          <SettingModal>
+            <Setting set="two-tone" />
+          </SettingModal>
+          <Button
+            auto
+            light
+            onClick={() => {
+              toast.error("待开发");
+            }}
+          >
+            <Scan set="two-tone" />
+          </Button>
+        </div>
         <Button
           auto
           bordered
