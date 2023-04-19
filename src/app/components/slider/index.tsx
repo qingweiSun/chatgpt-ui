@@ -6,7 +6,11 @@ import Image from "next/image";
 import ChatGptLogo from "../../icons/chatgpt.svg";
 import IdContext from "@/app/hooks/use-chat-id";
 import { useRouter } from "next/navigation";
-import { SelectView } from "@/app/components/delete-view";
+import {
+  DeleteView,
+  SelectButtonView,
+  SelectView,
+} from "@/app/components/delete-view";
 import EditName from "@/app/components/edit-name";
 import SettingModal from "@/app/components/setting";
 import RewardView from "@/app/components/Reward";
@@ -146,6 +150,26 @@ export default function Slider(props: {
             />
           );
         })}
+        <SelectButtonView
+          onDelete={() => {
+            setHistoryList([]);
+            //获取全部localStorage的key
+            var keys = Object.keys(localStorage);
+            //遍历key
+            for (var i = 0; i < keys.length; i++) {
+              //如果key以historyList开头或者以questioningMode开头
+              if (
+                keys[i].indexOf("historyList") == 0 ||
+                keys[i].indexOf("questioningMode") == 0
+              ) {
+                //删除该key
+                localStorage.removeItem(keys[i]);
+              }
+            }
+          }}
+          title="警告"
+          description="注意清理后无法找回，数据无价，请注意保存！"
+        />
         <div style={{ height: 76, width: "100%", flex: "0 0 auto" }} />
       </div>
       <div className={styles.bottom}>

@@ -55,7 +55,7 @@ export default function ChatView() {
   const [prompt, setPrompt] = useStateSync<ChatMessage>({
     data: {
       role: "system",
-      content: "你是AI小助手",
+      content: "你是AI",
     },
   });
   const [messages, setMessages] = useStateSync<ChatMessage[]>([prompt]);
@@ -82,10 +82,21 @@ export default function ChatView() {
   const [questionText, setQuestionText] = useStateSync("");
   useEffect(() => {
     if (current.id) {
-      localStorage.setItem(
-        "historyList" + current.id,
-        JSON.stringify(messages)
-      );
+      if (messages.length == 0) {
+        localStorage.removeItem("historyList" + current.id);
+      } else {
+        if (messages.length > 1) {
+          localStorage.setItem(
+            "historyList" + current.id,
+            JSON.stringify(messages)
+          );
+        } else if (messages[0].data.content != "你是AI") {
+          localStorage.setItem(
+            "historyList" + current.id,
+            JSON.stringify(messages)
+          );
+        }
+      }
     }
     if (name === "新的会话") {
       const tempName =
@@ -190,7 +201,11 @@ export default function ChatView() {
           boxShadow: "0 2px 4px rgb(0 0 0 / 1%)",
         }}
       >
-        <NavbarTItleView name={name} count={messages.length} />
+        <NavbarTItleView
+          name={name}
+          count={messages.length}
+          id={chatId.current + ""}
+        />
         <Navbar.Content css={{ gap: isMobile ? 16 : undefined }}>
           <Navbar.Item>
             <div className={styles.toggle} onClick={() => {}}>

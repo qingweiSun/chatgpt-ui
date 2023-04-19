@@ -4,11 +4,12 @@ import ChatView from "@/app/pages/chat";
 import { useContext } from "react";
 import { context } from "@/app/hooks/context-mobile";
 import AppContext from "@/app/hooks/use-style";
+import IdContext from "@/app/hooks/use-chat-id";
 
 export default function Home() {
   const { isMobile } = useContext(context);
   const { mode, setMode } = useContext(AppContext);
-
+  const { current, setId } = useContext(IdContext);
   const cardStyle = () => {
     switch (mode.size) {
       case "small":
@@ -48,7 +49,7 @@ export default function Home() {
             zIndex: 10,
           }}
         />
-        <ChatView />
+        {current.id > 0 && <ChatView />}
       </div>
     </div>
   );

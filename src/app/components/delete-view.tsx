@@ -50,6 +50,70 @@ export function SelectView(props: {
   );
 }
 
+export function SelectButtonView(props: {
+  onDelete: () => void;
+  title: string;
+  description: string;
+  placement?: PopoverPlacement;
+  className?: string;
+}) {
+  const [showDelete, setShowDelete] = useState(false);
+
+  return (
+    <Popover
+      placement={props.placement}
+      isBordered
+      offset={16}
+      isOpen={showDelete}
+      onOpenChange={(isOpen) => {
+        setShowDelete(isOpen);
+      }}
+    >
+      <Popover.Trigger>
+        <Button
+          bordered
+          className={styles.historyItem}
+          color="primary"
+          onPress={() => {
+            setShowDelete(true);
+          }}
+          css={{
+            color: "var(--nextui-colors-error)",
+            borderWidth: 1,
+            margin: "0 12px",
+            fontWeight: 400,
+            flex: "0 0 auto",
+            justifyContent: "start",
+            backdropFilter: "blur(4px)",
+            display: "unset",
+            borderStyle: "dashed",
+            borderColor: "var(--nextui-colors-error)",
+            "&:hover": {
+              borderColor: "var(--nextui-colors-primary)",
+              color: "var(--nextui-colors-primary)",
+              fontWeight: 500,
+            },
+          }}
+        >
+          清理全部
+        </Button>
+      </Popover.Trigger>
+      <Popover.Content>
+        <DeleteView
+          onDelete={() => {
+            props.onDelete();
+            setShowDelete(false);
+          }}
+          onCancel={() => {
+            setShowDelete(false);
+          }}
+          title={props.title}
+          description={props.description}
+        />
+      </Popover.Content>
+    </Popover>
+  );
+}
 export const DeleteView = (props: {
   onDelete: () => void;
   onCancel: () => void;
