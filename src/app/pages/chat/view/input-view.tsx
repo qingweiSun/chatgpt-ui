@@ -14,8 +14,9 @@ export default function InputView(props: {
       <TextArea
         value={props.questionText}
         className={styles.question}
+        bordered={false}
         placeholder="请输入您想提问的问题（⌥+Return换行）"
-        autoSize={{ minRows: 4, maxRows: 8 }}
+        autoSize={{ minRows: 6, maxRows: 10 }}
         style={{
           borderBottomRightRadius: 20,
           borderBottomLeftRadius: 20,
@@ -47,7 +48,7 @@ export default function InputView(props: {
           }
         }}
       />
-      <div style={{ position: "absolute", bottom: 0, right: 0, padding: 18 }}>
+      <div style={{ position: "absolute", bottom: 0, right: 0, padding: 10 }}>
         <Button
           auto
           disabled={props.questionText.trim() == ""}
