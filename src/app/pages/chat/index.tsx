@@ -240,16 +240,18 @@ export default function ChatView() {
               <Delete set="curved" size={22} />
             </SelectView>
           </Navbar.Item>
-          <Navbar.Item>
-            <div
-              className={styles.link}
-              onClick={() => {
-                exportMarkdown({ messages });
-              }}
-            >
-              <Download set="curved" size={22} />
-            </div>
-          </Navbar.Item>
+          {!isMobile && (
+            <Navbar.Item>
+              <div
+                className={styles.link}
+                onClick={() => {
+                  exportMarkdown({ messages });
+                }}
+              >
+                <Download set="curved" size={22} />
+              </div>
+            </Navbar.Item>
+          )}
         </Navbar.Content>
       </Navbar>
       <div

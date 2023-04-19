@@ -13,6 +13,11 @@ export default function RootLayout({
         <meta name="theme-color" content="#eae9e9" />
         <meta
           name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
+        />
+
+        <meta
+          name="viewport"
           content="width=device-width,initial-scale=1.0,minimum-scale=1,maximum-scale=1,user-scalable=no"
         />
         <meta name="theme-color" content="#6768ab" />
