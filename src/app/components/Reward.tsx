@@ -32,7 +32,7 @@ export default function RewardView() {
               setRewardModalOpen(true);
             }}
           >
-            <Scan set="two-tone" />
+            <Scan set="two-tone" size={22} />
           </Button>
         </Tooltip>
       </ConfigProvider>

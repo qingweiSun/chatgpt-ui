@@ -149,9 +149,9 @@ export default function Slider(props: {
         <div style={{ height: 76, width: "100%", flex: "0 0 auto" }} />
       </div>
       <div className={styles.bottom}>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", alignItems: "center" }}>
           <SettingModal>
-            <Setting set="two-tone" />
+            <Setting set="two-tone" size={22} />
           </SettingModal>
           <RewardView />
         </div>

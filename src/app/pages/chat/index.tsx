@@ -196,7 +196,7 @@ export default function ChatView() {
             <div style={{ fontSize: 13 }}>共{messages.length}条记录</div>
           </div>
         </Navbar.Brand>
-        <Navbar.Content css={{ gap: isMobile ? 16 : 20 }}>
+        <Navbar.Content css={{ gap: isMobile ? 16 : undefined }}>
           <Navbar.Item>
             <div className={styles.toggle} onClick={() => {}}>
               <MobileSlider>
