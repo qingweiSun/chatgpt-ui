@@ -127,8 +127,8 @@
     left: 300px;
     z-index: 1;
     background: rgba(247, 247, 247, 0.4);
-    backdrop-filter: blur(12px) saturate(160%);
-    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    backdrop-filter: blur(10px) saturate(180%);/* saturate(180%) blur(var(--nextui--navbarBlur)) */
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
     /* padding: 10px;
     padding-top: 20px; */
     border-top: 1px solid #eeeeee;
