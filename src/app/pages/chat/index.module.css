@@ -127,7 +127,7 @@
     right: 0;
     left: 300px;
     z-index: 1;
-    background: rgba(247, 247, 247, 0.4);
+    background: rgba(247, 247, 247, 0.7);
     backdrop-filter: blur(10px) saturate(180%);/* saturate(180%) blur(var(--nextui--navbarBlur)) */
     -webkit-backdrop-filter: blur(10px) saturate(180%);
     /* padding: 10px;
