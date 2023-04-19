@@ -129,9 +129,10 @@
     background: rgba(247, 247, 247, 0.4);
     backdrop-filter: blur(12px) saturate(160%);
     -webkit-backdrop-filter: blur(12px) saturate(160%);
-    padding: 16px;
+    padding: 10px;
     display: flex;
     gap: 12px;
+    /* border-top:1px solid #eeeeee */
 }
 
 .toggle {
@@ -165,12 +166,6 @@
         display: flex;
     }
 }
-
-.input {
-    background: rgba(255, 255, 255, 0.6);
-    width: 100%;
-}
-
 
 /*markdown*/
 .chat-md-top-action {
@@ -244,4 +239,15 @@
 
 .navbar {
     -webkit-app-region: drag;
+}
+.question{
+    transition: all 0.2s ease-in-out; 
+    border-width: 1px; 
+    padding: 10px;
+    border-color: #eeeeee;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+.question:hover{
+    border-width: 2px;
+    background-color: #ffffff;
 }

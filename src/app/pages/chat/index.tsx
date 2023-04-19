@@ -30,6 +30,7 @@ import GptContext from "@/app/hooks/use-gpt";
 import MaxTokensLimit, {
   MaxTokensLimitProps,
 } from "@/app/components/max-tokens-limit";
+import TextArea from "antd/es/input/TextArea";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -72,10 +73,9 @@ export default function ChatView() {
   }, [current.id, current.name]);
   const scrollRef = useRef(null); //监听滚动
   useScroll(scrollRef);
-  const inputText = useRef<HTMLTextAreaElement>();
   const [loading, setLoading] = useStateSync(false);
   const [controller, setController] = useState<AbortController>(); //中断请求
-
+  const [questionText, setQuestionText] = useStateSync("");
   useEffect(() => {
     if (current.id) {
       localStorage.setItem(
@@ -123,7 +123,7 @@ export default function ChatView() {
       setLoading(false);
       return;
     }
-    if (inputText.current?.value === "") {
+    if (questionText == "") {
       toast.error("请输入内容");
       return;
     }
@@ -131,7 +131,7 @@ export default function ChatView() {
     const newMessage: ChatMessage[] = [
       ...messages,
       {
-        data: { role: "user", content: inputText.current?.value || "" },
+        data: { role: "user", content: questionText || "" },
         time: new Date().toLocaleString(),
       },
     ];
@@ -148,8 +148,7 @@ export default function ChatView() {
         }
       );
       setLoading(false);
-      // @ts-ignore
-      inputText.current.value = "";
+      setQuestionText("");
     });
   };
 
@@ -283,17 +282,20 @@ export default function ChatView() {
         <div id={"home_end"} />
       </div>
       <div className={styles.bottom}>
-        <Input
-          placeholder="请输入你想提问的问题..."
-          className={styles.input}
-          color="primary"
-          borderWeight={"light"}
-          // @ts-ignore
-          ref={inputText}
-          fullWidth
-          bordered
-          css={{ padding: 0 }}
-          contentRightStyling={false}
+        <TextArea
+          value={questionText}
+          className={styles.question}
+          placeholder="请输入您想提问的问题（⌥+Return换行）"
+          autoSize={{ minRows: 4, maxRows: 8 }}
+          style={{
+            borderBottomRightRadius: 20,
+            borderBottomLeftRadius: 20,
+            borderTopLeftRadius: 8,
+            borderTopRightRadius: 8,
+          }}
+          onChange={(e) => {
+            setQuestionText(e.target.value);
+          }}
           onKeyDown={(e) => {
             if (e.key === "Enter" && e.altKey) {
               e.preventDefault();
@@ -305,7 +307,7 @@ export default function ChatView() {
                 value.length
               );
               // @ts-ignore
-              inputText.current.value = `${textBeforeCursor}\n${textAfterCursor}`;
+              setQuestionText(`${textBeforeCursor}\n${textAfterCursor}`);
               // 将光标移到新行的开头
               // @ts-ignore
               e.target.selectionStart = selectionEnd + 1;
@@ -318,44 +320,37 @@ export default function ChatView() {
               }
             }
           }}
-          // contentLeftStyling={false}
-          // contentLeft={
-          //   <a>
-          //     <Search set="curved" size={"small"} />
-          //   </a>
-          // }
-          contentRight={
-            <LargeInput
-              text={""}
-              className={styles.link}
-              setText={(text) => {
-                // @ts-ignore
-                inputText.current.value = text;
-                send();
-              }}
-            >
-              <ChevronUp set="curved" size={20} />
-            </LargeInput>
-          }
         />
-
-        <Button auto onPress={send} color={loading ? "error" : "primary"}>
-          <div
-            style={{
-              display: "flex",
-              gap: 4,
-              alignItems: "center",
-              justifyContent: "center",
+        <div style={{ position: "absolute", bottom: 0, right: 0, padding: 18 }}>
+          <Button
+            auto
+            disabled={questionText.trim() == ""}
+            onPress={send}
+            color={loading ? "error" : "primary"}
+            css={{
+              borderBottomRightRadius: 20,
+              borderBottomLeftRadius: 8,
+              borderTopLeftRadius: 8,
+              borderTopRightRadius: 8,
             }}
           >
-            {loading ? "停止" : "发送"}
-            {loading ? (
-              <CloseSquare set="curved" size={"small"} />
-            ) : (
-              <Send set="curved" size={"small"} />
-            )}
-          </div>
-        </Button>
+            <div
+              style={{
+                display: "flex",
+                gap: 4,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {loading ? "停止" : "发送"}
+              {loading ? (
+                <CloseSquare set="curved" size={"small"} />
+              ) : (
+                <Send set="curved" size={"small"} />
+              )}
+            </div>
+          </Button>
+        </div>
       </div>
     </div>
   );
