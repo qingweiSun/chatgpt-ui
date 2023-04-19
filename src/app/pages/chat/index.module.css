@@ -3,6 +3,7 @@
     flex-direction: column;
     height: 100%;
     overflow-y: scroll;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     background: linear-gradient(135deg, #f7f7f7, #f7f7f7);
     flex: 1;
