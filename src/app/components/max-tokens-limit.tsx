@@ -18,7 +18,7 @@ export default function MaxTokensLimit(props: {
     {
       value: "one",
       desc: "连续对话",
-      tip: "可以完整理解上下文，但会过度消耗key",
+      tip: "完整理解上下文，但会过度消耗key",
     },
     {
       value: "two",
