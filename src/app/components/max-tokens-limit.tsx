@@ -1,5 +1,6 @@
 import { Dropdown } from "@nextui-org/react";
-import { ReactNode, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
+import { context } from "../hooks/context-mobile";
 
 export interface MaxTokensLimitProps {
   value: string;
@@ -11,6 +12,8 @@ export default function MaxTokensLimit(props: {
   updateSelect: (select: MaxTokensLimitProps) => void;
   children: ReactNode;
 }) {
+  const { isMobile } = useContext(context);
+
   const data = [
     {
       value: "one",
@@ -26,7 +29,7 @@ export default function MaxTokensLimit(props: {
   ];
   return (
     <Dropdown>
-      <Dropdown.Button flat size={"sm"}>
+      <Dropdown.Button flat size={isMobile ? "sm" : "md"}>
         <div style={{ fontSize: 13 }}>{props.select?.desc ?? "连续对话"}</div>
       </Dropdown.Button>
       <Dropdown.Menu

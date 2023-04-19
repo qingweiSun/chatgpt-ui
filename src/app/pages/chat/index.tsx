@@ -31,6 +31,7 @@ import MaxTokensLimit, {
   MaxTokensLimitProps,
 } from "@/app/components/max-tokens-limit";
 import TextArea from "antd/es/input/TextArea";
+import { context } from "@/app/hooks/context-mobile";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -44,6 +45,7 @@ export interface GptMessage {
 
 export default function ChatView() {
   const [name, setName] = useState("");
+  const { isMobile } = useContext(context);
 
   const [questioningMode, setQuestioningMode] = useState<MaxTokensLimitProps>();
   const chatId = useRef(-1);
@@ -194,7 +196,7 @@ export default function ChatView() {
             <div style={{ fontSize: 13 }}>共{messages.length}条记录</div>
           </div>
         </Navbar.Brand>
-        <Navbar.Content>
+        <Navbar.Content css={{ gap: isMobile ? 16 : 20 }}>
           <Navbar.Item>
             <div className={styles.toggle} onClick={() => {}}>
               <MobileSlider>
