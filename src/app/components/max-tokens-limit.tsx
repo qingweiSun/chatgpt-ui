@@ -26,7 +26,9 @@ export default function MaxTokensLimit(props: {
   ];
   return (
     <Dropdown>
-      <Dropdown.Button flat>{props.select?.desc ?? "连续对话"}</Dropdown.Button>
+      <Dropdown.Button flat size={"sm"}>
+        <div style={{ fontSize: 13 }}>{props.select?.desc ?? "连续对话"}</div>
+      </Dropdown.Button>
       <Dropdown.Menu
         aria-label="Single selection actions"
         disallowEmptySelection

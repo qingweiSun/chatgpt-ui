@@ -7,6 +7,7 @@ import {
   CloseSquare,
   Delete,
   Download,
+  Edit,
   EditSquare,
   Filter,
   MoreSquare,
@@ -188,16 +189,9 @@ export default function ChatView() {
       >
         <Navbar.Brand>
           <div>
-            <Tooltip
-              title={name}
-              color={"#167aff"}
-              placement="bottom"
-              overlayStyle={{
-                maxWidth: 500,
-              }}
-            >
+            <div className={styles.nmaep}>
               <div className={styles.name}>{name || "新的会话"}</div>
-            </Tooltip>
+            </div>
             <div style={{ fontSize: 13 }}>共{messages.length}条记录</div>
           </div>
         </Navbar.Brand>
@@ -221,7 +215,7 @@ export default function ChatView() {
             >
               <div className={styles.link}>
                 {/*<Edit set="light" size={22} />*/}
-                <EditSquare set="curved" size={22} />
+                <Edit set="curved" size={22} />
               </div>
             </EditName>
           </Navbar.Item>

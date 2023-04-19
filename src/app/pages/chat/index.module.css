@@ -97,18 +97,28 @@
     color: #167aff;
 }
 
-
+@keyframes marquee {  
+    0% { transform: translateX(0); } /*起始位置，向右移动0px*/  
+    100% { transform: translateX(-100%); } /*结束位置，向左移动父元素宽度的距离*/  
+}  
+.nmaep{
+    max-width: 200px;
+    overflow:hidden;
+  
+}
 .name {
     color: #444444;
     font-weight: 500;
     white-space: nowrap;
-    overflow: hidden;
     font-size: 18px;
-    max-width: 200px;
-    text-overflow: ellipsis;
     cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-
+.name:hover{
+    overflow:visible;
+    animation: marquee 5s linear infinite; /*使用animation属性来设置文字滚动动画*/  
+}
 
 .bottom {
     position: absolute;
@@ -138,7 +148,7 @@
         display: none;
     }
 
-    .name {
+    .nmaep {
         max-width: 140px;
         font-size: 20px;
     }
