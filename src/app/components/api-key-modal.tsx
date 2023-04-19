@@ -257,7 +257,7 @@ export default function ApiKeyModal(props: {
               输入标记和生成标记的总长度受模型上下文长度的限制。越大或者留空越会消耗apiKey的额度
             </div>
           </Space>
-          <Space>
+          {/* <Space>
             显示计费：
             <ConfigProvider
               theme={{
@@ -288,7 +288,7 @@ export default function ApiKeyModal(props: {
                 }}
               />
             </ConfigProvider>
-          </Space>
+          </Space> */}
           {!isMobile && (
             <Space direction={"horizontal"}>
               <div>布局：</div>

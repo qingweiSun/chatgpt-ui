@@ -206,16 +206,7 @@ export default function PromptView(props: {
       ],
     },
   ];
-  const colors = [
-    "magenta",
-    "red",
-    "volcano",
-    "orange",
-    "gold",
-    "green",
-    "cyan",
-    "blue",
-  ];
+  const colors = ["purple", "magenta", "blue"];
 
   const { isMobile } = useContext(context);
 
@@ -269,7 +260,7 @@ export default function PromptView(props: {
             return (
               <div
                 key={index}
-                style={{ display: "flex", flexDirection: "column", gap: 8 }}
+                style={{ display: "flex", flexDirection: "column", gap: 12 }}
               >
                 <div style={{ fontSize: 15, fontWeight: 500 }}>
                   {value.title}

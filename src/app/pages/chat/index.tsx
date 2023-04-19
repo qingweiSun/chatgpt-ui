@@ -32,6 +32,8 @@ import MaxTokensLimit, {
 } from "@/app/components/max-tokens-limit";
 import TextArea from "antd/es/input/TextArea";
 import { context } from "@/app/hooks/context-mobile";
+import NavbarTItleView from "./view/name-view";
+import InputView from "./view/input-view";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -188,14 +190,7 @@ export default function ChatView() {
           boxShadow: "0 2px 4px rgb(0 0 0 / 1%)",
         }}
       >
-        <Navbar.Brand>
-          <div>
-            <div className={styles.nmaep}>
-              <div className={styles.name}>{name || "新的会话"}</div>
-            </div>
-            <div style={{ fontSize: 13 }}>共{messages.length}条记录</div>
-          </div>
-        </Navbar.Brand>
+        <NavbarTItleView name={name} count={messages.length} />
         <Navbar.Content css={{ gap: isMobile ? 16 : undefined }}>
           <Navbar.Item>
             <div className={styles.toggle} onClick={() => {}}>
@@ -283,77 +278,12 @@ export default function ChatView() {
         <div style={{ height: 140 }} />
         <div id={"home_end"} />
       </div>
-      <div className={styles.bottom}>
-        <TextArea
-          value={questionText}
-          className={styles.question}
-          placeholder="请输入您想提问的问题（⌥+Return换行）"
-          autoSize={{ minRows: 4, maxRows: 8 }}
-          style={{
-            borderBottomRightRadius: 20,
-            borderBottomLeftRadius: 20,
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-          }}
-          onChange={(e) => {
-            setQuestionText(e.target.value);
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && e.altKey) {
-              e.preventDefault();
-              // @ts-ignore
-              const { selectionStart, selectionEnd, value } = e.target;
-              const textBeforeCursor = value.substring(0, selectionStart);
-              const textAfterCursor = value.substring(
-                selectionEnd,
-                value.length
-              );
-              // @ts-ignore
-              setQuestionText(`${textBeforeCursor}\n${textAfterCursor}`);
-              // 将光标移到新行的开头
-              // @ts-ignore
-              e.target.selectionStart = selectionEnd + 1;
-              // @ts-ignore
-              e.target.selectionEnd = selectionEnd + 1;
-            } else if (e.key === "Enter") {
-              e.preventDefault();
-              if (!loading) {
-                send();
-              }
-            }
-          }}
-        />
-        <div style={{ position: "absolute", bottom: 0, right: 0, padding: 18 }}>
-          <Button
-            auto
-            disabled={questionText.trim() == ""}
-            onPress={send}
-            color={loading ? "error" : "primary"}
-            css={{
-              borderBottomRightRadius: 20,
-              borderBottomLeftRadius: 8,
-              borderTopLeftRadius: 8,
-              borderTopRightRadius: 8,
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                gap: 4,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              {loading ? "停止" : "发送"}
-              {loading ? (
-                <CloseSquare set="curved" size={"small"} />
-              ) : (
-                <Send set="curved" size={"small"} />
-              )}
-            </div>
-          </Button>
-        </div>
-      </div>
+      <InputView
+        questionText={questionText}
+        setQuestionText={setQuestionText}
+        loading={loading}
+        send={send}
+      />
     </div>
   );
 }
