@@ -2,7 +2,7 @@ import { Button, Card, ConfigProvider, Modal, Space, Tooltip } from "antd";
 import React, { useContext, useState } from "react";
 import { Scan } from "react-iconly";
 import { context } from "@/app/hooks/context-mobile";
-
+import styles from "./delete.module.css";
 export default function RewardView() {
   const { isMobile } = useContext(context);
 
@@ -25,7 +25,8 @@ export default function RewardView() {
           }}
         >
           <Button
-            type={"ghost"}
+            className={styles.link}
+            type={"link"}
             style={{ fontSize: 15 }}
             onClick={() => {
               setRewardModalOpen(true);

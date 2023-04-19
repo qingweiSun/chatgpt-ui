@@ -4,10 +4,11 @@ import MarkdownText from "@/app/pages/chat/markdown-text";
 import { ChatMessage } from "@/app/pages/chat/index";
 import Image from "next/image";
 import HeadImage from "../../icons/head.jpeg";
-import UserImage from '../../images/avatar.jpg'
+import UserImage from "../../images/avatar.jpg";
 const UserView = (props: { children: ChatMessage }) => {
   return (
     <div
+      className={styles["user-message"]}
       style={{
         paddingRight: 12,
         gap: 8,

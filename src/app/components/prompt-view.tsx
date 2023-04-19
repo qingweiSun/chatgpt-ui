@@ -1,8 +1,9 @@
 import styles from "@/app/pages/chat/index.module.css";
 import AiLOGO from "@/app/icons/bot.svg";
 import Image from "next/image";
-import React from "react";
+import React, { useContext } from "react";
 import { ConfigProvider, Tag, Tooltip } from "antd";
+import { context } from "../hooks/context-mobile";
 
 export default function PromptView(props: {
   setPrompt: (text: string) => void;
@@ -206,17 +207,27 @@ export default function PromptView(props: {
     },
   ];
   const colors = [
-    // "magenta",
-    // "red",
-    // "volcano",
-    // "orange",
-    // "gold",
-    // "green",
-    // "cyan",
+    "magenta",
+    "red",
+    "volcano",
+    "orange",
+    "gold",
+    "green",
+    "cyan",
     "blue",
   ];
+
+  const { isMobile } = useContext(context);
+
   return (
-    <div style={{ display: "flex", gap: 8, margin: "0 24px" }}>
+    <div
+      style={{
+        display: "flex",
+        gap: 8,
+        padding: `0 ${isMobile ? "12px" : "24px"}`,
+      }}
+      className={styles.message}
+    >
       <Image
         className={styles.avatar}
         src={AiLOGO}

@@ -248,7 +248,11 @@ function HistoryItemView(props: {
             !props.current ? styles.hide : undefined
           }`}
         >
-          <EditName setName={props.onRename} name={props.title}>
+          <EditName
+            setName={props.onRename}
+            name={props.title}
+            className={styles.delete}
+          >
             <Edit set="curved" size={18} />
           </EditName>
           <SelectView

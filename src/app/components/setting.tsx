@@ -9,22 +9,7 @@ export default function SettingModal(props: {
   className?: string;
   children: React.ReactNode;
 }) {
-
-
-  return (
-    <ApiKeyModal
-      apiKey={"122"}
-      maxTokens={100}
-      updateMaxTokens={() => {}}
-      setApiKey={() => {}}
-      temperature={"122"}
-      updateTemperature={() => {}}
-      presencePenalty={"122"}
-      updatePresencePenalty={() => {}}
-      showCostType={"tokens"}
-      updateShowCostType={() => {}}
-    />
-  );
+  return <ApiKeyModal showCostType={"tokens"} updateShowCostType={() => {}} />;
 }
 
 export function exportMarkdown(props: { messages: ChatMessage[] }) {

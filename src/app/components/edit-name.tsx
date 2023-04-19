@@ -1,6 +1,13 @@
-import { Button, Input, Modal, Text } from "@nextui-org/react";
-import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
-import {context} from "@/app/hooks/context-mobile";
+import { Button, Input, Text } from "@nextui-org/react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { context } from "@/app/hooks/context-mobile";
+import { Modal } from "antd";
 
 const RESPONSIVE_MOBILE = 768;
 
@@ -12,7 +19,7 @@ export default function EditName(props: {
 }) {
   const [visible, setVisible] = useState(false);
   const nameRef = useRef();
-    const { isMobile } = useContext(context);
+  const { isMobile } = useContext(context);
 
   return (
     <>
@@ -31,30 +38,38 @@ export default function EditName(props: {
         {props.children}
       </a>
       <Modal
+        title="重命名"
+        closable={false}
+        destroyOnClose
+        keyboard
         width={isMobile ? "90%" : "400px"}
         open={visible}
-        onClose={() => {
+        onCancel={() => {
           setVisible(false);
         }}
+        onOk={() => {
+          setVisible(false);
+          // @ts-ignore
+          props.setName(nameRef.current.value);
+        }}
+        cancelText="取消"
+        okText="确定"
       >
-          <div style={{ padding: 16 }}>
-              <Text b size={16}>
-                  重命名
-              </Text>
-          </div>
-        <Modal.Body>
-          <Input
-            autoFocus
-            bordered
-            initialValue={props.name}
-            // @ts-ignore
-            ref={nameRef}
-            fullWidth
-            color="primary"
-            placeholder="请输入会话名称"
-          />
-        </Modal.Body>
-        <Modal.Footer>
+        <div style={{ height: 8 }} />
+        <Input
+          autoFocus
+          bordered
+          initialValue={props.name}
+          // @ts-ignore
+          ref={nameRef}
+          css={{
+            backgroundColor: "#ffffff",
+          }}
+          fullWidth
+          color="primary"
+          placeholder="请输入会话名称"
+        />
+        {/* <Modal.Footer>
           <Button
             auto
             flat
@@ -75,7 +90,7 @@ export default function EditName(props: {
           >
             确定
           </Button>
-        </Modal.Footer>
+        </Modal.Footer> */}
       </Modal>
     </>
   );

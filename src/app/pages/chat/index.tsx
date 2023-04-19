@@ -25,6 +25,10 @@ import { exportMarkdown } from "@/app/components/setting";
 import PromptView from "@/app/components/prompt-view";
 import LargeInput from "@/app/components/large-input";
 import { Tooltip } from "antd";
+import GptContext from "@/app/hooks/use-gpt";
+import MaxTokensLimit, {
+  MaxTokensLimitProps,
+} from "@/app/components/max-tokens-limit";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -38,6 +42,8 @@ export interface GptMessage {
 
 export default function ChatView() {
   const [name, setName] = useState("");
+
+  const [questioningMode, setQuestioningMode] = useState<MaxTokensLimitProps>();
   const chatId = useRef(-1);
 
   const [prompt, setPrompt] = useStateSync<ChatMessage>({
@@ -48,7 +54,7 @@ export default function ChatView() {
   });
   const [messages, setMessages] = useStateSync<ChatMessage[]>([prompt]);
   const { current, setId } = useContext(IdContext);
-
+  const { gpt } = useContext(GptContext);
   useEffect(() => {
     if (chatId.current != current.id || name != current.name) {
       chatId.current = current.id;
@@ -89,6 +95,24 @@ export default function ChatView() {
     }
   }, [messages]);
 
+  useEffect(() => {
+    if (questioningMode) {
+      if (current.id && current.id != -1) {
+        localStorage.setItem(
+          "questioningMode" + current.id,
+          JSON.stringify(questioningMode)
+        );
+      }
+    }
+  }, [questioningMode]);
+
+  useEffect(() => {
+    if (current.id && current.id != -1) {
+      setQuestioningMode(
+        JSON.parse(localStorage.getItem("questioningMode" + current.id) || "{}")
+      );
+    }
+  }, [current.id]);
   const send = async () => {
     if (loading) {
       if (controller) {
@@ -113,9 +137,15 @@ export default function ChatView() {
     await setMessages(newMessage, async (newState) => {
       const controllerValue = new AbortController();
       setController(controllerValue);
-      await generateMessage(newState, controllerValue, (newMessages) => {
-        setMessages(newMessages);
-      });
+      await generateMessage(
+        newState,
+        gpt,
+        questioningMode?.value || "one",
+        controllerValue,
+        (newMessages) => {
+          setMessages(newMessages);
+        }
+      );
       setLoading(false);
       // @ts-ignore
       inputText.current.value = "";
@@ -158,7 +188,16 @@ export default function ChatView() {
       >
         <Navbar.Brand>
           <div>
-            <div className={styles.name}>{name || "新的会话"}</div>
+            <Tooltip
+              title={name}
+              color={"#167aff"}
+              placement="bottom"
+              overlayStyle={{
+                maxWidth: 500,
+              }}
+            >
+              <div className={styles.name}>{name || "新的会话"}</div>
+            </Tooltip>
             <div style={{ fontSize: 13 }}>共{messages.length}条记录</div>
           </div>
         </Navbar.Brand>
@@ -180,20 +219,21 @@ export default function ChatView() {
                 setId({ id: current.id || -1, name: text });
               }}
             >
-              <Tooltip title="重命名会话" color={"blue"}>
-                <div className={styles.link}>
-                  {/*<Edit set="light" size={22} />*/}
-                  <EditSquare set="curved" size={22} />
-                </div>
-              </Tooltip>
+              <div className={styles.link}>
+                {/*<Edit set="light" size={22} />*/}
+                <EditSquare set="curved" size={22} />
+              </div>
             </EditName>
           </Navbar.Item>
           <Navbar.Item>
-            <div className={styles.link} onClick={() => {}}>
-              <Tooltip title={"本次会话配置"} color={"blue"}>
-                <Filter set="curved" size={22} />
-              </Tooltip>
-            </div>
+            <MaxTokensLimit
+              select={questioningMode}
+              updateSelect={(value) => {
+                setQuestioningMode(value);
+              }}
+            >
+              <Filter set="curved" size={22} />
+            </MaxTokensLimit>
           </Navbar.Item>
           <Navbar.Item>
             <SelectView
@@ -207,9 +247,7 @@ export default function ChatView() {
               placement={"bottom-right"}
               className={styles.link}
             >
-              <Tooltip title="重置会话" color={"blue"}>
-                <Delete set="curved" size={22} />
-              </Tooltip>
+              <Delete set="curved" size={22} />
             </SelectView>
           </Navbar.Item>
           <Navbar.Item>
@@ -219,9 +257,7 @@ export default function ChatView() {
                 exportMarkdown({ messages });
               }}
             >
-              <Tooltip title="导出Markdown" color={"blue"}>
-                <Download set="curved" size={22} />
-              </Tooltip>
+              <Download set="curved" size={22} />
             </div>
           </Navbar.Item>
         </Navbar.Content>
@@ -296,6 +332,7 @@ export default function ChatView() {
           // }
           contentRight={
             <LargeInput
+              text={""}
               className={styles.link}
               setText={(text) => {
                 // @ts-ignore

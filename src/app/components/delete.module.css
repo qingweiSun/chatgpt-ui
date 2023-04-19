@@ -7,3 +7,11 @@
 .delete:hover {
     color: #965aed;
 }
+
+.link {
+    color: #444444;
+}
+
+.link:hover {
+    color: #167aff;
+}

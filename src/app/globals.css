@@ -238,3 +238,6 @@ img {
     margin-inline-end: 0 !important;
     padding-inline: 6 !important;
 }
+.ant-tooltip{
+    font-size: 12px !important;
+}

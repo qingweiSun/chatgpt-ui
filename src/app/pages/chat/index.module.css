@@ -42,8 +42,21 @@
     -moz-user-select: text !important; /*火狐*/
     -webkit-user-select: text !important; /*webkit浏览器*/
     -ms-user-select: text !important; /*IE10*/
+   
+    
 }
-
+.message{
+    opacity: 0;  
+    transform: scale(0.9);  
+    animation: fade-in 200ms ease-in-out 100ms forwards;  
+    transform-origin: top left;  
+}
+.user-message{
+    opacity: 0;  
+    transform: scale(0.9);  
+    animation: fade-in 200ms ease-in-out 100ms forwards;  
+    transform-origin: top right;  
+}
 .bot:hover {
     box-shadow: 0 0 10px 10px rgb(0 0 0 / 2%);
     border: 1px solid #e9e9e9
@@ -91,8 +104,9 @@
     white-space: nowrap;
     overflow: hidden;
     font-size: 18px;
-    max-width: 400px;
+    max-width: 200px;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 
 
@@ -169,6 +183,11 @@
     opacity: 1;
 }
 
+.chat-md-top-action:active {
+    color:  #167aff;
+    border-color: #167aff;
+}
+
 
 .chat-message-top-action-item {
     /*缩放*/
@@ -187,21 +206,24 @@
     opacity: 1;
 }
 
+.chat-message-top-action-item:active {
+    color:  #167aff;
+    border-color: #167aff;
+}
 
 .message:hover div.chat-message-top-action-item {
     opacity: 1;
 }
-
-.fade-enter {
-    opacity: 0;
-    transform: scale(0.9);
-}
-
-.fade-enter-active {
-    opacity: 1;
-    transform: scale(1);
-    transition: all 500ms ease-in-out;
-}
+@keyframes fade-in {  
+  0% {  
+    opacity: 0;  
+    transform: scale(0.95);  
+  }  
+  100% {  
+    opacity: 1;  
+    transform: scale(1);  
+  }  
+}  
 
 .transition_group {
     display: flex;

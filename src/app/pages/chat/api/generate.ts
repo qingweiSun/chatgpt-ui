@@ -1,131 +1,177 @@
-import {ChatMessage} from "@/app/pages/chat";
+import { ChatMessage, GptMessage } from "@/app/pages/chat";
 
 let tempStatus = "";
 
 export async function generateMessage(
-    messages: ChatMessage[],
-    controller: AbortController,
-    setMessages: (messages: ChatMessage[]) => void
+  messages: ChatMessage[],
+  gpt:
+    | {
+        key: string;
+        temperature: string;
+        presencePenalty: string;
+        maxTokens: string;
+      }
+    | undefined,
+  questionMode: string,
+  controller: AbortController,
+  setMessages: (messages: ChatMessage[]) => void
 ) {
-    const newMessages = [...messages];
-    newMessages.push({
-        data: {
-            role: "assistant",
-            content: "loading",
-        },
-        time: new Date().toLocaleString(),
+  const newMessages = [...messages];
+  newMessages.push({
+    data: {
+      role: "assistant",
+      content: "loading",
+    },
+    time: new Date().toLocaleString(),
+  });
+  setMessages(newMessages);
+  const url = "https://qingwei.icu/api/generate";
+
+  let param = messages.filter(
+    (message) =>
+      message.data.content != "loading" &&
+      message.data.content.indexOf("请求已取消") == -1
+  );
+  let messagesValue: GptMessage[] = [];
+  switch (questionMode) {
+    case "one":
+      //连续对话
+      messagesValue = param.map((message) => message.data);
+      break;
+    case "two":
+      //携带param的第一条消息和最后一条消息
+      const systemMessages = param.filter(
+        (message) => message.data.role == "system"
+      );
+      const userMessages = param.filter(
+        (message) => message.data.role == "user"
+      );
+      if (systemMessages.length > 0) {
+        messagesValue.push(systemMessages[0].data);
+      }
+      if (userMessages.length > 0) {
+        messagesValue.push(userMessages[userMessages.length - 1].data);
+      }
+      break;
+    case "three":
+      //仅携带user的最后一条消息
+      const userMessagesThree = param.filter(
+        (message) => message.data.role == "user"
+      );
+      if (userMessagesThree.length > 0) {
+        messagesValue.push(
+          userMessagesThree[userMessagesThree.length - 1].data
+        );
+      }
+      break;
+  }
+
+  tempStatus = "";
+  let apiKey = gpt?.key || "";
+  let temperature = gpt?.temperature || "1";
+  let presencePenalty = gpt?.presencePenalty || "0";
+  let maxTokens = gpt?.maxTokens || undefined;
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        messages: messagesValue,
+        apiKey: apiKey,
+        temperature: temperature,
+        presencePenalty: presencePenalty,
+        maxTokens: maxTokens,
+      }),
+      signal: controller.signal,
     });
-    setMessages(newMessages);
-    const url = "https://qingwei.icu/api/generate"
 
-    let param = messages.filter(
-        (message) =>
-            message.data.content != "loading" &&
-            message.data.content.indexOf("请求已取消") == -1
-    );
-    tempStatus = "";
-
-    try {
-        const response = await fetch(url, {
-            method: "POST",
-            body: JSON.stringify({
-                messages: param.map((message) => message.data),
-                apiKey: undefined,
-                temperature: "0.6",
-                presencePenalty: 0,
-                maxTokens: undefined,
-            }),
-            signal: controller.signal,
-        });
-
-        if (response.ok) {
-            const data = response.body;
-            if (data) {
-                const reader = data.getReader();
-                const decoder = new TextDecoder("utf-8");
-                let done = false;
-                let currentAssistantMessage = "";
-                while (!done) {
-                    const {value, done: readerDone} = await reader.read();
-                    if (value) {
-                        let char = decoder.decode(value);
-                        if (char === "\n" && currentAssistantMessage.endsWith("\n")) {
-                            continue;
-                        }
-                        if (char) {
-                            currentAssistantMessage = currentAssistantMessage + char;
-                            //替换最后一条消息
-                            newMessages.pop();
-                            //添加新消息
-                            newMessages.push({
-                                data: {
-                                    role: "assistant",
-                                    content: currentAssistantMessage,
-                                },
-                                time: new Date().toLocaleString(),
-                            });
-                            tempStatus = currentAssistantMessage;
-                            setMessages([...newMessages]);
-                        }
-                    }
-                    done = readerDone;
-                }
-            } else {
-                tempStatus = "data is null";
-                const newMessages = [...messages];
-                //替换最后一条消息
-                newMessages.pop();
-                //添加新消息
-                newMessages.push({
-                    data: {
-                        role: "assistant",
-                        content: "data is null",
-                    },
-                    time: new Date().toLocaleString(),
-                });
-                setMessages(newMessages);
+    if (response.ok) {
+      const data = response.body;
+      if (data) {
+        const reader = data.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let done = false;
+        let currentAssistantMessage = "";
+        while (!done) {
+          const { value, done: readerDone } = await reader.read();
+          if (value) {
+            let char = decoder.decode(value);
+            if (char === "\n" && currentAssistantMessage.endsWith("\n")) {
+              continue;
             }
-        } else {
-            tempStatus = response.statusText;
-            const newMessages = [...messages];
-            //替换最后一条消息
-            newMessages.pop();
-            //添加新消息
-            newMessages.push({
+            if (char) {
+              currentAssistantMessage = currentAssistantMessage + char;
+              //替换最后一条消息
+              newMessages.pop();
+              //添加新消息
+              newMessages.push({
                 data: {
-                    role: "assistant",
-                    content: response.statusText,
+                  role: "assistant",
+                  content: currentAssistantMessage,
                 },
                 time: new Date().toLocaleString(),
-            });
-
-            setMessages(newMessages);
-        }
-    } catch (e: any) {
-        if (e.name === "AbortError") {
-            if (
-                newMessages[newMessages.length - 1].data.content == "loading" &&
-                tempStatus == ""
-            ) {
-                setMessages(newMessages.slice(0, newMessages.length - 2));
-            } else {
-                newMessages[newMessages.length - 1].data.content =
-                    tempStatus + " (请求已取消)";
-                tempStatus = "";
-                setMessages(newMessages);
+              });
+              tempStatus = currentAssistantMessage;
+              setMessages([...newMessages]);
             }
-            return;
+          }
+          done = readerDone;
         }
+      } else {
+        tempStatus = "data is null";
+        const newMessages = [...messages];
         //替换最后一条消息
         newMessages.pop();
         //添加新消息
         newMessages.push({
-            data: {
-                role: "assistant",
-                content: e.name === "AbortError" ? "请求已取消" : e.toString(),
-            },
-            time: new Date().toLocaleString(),
+          data: {
+            role: "assistant",
+            content: "data is null",
+          },
+          time: new Date().toLocaleString(),
         });
         setMessages(newMessages);
+      }
+    } else {
+      tempStatus = response.statusText;
+      const newMessages = [...messages];
+      //替换最后一条消息
+      newMessages.pop();
+      //添加新消息
+      newMessages.push({
+        data: {
+          role: "assistant",
+          content: response.statusText,
+        },
+        time: new Date().toLocaleString(),
+      });
+
+      setMessages(newMessages);
     }
+  } catch (e: any) {
+    if (e.name === "AbortError") {
+      if (
+        newMessages[newMessages.length - 1].data.content == "loading" &&
+        tempStatus == ""
+      ) {
+        setMessages(newMessages.slice(0, newMessages.length - 2));
+      } else {
+        newMessages[newMessages.length - 1].data.content =
+          tempStatus + " (请求已取消)";
+        tempStatus = "";
+        setMessages(newMessages);
+      }
+      return;
+    }
+    //替换最后一条消息
+    newMessages.pop();
+    //添加新消息
+    newMessages.push({
+      data: {
+        role: "assistant",
+        content: e.name === "AbortError" ? "请求已取消" : e.toString(),
+      },
+      time: new Date().toLocaleString(),
+    });
+    setMessages(newMessages);
+  }
 }

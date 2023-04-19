@@ -14,28 +14,16 @@ import React, { useContext, useState } from "react";
 import { Setting } from "react-iconly";
 import AppContext from "@/app/hooks/use-style";
 import { context } from "@/app/hooks/context-mobile";
-
+import styles from "./delete.module.css";
+import GptContext from "../hooks/use-gpt";
 const { TextArea } = Input;
 
 export default function ApiKeyModal(props: {
-  apiKey: string;
-  maxTokens: number | null;
-  updateMaxTokens: (maxTokens: number | null) => void;
-  setApiKey: (apiKey: string) => void;
-  temperature: string;
-  updateTemperature: (temperature: string) => void;
-  presencePenalty: string;
-  updatePresencePenalty: (presencePenalty: string) => void;
   showCostType: "tokens" | "$" | "none";
   updateShowCostType: (e: "tokens" | "$" | "none") => void;
 }) {
-  const [apiKey, setApiKey] = useState<string>(props.apiKey);
-  const [maxTokens, setMaxTokens] = useState<number | null>(props.maxTokens);
   const [apiKeyModalOpen, setApiKeyModalOpen] = useState<boolean>(false);
-  const [temperature, setTemperature] = useState<string>(props.temperature);
-  const [presencePenalty, setPresencePenalty] = useState<string>(
-    props.presencePenalty
-  );
+
   const [balance, setBalance] = useState<
     {
       status: string;
@@ -52,7 +40,7 @@ export default function ApiKeyModal(props: {
 
   const { mode, setMode } = useContext(AppContext);
   const { isMobile } = useContext(context);
-
+  const { gpt, setGpt } = useContext(GptContext);
   //余额查询
   async function updateBilling(key: string) {
     try {
@@ -76,40 +64,29 @@ export default function ApiKeyModal(props: {
 
   return (
     <>
-      <Tooltip
-        title={"设置"}
-        color={"#167aff"}
-        // @ts-ignore
-        getPopupContainer={(triggerNode) => {
-          return triggerNode.parentNode;
+      <Button
+        className={styles.link}
+        type="link"
+        onClick={(event) => {
+          setApiKeyModalOpen(true);
         }}
       >
-        <Button
-          type="ghost"
-          onClick={(event) => {
-            setApiKeyModalOpen(true);
-          }}
-        >
-          <Setting set="two-tone" />
-        </Button>
-      </Tooltip>
+        <Setting set="two-tone" />
+      </Button>
       <Modal
         title="设置"
         open={apiKeyModalOpen}
         closable={false}
+        keyboard
         destroyOnClose
+        width={600}
         cancelText={"取消"}
         afterClose={() => {
-          setTemperature(props.temperature);
-          setApiKey(props.apiKey);
           setShowCostType(props.showCostType);
-          setPresencePenalty(props.presencePenalty);
-          setMaxTokens(props.maxTokens);
         }}
-        okText={"确定"}
+        okText={"关闭"}
         onOk={() => {
           setApiKeyModalOpen(false);
-          props.setApiKey(apiKey);
         }}
         onCancel={() => {
           setApiKeyModalOpen(false);
@@ -120,27 +97,28 @@ export default function ApiKeyModal(props: {
               onClick={async () => {
                 setLoading(true);
                 const newBalance: any[] = [];
-                if (apiKey.length > 0) {
-                  for (const key of apiKey.split("\n")) {
-                    const v = await updateBilling(key);
-                    newBalance.push(v);
-                    setLoading(false);
-                  }
-                } else {
-                  setLoading(false);
-                }
+                // if (gpt.key.length > 0) {
+                //   for (const key of apiKey.split("\n")) {
+                //     const v = await updateBilling(key);
+                //     newBalance.push(v);
+                //     setLoading(false);
+                //   }
+                // } else {
+                //   setLoading(false);
+                // }
               }}
             >
               余额查询
             </Button>
             <Button
+              type="primary"
               onClick={() => {
                 setApiKeyModalOpen(false);
               }}
             >
-              取消
+              关闭
             </Button>
-            <Button
+            {/* <Button
               type={"primary"}
               onClick={() => {
                 setApiKeyModalOpen(false);
@@ -153,23 +131,35 @@ export default function ApiKeyModal(props: {
               }}
             >
               确定
-            </Button>
+            </Button> */}
           </Space>,
         ]}
       >
         <div style={{ height: 8 }} />
         <Space direction={"vertical"} style={{ width: "100%" }} size={16}>
-          <Input
-            value={apiKey}
-            size={"large"}
-            style={{ fontSize: 14 }}
-            placeholder={
-              "请输入您自己的apiKey，以便获得更好的体验，本站不会记录"
-            }
-            onChange={(e) => {
-              setApiKey(e.target.value);
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
             }}
-          />
+          >
+            <div>apiKey:</div>
+            <Input
+              value={gpt?.key}
+              size={"large"}
+              style={{ fontSize: 14, width: "100%" }}
+              placeholder={
+                "请输入您自己的apiKey，以便获得更好的体验，本站不会记录"
+              }
+              onChange={(e) => {
+                if (gpt) {
+                  setGpt({ ...gpt, key: e.target.value });
+                }
+              }}
+            />
+          </div>
           <Space direction={"vertical"} size={0} style={{ width: "100%" }}>
             <div
               style={{
@@ -185,9 +175,11 @@ export default function ApiKeyModal(props: {
                 max={2}
                 step={0.1}
                 style={{ flex: 1 }}
-                value={+temperature}
+                value={+(gpt?.temperature || "1")}
                 onChange={(v) => {
-                  setTemperature(v.toString());
+                  if (gpt) {
+                    setGpt({ ...gpt, temperature: v.toString() });
+                  }
                 }}
               />
             </div>
@@ -215,9 +207,11 @@ export default function ApiKeyModal(props: {
                 max={2}
                 step={0.1}
                 style={{ flex: 1 }}
-                value={+presencePenalty}
+                value={+(gpt?.presencePenalty || "0")}
                 onChange={(v) => {
-                  setPresencePenalty(v.toString());
+                  if (gpt) {
+                    setGpt({ ...gpt, presencePenalty: v.toString() });
+                  }
                 }}
               />
             </div>
@@ -236,16 +230,20 @@ export default function ApiKeyModal(props: {
               <InputNumber
                 placeholder={"不限制请留空"}
                 style={{ width: "100%", fontSize: 13 }}
-                value={maxTokens}
+                value={gpt?.maxTokens}
                 onBlur={(value) => {
                   console.log(value.target.value);
                   if (value.target.value == "") {
-                    setMaxTokens(null);
+                    if (gpt) {
+                      setGpt({ ...gpt, maxTokens: "" });
+                    }
                   }
                 }}
                 onChange={(value) => {
                   console.log(value);
-                  setMaxTokens(value);
+                  if (gpt) {
+                    setGpt({ ...gpt, maxTokens: value + "" });
+                  }
                 }}
               />
             </Space>
@@ -294,59 +292,75 @@ export default function ApiKeyModal(props: {
           {!isMobile && (
             <Space direction={"horizontal"}>
               <div>布局：</div>
-              <Segmented
-                options={[
-                  {
-                    label: <div>默认</div>,
-                    value: "normal",
+              <ConfigProvider
+                theme={{
+                  token: {
+                    borderRadius: 8,
                   },
-                  {
-                    label: <div>卡片</div>,
-                    value: "card",
-                  },
-                ]}
-                style={{ background: "#e9e9e9" }}
-                value={mode.mode}
-                onChange={(value) => {
-                  const modeValue = {
-                    mode: value.toString() as any,
-                    size: "medium",
-                  };
-                  setMode(modeValue);
-                  localStorage.setItem("mode-new", JSON.stringify(modeValue));
                 }}
-              />
+              >
+                <Segmented
+                  options={[
+                    {
+                      label: <div>默认</div>,
+                      value: "normal",
+                    },
+                    {
+                      label: <div>卡片</div>,
+                      value: "card",
+                    },
+                  ]}
+                  style={{ background: "#e9e9e9" }}
+                  value={mode.mode}
+                  onChange={(value) => {
+                    const modeValue = {
+                      mode: value.toString() as any,
+                      size: "medium",
+                    };
+                    setMode(modeValue);
+                    localStorage.setItem("mode-new", JSON.stringify(modeValue));
+                  }}
+                />
+              </ConfigProvider>
             </Space>
           )}
           {mode.mode == "card" && !isMobile && (
             <Space>
               <div>卡片边距：</div>
-              <Segmented
-                options={[
-                  {
-                    label: <div>小</div>,
-                    value: "small",
+              <ConfigProvider
+                theme={{
+                  token: {
+                    borderRadius: 8,
                   },
-                  {
-                    label: <div>中</div>,
-                    value: "medium",
-                  },
-                  {
-                    label: <div>大</div>,
-                    value: "large",
-                  },
-                ]}
-                style={{ background: "#e9e9e9" }}
-                value={mode.size}
-                onChange={(value) => {
-                  const modeValue = {
-                    mode: "card",
-                    size: value.toString() as any,
-                  };
-                  setMode(modeValue);
-                  localStorage.setItem("mode-new", JSON.stringify(modeValue));
                 }}
-              />
+              >
+                <Segmented
+                  options={[
+                    {
+                      label: <div>小</div>,
+                      value: "small",
+                    },
+                    {
+                      label: <div>中</div>,
+                      value: "medium",
+                    },
+                    {
+                      label: <div>大</div>,
+                      value: "large",
+                    },
+                  ]}
+                  style={{ background: "#e9e9e9" }}
+                  value={mode.size}
+                  onChange={(value) => {
+                    const modeValue = {
+                      mode: "card",
+                      size: value.toString() as any,
+                    };
+                    setMode(modeValue);
+                    localStorage.setItem("mode-new", JSON.stringify(modeValue));
+                  }}
+                />
+              </ConfigProvider>
             </Space>
           )}
           {balance.length > 0 && (
