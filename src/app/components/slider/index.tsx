@@ -21,6 +21,7 @@ export interface HistoryItem {
   title: string;
   id: number;
   selected: boolean;
+  collect: boolean;
 }
 
 export default function Slider(props: {
@@ -49,6 +50,7 @@ export default function Slider(props: {
           title: "新的会话",
           id: 1,
           selected: true,
+          collect: false,
         },
       ]);
       //router.replace("/?id=1");
@@ -168,7 +170,7 @@ export default function Slider(props: {
             }
           }}
           title="警告"
-          description="注意清理后无法找回，数据无价，请注意保存！"
+          description="清理后无法找回，数据无价，请注意保存！"
         />
         <div style={{ height: 76, width: "100%", flex: "0 0 auto" }} />
       </div>
@@ -196,6 +198,7 @@ export default function Slider(props: {
                 title: "新的会话",
                 id: newId,
                 selected: true,
+                collect: false,
               },
               ...historyList.map((item) => {
                 return {

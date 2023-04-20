@@ -93,7 +93,7 @@ export default function ApiKeyModal(props: {
         }}
         footer={[
           <Space key={"footer"}>
-            <Button
+            {/* <Button
               onClick={async () => {
                 setLoading(true);
                 const newBalance: any[] = [];
@@ -109,7 +109,7 @@ export default function ApiKeyModal(props: {
               }}
             >
               余额查询
-            </Button>
+            </Button> */}
             <Button
               type="primary"
               onClick={() => {
