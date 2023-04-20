@@ -293,14 +293,7 @@ export default function PromptView(props: {
                                     props.setPrompt(value.desc);
                                   }}
                                 >
-                                  <div
-                                    style={{
-                                      fontSize: 11,
-                                      fontWeight: 400,
-                                    }}
-                                  >
-                                    {value.name}
-                                  </div>
+                                  {value.name}
                                 </Tag>
                               </Tooltip>
                             </ConfigProvider>

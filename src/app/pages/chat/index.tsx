@@ -91,6 +91,7 @@ export default function ChatView() {
             "historyList" + current.id,
             JSON.stringify(messages)
           );
+          canScroll.current = true;
         } else if (messages[0].data.content != "你是AI") {
           localStorage.setItem(
             "historyList" + current.id,
