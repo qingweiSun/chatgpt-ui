@@ -64,6 +64,31 @@ export async function generateMessage(
         );
       }
       break;
+    case "four":
+      //携带param的最后2条消息，不含系统信息
+      const systemMessagesFour = param.filter(
+        (message) => message.data.role == "system"
+      );
+      if (systemMessagesFour.length > 0) {
+        messagesValue.push(systemMessagesFour[0].data);
+      }
+      const qaList = param.filter(
+        (message) =>
+          message.data.role != "system" && message.data.content != "loading"
+      );
+      if (qaList.length > 2) {
+        //携带最后2条问答和一次提问
+        //从qaList截取最后3条数据
+        const lastThree = qaList.slice(qaList.length - 3, qaList.length);
+        //拼进去messagesValue
+        messagesValue = messagesValue.concat(
+          lastThree.map((item) => item.data)
+        );
+      } else if (qaList.length > 0) {
+        //携带最后1条，因为只有1条
+        messagesValue.push(qaList[qaList.length - 1].data);
+      }
+      break;
   }
 
   tempStatus = "";

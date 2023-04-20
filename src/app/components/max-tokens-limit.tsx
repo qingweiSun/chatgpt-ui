@@ -25,10 +25,15 @@ export default function MaxTokensLimit(props: {
       desc: "仅角色设定",
       tip: "不理解上下文，但会带上角色属性",
     },
-    { value: "three", desc: "仅提问", tip: "完全不理解上下文，只回答问题" },
+    // { value: "three", desc: "仅提问", tip: "完全不理解上下文，只回答问题" },
+    {
+      value: "four",
+      desc: "携带上次问答",
+      tip: "携带角色属性，理解最近上下文，便于二次提问",
+    },
   ];
   return (
-    <Dropdown>
+    <Dropdown placement="bottom-right">
       <Dropdown.Button flat size={isMobile ? "sm" : "md"}>
         <div style={{ fontSize: 13 }}>{props.select?.desc ?? "连续对话"}</div>
       </Dropdown.Button>
@@ -48,8 +53,24 @@ export default function MaxTokensLimit(props: {
       >
         {data.map((item) => {
           return (
-            <Dropdown.Item key={item.value} description={item.tip}>
-              {item.desc}
+            <Dropdown.Item
+              key={item.value}
+              // description={item.tip}
+              css={{
+                height: "auto",
+              }}
+            >
+              <div
+                style={{
+                  padding: 8,
+                  gap: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                {item.desc}
+                <div style={{ color: "#999999", fontSize: 11 }}>{item.tip}</div>
+              </div>
             </Dropdown.Item>
           );
         })}
