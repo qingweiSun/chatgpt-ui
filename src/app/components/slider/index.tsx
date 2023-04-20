@@ -196,6 +196,9 @@ export default function Slider(props: {
             props.closeSlider?.();
           }}
         />
+        <div style={{ marginLeft: 16, color: "#999999", fontSize: 12 }}>
+          全部会话
+        </div>
         {historyList.map((item, index) => {
           return <ItemView item={item} index={index} key={index} showEdit />;
         })}
