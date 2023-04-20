@@ -1,10 +1,13 @@
 import styles from "@/app/pages/chat/index.module.css";
 import AiLOGO from "@/app/icons/bot.svg";
 import Image from "next/image";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ConfigProvider, Tag, Tooltip } from "antd";
 import { context } from "../hooks/context-mobile";
-
+import UserImage from "../images/avatar.jpg";
+import { Edit } from "react-iconly";
+import { Button, Popover } from "@nextui-org/react";
+import TextArea from "antd/es/input/TextArea";
 export default function PromptView(props: {
   setPrompt: (text: string) => void;
 }) {
@@ -85,10 +88,6 @@ export default function PromptView(props: {
           name: "代为应答",
           desc: "今天发生了以下具体情况：[描述具体情况]，对方说：“[回复内容]”。请问对方可能想表达什么意思？你会怎样回应？",
         },
-        {
-          name: "担任 SVG 设计师",
-          desc: "我希望你担任 SVG 设计师。我会要求你创建图像，你会为图像提供 SVG 代码，将代码转换为 base64 数据 url，然后给我一个仅包含引用该数据 url 的图像标签的响应",
-        },
       ],
     },
     {
@@ -152,10 +151,6 @@ export default function PromptView(props: {
           desc: "请确认我的以下请求。请您作为产品经理回复我。我将会提供一个主题，您将帮助我编写一份包括以下章节标题的PRD文档：主题、简介、问题陈述、目标与目的、用户故事、技术要求、收益、KPI指标、开发风险以及结论。在我要求具体主题、功能或开发的PRD之前，请不要先写任何一份PRD文档。",
         },
         {
-          name: "通用AI助手",
-          desc: "你是AI小助手",
-        },
-        {
           name: "喵大人",
           desc: `作为聊天机器人，你将扮演一只慵懒且高傲的猫，是一只关注社交媒体且备受他人宠爱的雄性布偶猫。
 
@@ -209,107 +204,231 @@ export default function PromptView(props: {
   const colors = ["purple", "magenta", "blue"];
 
   const { isMobile } = useContext(context);
-
+  const [showCustomPrompt, setShowCustomPrompt] = useState(false);
+  const [customPrompt, setCustomPrompt] = useState("");
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: 8,
-        padding: `0 ${isMobile ? "12px" : "24px"}`,
-      }}
-      className={styles.message}
-    >
-      <Image
-        className={styles.avatar}
-        src={AiLOGO}
-        style={{
-          width: 36,
-          height: 36,
-          position: "sticky",
-          borderRadius: 14,
-          boxShadow: "0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%)",
-          top: 92,
-        }}
-        alt={"chatgpt"}
-      />
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+    <>
+      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
         <div
           style={{
-            color: "#a0a0a0",
-            fontSize: 12,
+            display: "flex",
             gap: 8,
-            display: "flex",
-            alignItems: "center",
+            padding: `0 ${isMobile ? "12px" : "24px"}`,
           }}
+          className={styles.message}
         >
-          快速选择您需要的角色
-        </div>
-        <div
-          className={styles.bot}
-          style={{
-            padding: "18px",
-            flex: 1,
-            display: "flex",
-            backgroundColor: "#fff",
-            borderRadius: 12,
-            flexDirection: "column",
-            gap: 24,
-          }}
-        >
-          {data.map((value, index, array) => {
-            return (
-              <div
-                key={index}
-                style={{ display: "flex", flexDirection: "column", gap: 12 }}
-              >
-                <div style={{ fontSize: 15, fontWeight: 500 }}>
-                  {value.title}
-                </div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {value.value.map((value, index, array) => {
-                    const color =
-                      colors[Math.floor(Math.random() * colors.length)];
-                    return (
-                      <div key={index}>
-                        <ConfigProvider
-                          theme={{
-                            token: {
-                              borderRadius: 12,
-                            },
-                          }}
-                        >
-                          <Tooltip
-                            title={value.desc}
-                            color={color}
-                            overlayStyle={{ maxWidth: 500 }}
-                          >
-                            <Tag
-                              color={color}
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                props.setPrompt(value.desc);
+          <Image
+            className={styles.avatar}
+            src={AiLOGO}
+            style={{
+              width: 36,
+              height: 36,
+              position: "sticky",
+              borderRadius: 14,
+              boxShadow: "0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%)",
+              top: 92,
+            }}
+            alt={"chatgpt"}
+          />
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <div
+              style={{
+                color: "#a0a0a0",
+                fontSize: 12,
+                gap: 8,
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              快速选择您需要的角色
+            </div>
+            <div
+              className={styles.bot}
+              style={{
+                padding: "18px",
+                flex: 1,
+                display: "flex",
+                backgroundColor: "#fff",
+                borderRadius: 12,
+                flexDirection: "column",
+                gap: 24,
+              }}
+            >
+              {data.map((value, index, array) => {
+                return (
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 12,
+                    }}
+                  >
+                    <div style={{ fontSize: 15, fontWeight: 500 }}>
+                      {value.title}
+                    </div>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                      {value.value.map((value, index, array) => {
+                        const color =
+                          colors[Math.floor(Math.random() * colors.length)];
+                        return (
+                          <div key={index}>
+                            <ConfigProvider
+                              theme={{
+                                token: {
+                                  borderRadius: 12,
+                                },
                               }}
                             >
-                              <div
-                                style={{
-                                  fontSize: 11,
-                                  fontWeight: 400,
-                                }}
+                              <Tooltip
+                                title={value.desc}
+                                color={color}
+                                overlayStyle={{ maxWidth: 500 }}
                               >
-                                {value.name}
-                              </div>
-                            </Tag>
-                          </Tooltip>
-                        </ConfigProvider>
-                      </div>
-                    );
-                  })}
+                                <Tag
+                                  color={color}
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => {
+                                    props.setPrompt(value.desc);
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      fontSize: 11,
+                                      fontWeight: 400,
+                                    }}
+                                  >
+                                    {value.name}
+                                  </div>
+                                </Tag>
+                              </Tooltip>
+                            </ConfigProvider>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+        <div
+          className={styles["user-message"]}
+          style={{
+            gap: 8,
+            width: "100%",
+            display: "flex",
+            flexDirection: "row-reverse",
+          }}
+        >
+          <div className={styles.avatar}>
+            <div
+              style={{
+                zIndex: 0,
+                position: "sticky",
+                marginRight: 24,
+                top: 92,
+                width: 36,
+                height: 36,
+                display: "flex",
+                overflow: "hidden",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#ffffff",
+                borderRadius: 14,
+                boxShadow: "0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%)",
+              }}
+            >
+              {
+                <Image
+                  alt={"用户"}
+                  src={UserImage}
+                  objectFit={"cover"}
+                  style={{
+                    width: 36,
+                    height: 36,
+                  }}
+                />
+              }
+            </div>
+          </div>
+          <div
+            className={styles.user}
+            style={{
+              cursor: "pointer",
+              fontSize: 14,
+            }}
+            onClick={() => {}}
+          >
+            <Popover isBordered placement="top-right" offset={20}>
+              <Popover.Trigger>
+                <div
+                  style={{ display: "flex", alignItems: "center" }}
+                  className={styles.prompt}
+                  onClick={() => {
+                    setShowCustomPrompt(true);
+                  }}
+                >
+                  点击自定义
+                  <Edit set="curved" size={18} />
                 </div>
-              </div>
-            );
-          })}
+              </Popover.Trigger>
+              <Popover.Content>
+                <div style={{ padding: 16, textAlign: "center" }}>
+                  <div style={{ fontWeight: 500 }}>自定义Promp</div>
+                  <div style={{ height: 16 }} />
+                  <TextArea
+                    placeholder="请输入自定义Prompt"
+                    value={customPrompt}
+                    onChange={(e) => {
+                      setCustomPrompt(e.target.value);
+                    }}
+                    size="large"
+                    style={{ width: 600 }}
+                    autoSize={{ minRows: 4, maxRows: 20 }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      right: 0,
+                      padding: 16,
+                    }}
+                  >
+                    <Button
+                      auto
+                      light
+                      onPress={() => {
+                        setShowCustomPrompt(false);
+                        props.setPrompt(customPrompt);
+                      }}
+                      color={"primary"}
+                      css={{
+                        borderBottomRightRadius: 14,
+                        borderBottomLeftRadius: 8,
+                        borderTopLeftRadius: 8,
+                        borderTopRightRadius: 8,
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: 4,
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        确定
+                      </div>
+                    </Button>
+                  </div>
+                </div>
+              </Popover.Content>
+            </Popover>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
