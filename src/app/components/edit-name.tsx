@@ -54,7 +54,7 @@ export default function EditName(props: {
                 autoFocus
                 placeholder="请输入名称"
                 size="large"
-                style={{ fontSize: 14, borderRadius: 10, borderWidth: 2 }}
+                style={{ fontSize: 15, borderRadius: 10, borderWidth: 2 }}
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
