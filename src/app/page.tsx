@@ -21,9 +21,7 @@ const theme = createTheme({
 export default function Index() {
   const [loading, setLoading] = useState(true);
   const tempCurrent = JSON.stringify({ id: 10000, name: "随便聊聊" });
-  const [current, setId] = useState(
-    JSON.parse(localStorage.getItem("current") || tempCurrent)
-  );
+  const [current, setId] = useState({ id: 10000, name: "随便聊聊" });
   const [mode, setMode] = useState<{
     mode: "card" | "normal" | string;
     size?: "small" | "medium" | "large" | string;
@@ -43,6 +41,7 @@ export default function Index() {
     setLoading(false);
     setMode(JSON.parse(localStorage.getItem("mode-new") || "{}") || {});
     setGpt(JSON.parse(localStorage.getItem("gpt") || "{}") || {});
+    setId(JSON.parse(localStorage.getItem("current") || tempCurrent));
   }, []);
 
   useEffect(() => {
