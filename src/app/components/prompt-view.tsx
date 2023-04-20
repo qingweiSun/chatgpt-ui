@@ -8,6 +8,7 @@ import UserImage from "../images/avatar.jpg";
 import { Edit } from "react-iconly";
 import { Button, Popover } from "@nextui-org/react";
 import TextArea from "antd/es/input/TextArea";
+import { toast } from "react-hot-toast";
 export default function PromptView(props: {
   setPrompt: (text: string) => void;
 }) {
@@ -364,28 +365,29 @@ export default function PromptView(props: {
             <Popover isBordered placement="top-right" offset={20}>
               <Popover.Trigger>
                 <div
-                  style={{ display: "flex", alignItems: "center" }}
+                  style={{ display: "flex", alignItems: "center", gap: 4 }}
                   className={styles.prompt}
                   onClick={() => {
                     setShowCustomPrompt(true);
                   }}
                 >
-                  点击自定义
+                  自定义角色属性
                   <Edit set="curved" size={18} />
                 </div>
               </Popover.Trigger>
               <Popover.Content>
                 <div style={{ padding: 16, textAlign: "center" }}>
-                  <div style={{ fontWeight: 500 }}>自定义Promp</div>
+                  <div style={{ fontWeight: 500 }}>自定义角色属性</div>
                   <div style={{ height: 16 }} />
                   <TextArea
-                    placeholder="请输入自定义Prompt"
+                    placeholder="请输入自定义角色属性"
+                    autoFocus
                     value={customPrompt}
                     onChange={(e) => {
                       setCustomPrompt(e.target.value);
                     }}
                     size="large"
-                    style={{ width: 600 }}
+                    style={{ width: 600, borderWidth: 2 }}
                     autoSize={{ minRows: 4, maxRows: 20 }}
                   />
                   <div
@@ -400,6 +402,10 @@ export default function PromptView(props: {
                       auto
                       light
                       onPress={() => {
+                        if (customPrompt === "") {
+                          toast.error("请输入自定义角色属性");
+                          return;
+                        }
                         setShowCustomPrompt(false);
                         props.setPrompt(customPrompt);
                       }}
