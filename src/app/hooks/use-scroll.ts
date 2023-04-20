@@ -1,10 +1,13 @@
-import { MutableRefObject, useEffect } from "react";
+import { MutableRefObject, useEffect, useRef } from "react";
 
 export const useScroll = (scrollRef: MutableRefObject<null>) => {
+  const canScroll = useRef(true);
   useEffect(() => {
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
-        document.getElementById("home_end")?.scrollIntoView(false);
+        if (canScroll.current) {
+          document.getElementById("home_end")?.scrollIntoView(false);
+        }
       }
     });
     if (scrollRef.current) {
@@ -16,4 +19,6 @@ export const useScroll = (scrollRef: MutableRefObject<null>) => {
       }
     };
   }, []);
+
+  return { canScroll };
 };

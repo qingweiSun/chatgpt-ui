@@ -5,7 +5,7 @@ import { ChatMessage } from "@/app/pages/chat/index";
 import Image from "next/image";
 import HeadImage from "../../icons/head.jpeg";
 import UserImage from "../../images/avatar.jpg";
-const UserView = (props: { children: ChatMessage }) => {
+const UserItemView = (props: { children: ChatMessage }) => {
   return (
     <div
       className={styles["user-message"]}
@@ -53,4 +53,10 @@ const UserView = (props: { children: ChatMessage }) => {
     </div>
   );
 };
+//export default UserView;
+
+// eslint-disable-next-line react/display-name
+const UserView = React.memo((props: { children: ChatMessage }) => {
+  return <UserItemView>{props.children}</UserItemView>;
+});
 export default UserView;

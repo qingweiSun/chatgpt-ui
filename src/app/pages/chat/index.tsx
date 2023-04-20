@@ -34,6 +34,7 @@ import TextArea from "antd/es/input/TextArea";
 import { context } from "@/app/hooks/context-mobile";
 import NavbarTItleView from "./view/name-view";
 import InputView from "./view/input-view";
+import React from "react";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -76,7 +77,7 @@ export default function ChatView() {
     }
   }, [current.id, current.name]);
   const scrollRef = useRef(null); //监听滚动
-  useScroll(scrollRef);
+  const { canScroll } = useScroll(scrollRef);
   const [loading, setLoading] = useStateSync(false);
   const [controller, setController] = useState<AbortController>(); //中断请求
   const [questionText, setQuestionText] = useStateSync("");
@@ -143,6 +144,7 @@ export default function ChatView() {
       return;
     }
     setLoading(true);
+    canScroll.current = true;
     const newMessage: ChatMessage[] = [
       ...messages,
       {
@@ -176,6 +178,12 @@ export default function ChatView() {
             display: "flex",
             justifyContent:
               message.data.role == "user" ? "flex-end" : "flex-start",
+          }}
+          onMouseMove={() => {
+            console.log("move");
+            if (canScroll.current) {
+              canScroll.current = false;
+            }
           }}
         >
           {message.data.role != "assistant" ? (

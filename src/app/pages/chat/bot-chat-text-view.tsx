@@ -6,7 +6,7 @@ import Image from "next/image";
 import { ChatMessage } from "@/app/pages/chat/index";
 import MarkdownText, { copyToClipboard } from "@/app/pages/chat/markdown-text";
 
-const BotChatTextView = (props: { children: ChatMessage }) => {
+const BotChatTextItemView = (props: { children: ChatMessage }) => {
   return (
     <div
       className={styles.message}
@@ -80,4 +80,8 @@ const BotChatTextView = (props: { children: ChatMessage }) => {
   );
 };
 
+// eslint-disable-next-line react/display-name
+const BotChatTextView = React.memo((props: { children: ChatMessage }) => {
+  return <BotChatTextItemView>{props.children}</BotChatTextItemView>;
+});
 export default BotChatTextView;
