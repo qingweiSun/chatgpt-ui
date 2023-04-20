@@ -222,20 +222,22 @@ export default function ChatView() {
               </MobileSlider>
             </div>
           </Navbar.Item>
-          <Navbar.Item>
-            <EditName
-              name={name || "新的会话"}
-              setName={(text) => {
-                setName(text);
-                setId({ id: current.id || -1, name: text });
-              }}
-            >
-              <div className={styles.link}>
-                {/*<Edit set="light" size={23} />*/}
-                <Edit set="curved" size={23} />
-              </div>
-            </EditName>
-          </Navbar.Item>
+          {!isMobile && (
+            <Navbar.Item>
+              <EditName
+                name={name || "新的会话"}
+                setName={(text) => {
+                  setName(text);
+                  setId({ id: current.id || -1, name: text });
+                }}
+              >
+                <div className={styles.link}>
+                  {/*<Edit set="light" size={23} />*/}
+                  <Edit set="curved" size={23} />
+                </div>
+              </EditName>
+            </Navbar.Item>
+          )}
           <Navbar.Item>
             <MaxTokensLimit
               select={questioningMode}
