@@ -83,7 +83,6 @@ export async function generateMessage(
       }),
       signal: controller.signal,
     });
-
     if (response.ok) {
       const data = response.body;
       if (data) {

@@ -167,6 +167,7 @@ export default function ChatView() {
       );
       setLoading(false);
       setQuestionText("");
+      canScroll.current = true;
     });
   };
 
@@ -179,12 +180,6 @@ export default function ChatView() {
             display: "flex",
             justifyContent:
               message.data.role == "user" ? "flex-end" : "flex-start",
-          }}
-          onMouseMove={() => {
-            console.log("move");
-            if (canScroll.current) {
-              canScroll.current = false;
-            }
           }}
         >
           {message.data.role != "assistant" ? (
@@ -283,6 +278,11 @@ export default function ChatView() {
       <div
         style={{ display: "flex", flexDirection: "column", gap: 24 }}
         ref={scrollRef}
+        onWheel={() => {
+          if (canScroll.current) {
+            canScroll.current = false;
+          }
+        }}
       >
         <div />
         {messages.length == 0 && (
