@@ -207,6 +207,8 @@ export default function ChatView() {
           backgroundColor: "rgba(247, 247, 247, 0.7) !important",
           borderBottom: "1px solid #eeeeee",
           boxShadow: "0 2px 4px rgb(0 0 0 / 1%)",
+          minHeight: 68,
+          height: 68,
         }}
       >
         <NavbarTItleView
@@ -219,7 +221,7 @@ export default function ChatView() {
             <div className={styles.toggle} onClick={() => {}}>
               <MobileSlider>
                 <div className={styles.link}>
-                  <MoreSquare set="curved" size={22} />
+                  <MoreSquare set="curved" size={23} />
                 </div>
               </MobileSlider>
             </div>
@@ -233,8 +235,8 @@ export default function ChatView() {
               }}
             >
               <div className={styles.link}>
-                {/*<Edit set="light" size={22} />*/}
-                <Edit set="curved" size={22} />
+                {/*<Edit set="light" size={23} />*/}
+                <Edit set="curved" size={23} />
               </div>
             </EditName>
           </Navbar.Item>
@@ -245,7 +247,7 @@ export default function ChatView() {
                 setQuestioningMode(value);
               }}
             >
-              <Filter set="curved" size={22} />
+              <Filter set="curved" size={23} />
             </MaxTokensLimit>
           </Navbar.Item>
           <Navbar.Item>
@@ -260,7 +262,7 @@ export default function ChatView() {
               placement={"bottom-right"}
               className={styles.link}
             >
-              <Delete set="curved" size={22} />
+              <Delete set="curved" size={23} />
             </SelectView>
           </Navbar.Item>
           {!isMobile && (
@@ -271,7 +273,7 @@ export default function ChatView() {
                   exportMarkdown({ messages });
                 }}
               >
-                <Download set="curved" size={22} />
+                <Download set="curved" size={23} />
               </div>
             </Navbar.Item>
           )}
