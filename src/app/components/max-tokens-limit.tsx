@@ -33,7 +33,7 @@ export default function MaxTokensLimit(props: {
     },
   ];
   return (
-    <Dropdown placement="bottom-right">
+    <Dropdown placement="bottom-right" isBordered>
       <Dropdown.Button flat size={isMobile ? "sm" : "md"}>
         <div style={{ fontSize: 13 }}>{props.select?.desc ?? "连续对话"}</div>
       </Dropdown.Button>
