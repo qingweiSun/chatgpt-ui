@@ -316,6 +316,7 @@ export default function PromptView(props: {
             flexDirection: "row-reverse",
           }}
         >
+          <div style={{ width: isMobile ? 12 : 24 }} />
           <div className={styles.avatar}>
             <div
               style={{
