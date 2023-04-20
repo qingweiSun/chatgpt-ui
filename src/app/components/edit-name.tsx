@@ -20,6 +20,10 @@ export default function EditName(props: {
   const [visible, setVisible] = useState(false);
   const { isMobile } = useContext(context);
   const [name, setName] = useState(props.name || "");
+
+  useEffect(() => {
+    setName(props.name || "");
+  }, [props.name]);
   return (
     <Popover
       placement={"bottom-right"}
