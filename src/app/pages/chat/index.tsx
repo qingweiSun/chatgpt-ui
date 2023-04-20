@@ -231,7 +231,7 @@ export default function ChatView() {
               </MobileSlider>
             </div>
           </Navbar.Item>
-          {!isMobile && (
+          {!isMobile && chatId.current != 10000 && (
             <Navbar.Item>
               <EditName
                 name={name || "新的会话"}
