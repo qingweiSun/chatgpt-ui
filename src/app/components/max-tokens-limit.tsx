@@ -10,6 +10,7 @@ export interface MaxTokensLimitProps {
 export default function MaxTokensLimit(props: {
   select?: MaxTokensLimitProps;
   updateSelect: (select: MaxTokensLimitProps) => void;
+  isDisabled?: boolean;
   children: ReactNode;
 }) {
   const { isMobile } = useContext(context);
@@ -33,8 +34,18 @@ export default function MaxTokensLimit(props: {
     },
   ];
   return (
-    <Dropdown placement="bottom-right" isBordered>
-      <Dropdown.Button flat size={isMobile ? "sm" : "md"}>
+    <Dropdown placement="bottom-right" isBordered isDisabled={props.isDisabled}>
+      <Dropdown.Button
+        flat
+        size={isMobile ? "sm" : "md"}
+        isDisabled={props.isDisabled}
+        css={{
+          background: props.isDisabled
+            ? "var(--nextui-colors-accents1)"
+            : undefined,
+          color: props.isDisabled ? "var(--nextui-colors-accents7)" : undefined,
+        }}
+      >
         <div style={{ fontSize: 13 }}>{props.select?.desc ?? "连续对话"}</div>
       </Dropdown.Button>
       <Dropdown.Menu

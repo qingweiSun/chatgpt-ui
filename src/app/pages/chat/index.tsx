@@ -126,9 +126,18 @@ export default function ChatView() {
   useEffect(() => {
     if (current.id && current.id != -1) {
       canScroll.current = true;
-      setQuestioningMode(
-        JSON.parse(localStorage.getItem("questioningMode" + current.id) || "{}")
-      );
+      if (current.id === 10000) {
+        setQuestioningMode({
+          value: "two",
+          desc: "仅角色设定",
+        });
+      } else {
+        setQuestioningMode(
+          JSON.parse(
+            localStorage.getItem("questioningMode" + current.id) || "{}"
+          )
+        );
+      }
     }
   }, [current.id]);
   const send = async () => {
@@ -238,8 +247,10 @@ export default function ChatView() {
               </EditName>
             </Navbar.Item>
           )}
+
           <Navbar.Item>
             <MaxTokensLimit
+              isDisabled={current.id === 10000}
               select={questioningMode}
               updateSelect={(value) => {
                 setQuestioningMode(value);
@@ -248,6 +259,7 @@ export default function ChatView() {
               <Filter set="curved" size={23} />
             </MaxTokensLimit>
           </Navbar.Item>
+
           <Navbar.Item>
             <SelectView
               onDelete={() => {

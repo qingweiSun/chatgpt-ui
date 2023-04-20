@@ -14,6 +14,7 @@ import {
 import EditName from "@/app/components/edit-name";
 import SettingModal from "@/app/components/setting";
 import RewardView from "@/app/components/Reward";
+import { toast } from "react-hot-toast";
 
 //https://react-iconly.jrgarciadev.com/ 图标
 
@@ -54,17 +55,100 @@ export default function Slider(props: {
         },
       ]);
       //router.replace("/?id=1");
-      setId({ id: 1, name: "新的会话" });
+      // if (current.id != 10000) {
+      //   setId({ id: 1, name: "新的会话" });
+      // }
     } else {
       const item = historyList.find((item) => item.selected);
       if (item) {
         // router.replace("/?id=" + item.id);
-        setId({ id: item.id, name: item.title });
+        // if (current.id != 10000) {
+        //   setId({ id: item.id, name: item.title });
+        // }
       }
     }
+
     localStorage.setItem("historyList", JSON.stringify(historyList));
   }, [historyList]);
 
+  function ItemView(propsItem: {
+    item: HistoryItem;
+    index: number;
+    showEdit: boolean;
+    onClick?: () => void;
+  }) {
+    return (
+      <HistoryItemView
+        showEdit={propsItem.showEdit}
+        key={propsItem.index}
+        title={propsItem.item.title}
+        current={current.id == propsItem.item.id}
+        onClick={() => {
+          if (propsItem.onClick) {
+            propsItem.onClick();
+          } else {
+            setId({ id: propsItem.item.id, name: propsItem.item.title });
+            setHistoryList(
+              historyList.map((item, i) => {
+                return {
+                  ...item,
+                  selected: item.id == propsItem.item.id,
+                };
+              })
+            );
+            props.closeSlider?.();
+          }
+        }}
+        onRename={(name) => {
+          setId({ id: propsItem.item.id, name: name });
+          props.closeSlider?.();
+        }}
+        onDelete={() => {
+          const newList = historyList.filter((_, i) => i != propsItem.index);
+          localStorage.removeItem("historyList" + propsItem.item.id);
+          if (propsItem.item.selected) {
+            if (newList.length == 0) {
+              setHistoryList([]);
+              setId({
+                id: 1,
+                name: "新的会话",
+              });
+              return;
+            }
+            if (propsItem.index == 0) {
+              setHistoryList(
+                newList.map((item, i) => {
+                  return {
+                    ...item,
+                    selected: i == 0,
+                  };
+                })
+              );
+              setId({
+                id: newList[0].id,
+                name: newList[0].title,
+              });
+            } else {
+              setHistoryList(
+                newList.map((item, i) => {
+                  return {
+                    ...item,
+                    selected: i == propsItem.index - 1,
+                  };
+                })
+              );
+              setId({
+                id: newList[propsItem.index - 1].id,
+                name: newList[propsItem.index - 1].title,
+              });
+            }
+          } else {
+            setHistoryList(newList);
+          }
+        }}
+      />
+    );
+  }
   return (
     <div className={`${styles.slider}`}>
       <div
@@ -97,60 +181,23 @@ export default function Slider(props: {
           flexDirection: "column",
         }}
       >
+        <ItemView
+          item={{
+            title: "随便聊聊",
+            id: 10000,
+            selected: current.id == 10000,
+            collect: false,
+          }}
+          index={10000}
+          showEdit={false}
+          onClick={() => {
+            localStorage.setItem("historyList" + 2, JSON.stringify([]));
+            setId({ id: 10000, name: "随便聊聊" });
+            props.closeSlider?.();
+          }}
+        />
         {historyList.map((item, index) => {
-          return (
-            <HistoryItemView
-              key={index}
-              title={item.title}
-              current={item.selected}
-              onClick={() => {
-                setHistoryList(
-                  historyList.map((item, i) => {
-                    return {
-                      ...item,
-                      selected: i == index,
-                    };
-                  })
-                );
-                props.closeSlider?.();
-              }}
-              onRename={(name) => {
-                setId({ id: item.id, name: name });
-                props.closeSlider?.();
-              }}
-              onDelete={() => {
-                const newList = historyList.filter((_, i) => i != index);
-                localStorage.removeItem("historyList" + item.id);
-                if (item.selected) {
-                  if (newList.length == 0) {
-                    setHistoryList([]);
-                    return;
-                  }
-                  if (index == 0) {
-                    setHistoryList(
-                      newList.map((item, i) => {
-                        return {
-                          ...item,
-                          selected: i == 0,
-                        };
-                      })
-                    );
-                  } else {
-                    setHistoryList(
-                      newList.map((item, i) => {
-                        return {
-                          ...item,
-                          selected: i == index - 1,
-                        };
-                      })
-                    );
-                  }
-                } else {
-                  setHistoryList(newList);
-                }
-              }}
-            />
-          );
+          return <ItemView item={item} index={index} key={index} showEdit />;
         })}
         <SelectButtonView
           onDelete={() => {
@@ -193,6 +240,7 @@ export default function Slider(props: {
           }}
           onClick={() => {
             const newId = historyList[0].id + 1;
+            setId({ id: 1, name: "新的会话" });
             setHistoryList([
               {
                 title: "新的会话",
@@ -223,10 +271,12 @@ export default function Slider(props: {
 function HistoryItemView(props: {
   title: string;
   current: boolean;
+  showEdit: boolean;
   onClick: () => void;
   onDelete: () => void;
   onRename: (name: string) => void;
 }) {
+  console.log(props);
   return (
     <Button
       bordered
@@ -270,27 +320,29 @@ function HistoryItemView(props: {
         >
           {props.title}
         </div>
-        <div
-          className={`${styles.operate} ${
-            !props.current ? styles.hide : undefined
-          }`}
-        >
-          <EditName
-            setName={props.onRename}
-            name={props.title}
-            className={styles.delete}
+        {props.showEdit && (
+          <div
+            className={`${styles.operate} ${
+              !props.current ? styles.hide : undefined
+            }`}
           >
-            <Edit set="curved" size={18} />
-          </EditName>
-          <SelectView
-            placement={"bottom-right"}
-            onDelete={props.onDelete}
-            title={"提示"}
-            description={"确定要删除这个会话吗？"}
-          >
-            <Delete set="curved" size={18} />
-          </SelectView>
-        </div>
+            <EditName
+              setName={props.onRename}
+              name={props.title}
+              className={styles.delete}
+            >
+              <Edit set="curved" size={18} />
+            </EditName>
+            <SelectView
+              placement={"bottom-right"}
+              onDelete={props.onDelete}
+              title={"提示"}
+              description={"确定要删除这个会话吗？"}
+            >
+              <Delete set="curved" size={18} />
+            </SelectView>
+          </div>
+        )}
       </div>
     </Button>
   );

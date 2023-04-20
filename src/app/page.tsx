@@ -20,8 +20,10 @@ const theme = createTheme({
 
 export default function Index() {
   const [loading, setLoading] = useState(true);
-
-  const [current, setId] = useState({ id: -1, name: "" });
+  const tempCurrent = JSON.stringify({ id: 10000, name: "随便聊聊" });
+  const [current, setId] = useState(
+    JSON.parse(localStorage.getItem("current") || tempCurrent)
+  );
   const [mode, setMode] = useState<{
     mode: "card" | "normal" | string;
     size?: "small" | "medium" | "large" | string;
@@ -48,6 +50,12 @@ export default function Index() {
       localStorage.setItem("gpt", JSON.stringify(gpt));
     }
   }, [gpt]);
+
+  useEffect(() => {
+    if (current.id != -1) {
+      localStorage.setItem("current", JSON.stringify(current));
+    }
+  }, [current]);
 
   return (
     <div style={{ height: "100%", width: "100%" }}>
