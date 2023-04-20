@@ -21,7 +21,7 @@ const theme = createTheme({
 export default function Index() {
   const [loading, setLoading] = useState(true);
   const tempCurrent = JSON.stringify({ id: 10000, name: "随便聊聊" });
-  const [current, setId] = useState({ id: 10000, name: "随便聊聊" });
+  const [current, setId] = useState({ id: -1, name: "随便聊聊" });
   const [mode, setMode] = useState<{
     mode: "card" | "normal" | string;
     size?: "small" | "medium" | "large" | string;

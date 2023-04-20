@@ -219,7 +219,7 @@ export default function ChatView() {
         <NavbarTItleView
           name={name}
           count={messages.length}
-          id={chatId.current + ""}
+          id={chatId.current}
         />
         <Navbar.Content css={{ gap: isMobile ? 16 : undefined }}>
           <Navbar.Item>
