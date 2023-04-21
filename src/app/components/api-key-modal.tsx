@@ -311,7 +311,7 @@ export default function ApiKeyModal(props: {
                     },
                   ]}
                   style={{ background: "#e9e9e9" }}
-                  value={mode.mode}
+                  value={mode.mode ?? "card"}
                   onChange={(value) => {
                     const modeValue = {
                       mode: value.toString() as any,
