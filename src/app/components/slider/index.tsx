@@ -413,16 +413,16 @@ function HistoryItemView(props: {
           </div>
         )}
 
-        {props.isTop && (
+        {/* {props.isTop && (
           <div
             className={styles.top}
             style={{
               position: "absolute",
-              right: 0,
-              top: 0,
+              right: 4,
+              top: 4,
             }}
           />
-        )}
+        )} */}
       </div>
     </Button>
   );
