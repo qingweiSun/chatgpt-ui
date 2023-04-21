@@ -324,7 +324,7 @@ export default function ApiKeyModal(props: {
               </ConfigProvider>
             </Space>
           )}
-          {mode.mode == "card" && !isMobile && (
+          {mode.mode != "normal" && !isMobile && (
             <Space>
               <div>卡片边距：</div>
               <ConfigProvider
@@ -350,7 +350,7 @@ export default function ApiKeyModal(props: {
                     },
                   ]}
                   style={{ background: "#e9e9e9" }}
-                  value={mode.size}
+                  value={mode.size ?? "medium"}
                   onChange={(value) => {
                     const modeValue = {
                       mode: "card",
