@@ -243,7 +243,6 @@ export default function Slider(props: {
           }}
           onClick={() => {
             const newId = historyList[0].id + 1;
-            setId({ id: 1, name: "新的会话" });
             setHistoryList([
               {
                 title: "新的会话",
@@ -258,6 +257,7 @@ export default function Slider(props: {
                 };
               }),
             ]);
+            setId({ id: newId, name: "新的会话" });
             props.closeSlider?.();
           }}
         >
