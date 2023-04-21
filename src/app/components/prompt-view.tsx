@@ -381,7 +381,7 @@ export default function PromptView(props: {
                       setCustomPrompt(e.target.value);
                     }}
                     size="large"
-                    style={{ width: 600, borderWidth: 2, fontSize: 15 }}
+                    style={{ width: isMobile?"70vw":600, borderWidth: 2, fontSize: 15 }}
                     autoSize={{ minRows: 4, maxRows: 10 }}
                   />
                   <div

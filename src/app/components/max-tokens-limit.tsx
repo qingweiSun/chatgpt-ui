@@ -40,10 +40,8 @@ export default function MaxTokensLimit(props: {
         size={isMobile ? "sm" : "md"}
         isDisabled={props.isDisabled}
         css={{
-          background: props.isDisabled
-            ? "var(--nextui-colors-accents1)"
-            : undefined,
-          color: props.isDisabled ? "var(--nextui-colors-accents7)" : undefined,
+          background: "var(--nextui-colors-accents1)",
+          color: "#444444",
         }}
       >
         <div style={{ fontSize: 13 }}>{props.select?.desc ?? "连续对话"}</div>
