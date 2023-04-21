@@ -47,7 +47,7 @@ export default function Slider(props: {
     if (historyList.length == 0) {
       setHistoryList([
         {
-          title: "新的会话",
+          title: "新的会话1",
           id: 1,
           top: false,
         },
@@ -124,7 +124,7 @@ export default function Slider(props: {
                 setHistoryList([]);
                 setId({
                   id: 1,
-                  name: "新的会话",
+                  name: "新的会话1",
                 });
                 return;
               }
@@ -255,7 +255,7 @@ export default function Slider(props: {
             }
             setId({
               id: 1,
-              name: "新的会话",
+              name: "新的会话1",
             });
           }}
           title="警告"
@@ -289,7 +289,7 @@ export default function Slider(props: {
             const newId = sortList[0].id + 1;
             setHistoryList([
               {
-                title: "新的会话",
+                title: "新的会话" + newId,
                 id: newId,
                 top: false,
               },
@@ -300,7 +300,7 @@ export default function Slider(props: {
                 };
               }),
             ]);
-            setId({ id: newId, name: "新的会话" });
+            setId({ id: newId, name: "新的会话" + newId });
             props.closeSlider?.();
           }}
         >
