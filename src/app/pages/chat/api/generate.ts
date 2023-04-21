@@ -90,14 +90,7 @@ export async function generateMessage(
       }
       break;
   }
-  //messagesValue过滤掉一条role是assistant的，content是我是AI助手，专门为您提供语言处理和应用解决方案,有什么需要帮助的么开头的一条
-  messagesValue = messagesValue.filter(
-    (message) =>
-      message.role != "assistant" &&
-      message.content.indexOf(
-        "我是AI助手，专门为您提供语言处理和应用解决方案,有什么需要帮助的么"
-      ) == -1
-  );
+
   tempStatus = "";
   let apiKey = gpt?.key || "";
   let temperature = gpt?.temperature || "1";
