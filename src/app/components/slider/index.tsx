@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useMemo, useState } from "react";
 import styles from "./index.module.css";
 import { Button } from "@nextui-org/react";
-import { Delete, Edit, Plus, Setting } from "react-iconly";
+import { ArrowDown, ArrowUp, Delete, Edit, Plus, Setting } from "react-iconly";
 import Image from "next/image";
 import ChatGptLogo from "../../icons/chatgpt.svg";
 import IdContext from "@/app/hooks/use-chat-id";
@@ -21,8 +21,7 @@ import { toast } from "react-hot-toast";
 export interface HistoryItem {
   title: string;
   id: number;
-  selected: boolean;
-  collect: boolean;
+  top: boolean;
 }
 
 export default function Slider(props: {
@@ -50,24 +49,10 @@ export default function Slider(props: {
         {
           title: "新的会话",
           id: 1,
-          selected: true,
-          collect: false,
+          top: false,
         },
       ]);
-      //router.replace("/?id=1");
-      // if (current.id != 10000) {
-      //   setId({ id: 1, name: "新的会话" });
-      // }
-    } else {
-      const item = historyList.find((item) => item.selected);
-      if (item) {
-        // router.replace("/?id=" + item.id);
-        // if (current.id != 10000) {
-        //   setId({ id: item.id, name: item.title });
-        // }
-      }
     }
-
     localStorage.setItem("historyList", JSON.stringify(historyList));
   }, [historyList]);
 
@@ -106,7 +91,7 @@ export default function Slider(props: {
         onDelete={() => {
           const newList = historyList.filter((_, i) => i != propsItem.index);
           localStorage.removeItem("historyList" + propsItem.item.id);
-          if (propsItem.item.selected) {
+          if (current.id == propsItem.item.id) {
             if (newList.length == 0) {
               setHistoryList([]);
               setId({
@@ -120,7 +105,6 @@ export default function Slider(props: {
                 newList.map((item, i) => {
                   return {
                     ...item,
-                    selected: i == 0,
                   };
                 })
               );
@@ -146,9 +130,37 @@ export default function Slider(props: {
             setHistoryList(newList);
           }
         }}
+        isTop={propsItem.item.top}
+        onTop={() => {
+          setHistoryList(
+            historyList.map((item, i) => {
+              return {
+                ...item,
+                top: item.id == propsItem.item.id ? !item.top : item.top,
+              };
+            })
+          );
+        }}
       />
     );
   }
+
+  const MenuListView = useMemo(() => {
+    return (
+      <Fragment>
+        {historyList
+          .sort((a, b) => {
+            return b.id - a.id;
+          })
+          .sort((i) => {
+            return i.top ? -1 : 1;
+          })
+          .map((item, index) => {
+            return <ItemView item={item} index={index} key={index} showEdit />;
+          })}
+      </Fragment>
+    );
+  }, [historyList]);
   return (
     <div className={`${styles.slider}`}>
       <div
@@ -185,8 +197,7 @@ export default function Slider(props: {
           item={{
             title: "随便聊聊",
             id: 10000,
-            selected: current.id == 10000,
-            collect: false,
+            top: false,
           }}
           index={10000}
           showEdit={false}
@@ -199,9 +210,7 @@ export default function Slider(props: {
         <div style={{ marginLeft: 16, color: "#999999", fontSize: 12 }}>
           全部会话
         </div>
-        {historyList.map((item, index) => {
-          return <ItemView item={item} index={index} key={index} showEdit />;
-        })}
+        {MenuListView}
         <SelectButtonView
           onDelete={() => {
             setHistoryList([]);
@@ -218,6 +227,10 @@ export default function Slider(props: {
                 localStorage.removeItem(keys[i]);
               }
             }
+            setId({
+              id: 1,
+              name: "新的会话",
+            });
           }}
           title="警告"
           description="清理后无法找回，数据无价，请注意保存！"
@@ -242,13 +255,17 @@ export default function Slider(props: {
             },
           }}
           onClick={() => {
-            const newId = historyList[0].id + 1;
+            //获取historyListid最大的
+            const sortList = historyList.sort((item1, item2) => {
+              return item2.id - item1.id;
+            });
+            console.log(sortList);
+            const newId = sortList[0].id + 1;
             setHistoryList([
               {
                 title: "新的会话",
                 id: newId,
-                selected: true,
-                collect: false,
+                top: false,
               },
               ...historyList.map((item) => {
                 return {
@@ -275,9 +292,11 @@ function HistoryItemView(props: {
   title: string;
   current: boolean;
   showEdit: boolean;
+  isTop: boolean;
   onClick: () => void;
   onDelete: () => void;
   onRename: (name: string) => void;
+  onTop: () => void;
 }) {
   console.log(props);
   return (
@@ -329,6 +348,27 @@ function HistoryItemView(props: {
               !props.current ? styles.hide : undefined
             }`}
           >
+            <Button
+              light
+              auto
+              css={{
+                height: "auto",
+                padding: 0,
+                color: props.current
+                  ? "var(--nextui-colors-primary)"
+                  : "#696969",
+              }}
+              className={styles.delete}
+              onClick={() => {
+                props.onTop();
+              }}
+            >
+              {props.isTop ? (
+                <ArrowDown set="curved" size={18} />
+              ) : (
+                <ArrowUp set="curved" size={18} />
+              )}
+            </Button>
             <EditName
               setName={props.onRename}
               name={props.title}
@@ -345,6 +385,17 @@ function HistoryItemView(props: {
               <Delete set="curved" size={18} />
             </SelectView>
           </div>
+        )}
+
+        {props.isTop && (
+          <div
+            className={styles.top}
+            style={{
+              position: "absolute",
+              right: 0,
+              top: 0,
+            }}
+          />
         )}
       </div>
     </Button>

@@ -103,9 +103,8 @@
     100% { transform: translateX(-100%); } /*结束位置，向左移动父元素宽度的距离*/  
 }  
 .nmaep{
-    max-width: 200px;
+    max-width: 400px;
     overflow:hidden;
-  
 }
 .name {
     color: #444444;

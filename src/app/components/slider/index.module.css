@@ -92,3 +92,11 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
+
+.top{
+    width: 28px;
+    height: 14px;
+    border-style: solid;
+    clip-path: polygon(50% 0%, 100% 100%, 100% 0%);
+    background: var(--nextui-colors-primary);
+}
