@@ -26,12 +26,14 @@ export default function Home() {
   return (
     <div
       className={`${styles.container} ${
-        mode.mode != "normal" || isMobile ? cardStyle() : undefined
+        mode.mode != "normal" || !isMobile ? cardStyle() : undefined
       }`}
     >
       <div
         className={`${styles.home} ${
-          mode.mode != "normal" || isMobile ? styles.cardModeContent : undefined
+          mode.mode != "normal" || !isMobile
+            ? styles.cardModeContent
+            : undefined
         }`}
       >
         {!isMobile && (
