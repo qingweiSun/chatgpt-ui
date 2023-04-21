@@ -51,7 +51,6 @@ export default function ChatView() {
   const { isMobile } = useContext(context);
 
   const [questioningMode, setQuestioningMode] = useState<MaxTokensLimitProps>();
-  const chatId = useRef(-1);
 
   const [prompt, setPrompt] = useStateSync<ChatMessage>({
     data: {
@@ -61,6 +60,8 @@ export default function ChatView() {
   });
   const [messages, setMessages] = useStateSync<ChatMessage[]>([prompt]);
   const { current, setId } = useContext(IdContext);
+  const chatId = useRef(current.id);
+
   const { gpt } = useContext(GptContext);
   useEffect(() => {
     if (chatId.current != current.id || name != current.name) {
@@ -110,6 +111,19 @@ export default function ChatView() {
         setId({ id: current.id || -1, name: tempName });
       }
     }
+
+    if (messages.length == 0 && chatId.current == 10000) {
+      setMessages([
+        {
+          data: {
+            role: "assistant",
+            content:
+              "我是AI助手，专门为您提供语言处理和应用解决方案,有什么需要帮助的么",
+          },
+          time: new Date().toLocaleString(),
+        },
+      ]);
+    }
   }, [messages]);
 
   useEffect(() => {
@@ -128,8 +142,8 @@ export default function ChatView() {
       canScroll.current = true;
       if (current.id === 10000) {
         setQuestioningMode({
-          value: "two",
-          desc: "仅角色设定",
+          value: "one",
+          desc: "连续对话",
         });
       } else {
         setQuestioningMode(

@@ -8,9 +8,9 @@ export default function NavbarTItleView(props: {
 }) {
   let name = props.name || "新的会话";
   //如果name是新的会话就把id加上
-  // if (name === "新的会话" && props.id != -1) {
-  //   name += props.id;
-  // }
+  if (name === "新的会话" && props.id != -1) {
+    name += props.id;
+  }
   return (
     <Navbar.Brand>
       <div>
