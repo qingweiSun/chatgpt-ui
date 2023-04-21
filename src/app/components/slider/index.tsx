@@ -63,85 +63,114 @@ export default function Slider(props: {
     onClick?: () => void;
   }) {
     return (
-      <HistoryItemView
-        showEdit={propsItem.showEdit}
-        key={propsItem.index}
-        title={propsItem.item.title}
-        current={current.id == propsItem.item.id}
-        onClick={() => {
-          if (propsItem.onClick) {
-            propsItem.onClick();
-          } else {
-            setId({ id: propsItem.item.id, name: propsItem.item.title });
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          gap: 12,
+        }}
+      >
+        {historyList[propsItem.index - 1]?.top &&
+          !(historyList[propsItem.index]?.top ?? false) && (
+            <div style={{ marginLeft: 16, color: "#999999", fontSize: 12 }}>
+              其他会话
+            </div>
+          )}
+
+        {propsItem.index == 0 &&
+          (historyList[propsItem.index]?.top ?? false) && (
+            <div style={{ marginLeft: 16, color: "#999999", fontSize: 12 }}>
+              置顶会话
+            </div>
+          )}
+
+        {propsItem.index == 0 &&
+          !(historyList[propsItem.index]?.top ?? false) && (
+            <div style={{ marginLeft: 16, color: "#999999", fontSize: 12 }}>
+              全部会话
+            </div>
+          )}
+        <HistoryItemView
+          showEdit={propsItem.showEdit}
+          key={propsItem.index}
+          title={propsItem.item.title}
+          current={current.id == propsItem.item.id}
+          onClick={() => {
+            if (propsItem.onClick) {
+              propsItem.onClick();
+            } else {
+              setId({ id: propsItem.item.id, name: propsItem.item.title });
+              setHistoryList(
+                historyList.map((item, i) => {
+                  return {
+                    ...item,
+                    selected: item.id == propsItem.item.id,
+                  };
+                })
+              );
+              props.closeSlider?.();
+            }
+          }}
+          onRename={(name) => {
+            setId({ id: propsItem.item.id, name: name });
+            props.closeSlider?.();
+          }}
+          onDelete={() => {
+            const newList = historyList.filter((_, i) => i != propsItem.index);
+            localStorage.removeItem("historyList" + propsItem.item.id);
+            if (current.id == propsItem.item.id) {
+              if (newList.length == 0) {
+                setHistoryList([]);
+                setId({
+                  id: 1,
+                  name: "新的会话",
+                });
+                return;
+              }
+              if (propsItem.index == 0) {
+                setHistoryList(
+                  newList.map((item, i) => {
+                    return {
+                      ...item,
+                    };
+                  })
+                );
+                setId({
+                  id: newList[0].id,
+                  name: newList[0].title,
+                });
+              } else {
+                setHistoryList(
+                  newList.map((item, i) => {
+                    return {
+                      ...item,
+                      selected: i == propsItem.index - 1,
+                    };
+                  })
+                );
+                setId({
+                  id: newList[propsItem.index - 1].id,
+                  name: newList[propsItem.index - 1].title,
+                });
+              }
+            } else {
+              setHistoryList(newList);
+            }
+          }}
+          isTop={propsItem.item.top}
+          onTop={() => {
             setHistoryList(
               historyList.map((item, i) => {
                 return {
                   ...item,
-                  selected: item.id == propsItem.item.id,
+                  top: item.id == propsItem.item.id ? !item.top : item.top,
                 };
               })
             );
-            props.closeSlider?.();
-          }
-        }}
-        onRename={(name) => {
-          setId({ id: propsItem.item.id, name: name });
-          props.closeSlider?.();
-        }}
-        onDelete={() => {
-          const newList = historyList.filter((_, i) => i != propsItem.index);
-          localStorage.removeItem("historyList" + propsItem.item.id);
-          if (current.id == propsItem.item.id) {
-            if (newList.length == 0) {
-              setHistoryList([]);
-              setId({
-                id: 1,
-                name: "新的会话",
-              });
-              return;
-            }
-            if (propsItem.index == 0) {
-              setHistoryList(
-                newList.map((item, i) => {
-                  return {
-                    ...item,
-                  };
-                })
-              );
-              setId({
-                id: newList[0].id,
-                name: newList[0].title,
-              });
-            } else {
-              setHistoryList(
-                newList.map((item, i) => {
-                  return {
-                    ...item,
-                    selected: i == propsItem.index - 1,
-                  };
-                })
-              );
-              setId({
-                id: newList[propsItem.index - 1].id,
-                name: newList[propsItem.index - 1].title,
-              });
-            }
-          } else {
-            setHistoryList(newList);
-          }
-        }}
-        isTop={propsItem.item.top}
-        onTop={() => {
-          setHistoryList(
-            historyList.map((item, i) => {
-              return {
-                ...item,
-                top: item.id == propsItem.item.id ? !item.top : item.top,
-              };
-            })
-          );
-        }}
-      />
+          }}
+        />
+      </div>
     );
   }
 
@@ -207,9 +236,6 @@ export default function Slider(props: {
             props.closeSlider?.();
           }}
         />
-        <div style={{ marginLeft: 16, color: "#999999", fontSize: 12 }}>
-          全部会话
-        </div>
         {MenuListView}
         <SelectButtonView
           onDelete={() => {
