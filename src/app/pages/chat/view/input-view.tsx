@@ -17,12 +17,6 @@ export default function InputView(props: {
         bordered={false}
         placeholder="请输入您想提问的问题（⌥+Return换行）"
         autoSize={{ minRows: 6, maxRows: 10 }}
-        style={{
-          borderBottomRightRadius: 20,
-          borderBottomLeftRadius: 20,
-          borderTopLeftRadius: 8,
-          borderTopRightRadius: 8,
-        }}
         onChange={(e) => {
           props.setQuestionText(e.target.value);
         }}
@@ -33,8 +27,7 @@ export default function InputView(props: {
             const { selectionStart, selectionEnd, value } = e.target;
             const textBeforeCursor = value.substring(0, selectionStart);
             const textAfterCursor = value.substring(selectionEnd, value.length);
-            // @ts-ignore
-            setQuestionText(`${textBeforeCursor}\n${textAfterCursor}`);
+            props.setQuestionText(`${textBeforeCursor}\n${textAfterCursor}`);
             // 将光标移到新行的开头
             // @ts-ignore
             e.target.selectionStart = selectionEnd + 1;
