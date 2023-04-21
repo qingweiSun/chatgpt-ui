@@ -94,9 +94,9 @@
 }
 
 .top{
-    width: 28px;
-    height: 14px;
-    border-style: solid;
+    width: 40px;
+    height: 20px;
+    border-top-right-radius: 10px;
     clip-path: polygon(50% 0%, 100% 100%, 100% 0%);
     background: var(--nextui-colors-primary);
 }

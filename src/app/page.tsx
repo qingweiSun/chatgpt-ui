@@ -65,7 +65,7 @@ export default function Index() {
           <ConfigProvider
             theme={{
               token: {
-                borderRadius: 12,
+                borderRadius: 10,
               },
             }}
           >
