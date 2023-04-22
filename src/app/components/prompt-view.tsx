@@ -209,12 +209,18 @@ export default function PromptView(props: {
   const [customPrompt, setCustomPrompt] = useState("");
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 24,
+          padding: `0 ${isMobile ? "12px" : "24px"}`,
+        }}
+      >
         <div
           style={{
             display: "flex",
             gap: 8,
-            padding: `0 ${isMobile ? "12px" : "24px"}`,
           }}
           className={styles.message}
         >
@@ -316,13 +322,11 @@ export default function PromptView(props: {
             flexDirection: "row-reverse",
           }}
         >
-          <div style={{ width: isMobile ? 12 : 24 }} />
           <div className={styles.avatar}>
             <div
               style={{
                 zIndex: 0,
                 position: "sticky",
-                marginRight: 24,
                 top: 92,
                 width: 36,
                 height: 36,
@@ -381,7 +385,11 @@ export default function PromptView(props: {
                       setCustomPrompt(e.target.value);
                     }}
                     size="large"
-                    style={{ width: isMobile?"70vw":600, borderWidth: 2, fontSize: 15 }}
+                    style={{
+                      width: isMobile ? "70vw" : 600,
+                      borderWidth: 2,
+                      fontSize: 15,
+                    }}
                     autoSize={{ minRows: 4, maxRows: 10 }}
                   />
                   <div

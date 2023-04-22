@@ -1,18 +1,20 @@
 import styles from "./index.module.css";
-import React from "react";
+import React, { useContext } from "react";
 import { Loading } from "@nextui-org/react";
 import AiLOGO from "../../icons/bot.svg";
 import Image from "next/image";
 import { ChatMessage } from "@/app/pages/chat/index";
 import MarkdownText, { copyToClipboard } from "@/app/pages/chat/markdown-text";
+import { context } from "@/app/hooks/context-mobile";
 
 const BotChatTextItemView = (props: { children: ChatMessage }) => {
+  const { isMobile } = useContext(context);
   return (
     <div
       className={styles.message}
       style={{
         gap: 8,
-        paddingLeft: 12,
+        paddingLeft: isMobile ? 12 : 24,
         width: "100%",
         display: "flex",
         flexDirection: "row",

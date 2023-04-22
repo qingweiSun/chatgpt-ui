@@ -1,16 +1,18 @@
 import styles from "./index.module.css";
-import React from "react";
+import React, { useContext } from "react";
 import MarkdownText from "@/app/pages/chat/markdown-text";
 import { ChatMessage } from "@/app/pages/chat/index";
 import Image from "next/image";
 import HeadImage from "../../icons/head.jpeg";
 import UserImage from "../../images/avatar.jpg";
+import { context } from "@/app/hooks/context-mobile";
 const UserItemView = (props: { children: ChatMessage }) => {
+  const { isMobile } = useContext(context);
   return (
     <div
       className={styles["user-message"]}
       style={{
-        paddingRight: 12,
+        paddingRight: isMobile ? 12 : 24,
         gap: 8,
         width: "100%",
         display: "flex",
