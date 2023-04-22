@@ -44,7 +44,7 @@ export default function InputView(props: {
       <div style={{ position: "absolute", bottom: 0, right: 0, padding: 10 }}>
         <Button
           auto
-          disabled={props.questionText.trim() == ""}
+          disabled={props.questionText.trim() == "" && !props.loading}
           onPress={props.send}
           color={props.loading ? "error" : "primary"}
           css={{
