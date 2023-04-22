@@ -82,7 +82,7 @@ export default function Index() {
   useEffect(() => {
     if (current.id != -1) {
       localStorage.setItem("current", JSON.stringify(current));
-      window.history.pushState(
+      window.history.replaceState(
         null,
         "",
         "/?id=" + current.id + "&name=" + encodeURIComponent(current.name)
