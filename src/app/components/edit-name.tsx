@@ -31,7 +31,9 @@ export default function EditName(props: {
       offset={16}
       isOpen={visible}
       onOpenChange={(isOpen) => {
-        setVisible(isOpen);
+        if (!isMobile) {
+          setVisible(isOpen);
+        }
       }}
     >
       <Popover.Trigger>
