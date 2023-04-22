@@ -324,7 +324,6 @@ function HistoryItemView(props: {
   onRename: (name: string) => void;
   onTop: () => void;
 }) {
-  console.log(props);
   return (
     <Button
       bordered

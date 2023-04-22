@@ -12,6 +12,8 @@ import AppContext from "@/app/hooks/use-style";
 import IdContext from "@/app/hooks/use-chat-id";
 import { ConfigProvider } from "antd";
 import GptContext from "./hooks/use-gpt";
+import { useRouter } from "next/navigation";
+import { HistoryItem } from "./components/slider";
 
 const theme = createTheme({
   type: "light", // it could be "light" or "dark"
@@ -30,6 +32,8 @@ export default function Index() {
     size: "medium",
   });
 
+  const router = useRouter();
+
   const [gpt, setGpt] = useState<{
     key: string;
     temperature: string;
@@ -41,7 +45,32 @@ export default function Index() {
     setLoading(false);
     setMode(JSON.parse(localStorage.getItem("mode-new") || "{}") || {});
     setGpt(JSON.parse(localStorage.getItem("gpt") || "{}") || {});
-    setId(JSON.parse(localStorage.getItem("current") || tempCurrent));
+    //获取地址栏参数
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const id = urlParams.get("id");
+    if (id) {
+      const historyList = JSON.parse(
+        localStorage.getItem("historyList") || "[]"
+      );
+      if (historyList && historyList.length > 0) {
+        let hasId = false;
+        historyList.forEach((item: HistoryItem) => {
+          if (item.id == +id) {
+            setId({ id: item.id, name: item.title });
+            hasId = true;
+            return;
+          }
+        });
+        if (!hasId) {
+          setId(JSON.parse(localStorage.getItem("current") || tempCurrent));
+        }
+      } else {
+        setId(JSON.parse(localStorage.getItem("current") || tempCurrent));
+      }
+    } else {
+      setId(JSON.parse(localStorage.getItem("current") || tempCurrent));
+    }
   }, []);
 
   useEffect(() => {
@@ -53,6 +82,11 @@ export default function Index() {
   useEffect(() => {
     if (current.id != -1) {
       localStorage.setItem("current", JSON.stringify(current));
+      window.history.pushState(
+        null,
+        "",
+        "/?id=" + current.id + "&name=" + encodeURIComponent(current.name)
+      );
     }
   }, [current]);
 
