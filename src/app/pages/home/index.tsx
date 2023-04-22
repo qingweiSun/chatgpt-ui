@@ -52,7 +52,7 @@ export default function Home() {
             zIndex: 10,
           }}
         />
-        {current.id > 0 && <ChatView />}
+        {current.id > 0 && <ChatView key={current.id} />}
       </div>
     </div>
   );

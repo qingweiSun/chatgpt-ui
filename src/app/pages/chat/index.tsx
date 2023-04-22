@@ -179,6 +179,7 @@ export default function ChatView() {
     await setMessages(newMessage, async (newState) => {
       const controllerValue = new AbortController();
       setController(controllerValue);
+      setQuestionText("");
       await generateMessage(
         newState,
         gpt,
@@ -189,7 +190,6 @@ export default function ChatView() {
         }
       );
       setLoading(false);
-      setQuestionText("");
       canScroll.current = true;
     });
   };
