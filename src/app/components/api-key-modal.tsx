@@ -112,6 +112,7 @@ export default function ApiKeyModal(props: {
             </Button> */}
             <Button
               type="primary"
+              size="large"
               onClick={() => {
                 setApiKeyModalOpen(false);
               }}

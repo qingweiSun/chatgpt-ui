@@ -49,11 +49,11 @@
 
 .title {
     font-family: 'Audiowide', system-ui;
-    background: linear-gradient(45deg, #167aff, #965aed);
+    background: linear-gradient(45deg, #0072F5, #965aed,#965aed);
     -webkit-background-clip: text;
     line-height: 1;
     text-align: start;
-    font-size: 28px;
+    font-size: 30px;
     -webkit-text-fill-color: transparent;
     text-shadow: 0 4px 4px rgb(22 122 255 / 6%), 0 0 2px rgb(22 122 255 / 2%);
 }
@@ -61,7 +61,7 @@
 .sub {
     text-align: start;
     font-family: 'Audiowide', system-ui;
-    background: linear-gradient(45deg, #167aff, #965aed);
+    background: linear-gradient(45deg, #0072F5, #965aed);
     -webkit-background-clip: text;
     line-height: 1;
     font-size: 10px;
