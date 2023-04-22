@@ -16,7 +16,7 @@ export default function InputView(props: {
         className={styles.question}
         bordered={false}
         placeholder="请输入您想提问的问题（⌥+Return换行）"
-        autoSize={{ minRows: 6, maxRows: 10 }}
+        autoSize={{ minRows: 7, maxRows: 16 }}
         onChange={(e) => {
           props.setQuestionText(e.target.value);
         }}

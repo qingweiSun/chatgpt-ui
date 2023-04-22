@@ -331,7 +331,7 @@ export default function ChatView() {
           />
         )}
         {MessageViewList}
-        <div style={{ height: 140 }} />
+        <div style={{ height: 150 }} />
         <div id={"home_end"} />
       </div>
       <InputView

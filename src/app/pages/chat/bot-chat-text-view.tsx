@@ -39,7 +39,7 @@ const BotChatTextItemView = (props: { children: ChatMessage }) => {
           display: "flex",
           flexDirection: "column",
           width: "100%",
-          gap: 8,
+          gap: 4,
           alignItems: "start",
         }}
       >

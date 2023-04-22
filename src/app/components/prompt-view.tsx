@@ -255,8 +255,6 @@ export default function PromptView(props: {
                 padding: "18px",
                 flex: 1,
                 display: "flex",
-                backgroundColor: "#fff",
-                borderRadius: 12,
                 flexDirection: "column",
                 gap: 24,
               }}

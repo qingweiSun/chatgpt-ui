@@ -76,7 +76,6 @@ export default function ApiKeyModal(props: {
       <Modal
         title="设置"
         open={apiKeyModalOpen}
-        closable={false}
         keyboard
         destroyOnClose
         width={600}
@@ -91,50 +90,52 @@ export default function ApiKeyModal(props: {
         onCancel={() => {
           setApiKeyModalOpen(false);
         }}
-        footer={[
-          <Space key={"footer"}>
-            {/* <Button
-              onClick={async () => {
-                setLoading(true);
-                const newBalance: any[] = [];
-                // if (gpt.key.length > 0) {
-                //   for (const key of apiKey.split("\n")) {
-                //     const v = await updateBilling(key);
-                //     newBalance.push(v);
-                //     setLoading(false);
-                //   }
-                // } else {
-                //   setLoading(false);
-                // }
-              }}
-            >
-              余额查询
-            </Button> */}
-            <Button
-              type="primary"
-              size="large"
-              onClick={() => {
-                setApiKeyModalOpen(false);
-              }}
-            >
-              关闭
-            </Button>
-            {/* <Button
-              type={"primary"}
-              onClick={() => {
-                setApiKeyModalOpen(false);
-                window.localStorage.setItem("temperature", temperature);
-                props.updateTemperature(temperature);
-                props.setApiKey(apiKey);
-                props.updateShowCostType(showCostType);
-                props.updatePresencePenalty(presencePenalty);
-                props.updateMaxTokens(maxTokens);
-              }}
-            >
-              确定
-            </Button> */}
-          </Space>,
-        ]}
+        footer={
+          [
+            // <Space key={"footer"}>
+            //   {/* <Button
+            //     onClick={async () => {
+            //       setLoading(true);
+            //       const newBalance: any[] = [];
+            //       // if (gpt.key.length > 0) {
+            //       //   for (const key of apiKey.split("\n")) {
+            //       //     const v = await updateBilling(key);
+            //       //     newBalance.push(v);
+            //       //     setLoading(false);
+            //       //   }
+            //       // } else {
+            //       //   setLoading(false);
+            //       // }
+            //     }}
+            //   >
+            //     余额查询
+            //   </Button> */}
+            //   <Button
+            //     type="primary"
+            //     size="large"
+            //     onClick={() => {
+            //       setApiKeyModalOpen(false);
+            //     }}
+            //   >
+            //     关闭
+            //   </Button>
+            //   {/* <Button
+            //     type={"primary"}
+            //     onClick={() => {
+            //       setApiKeyModalOpen(false);
+            //       window.localStorage.setItem("temperature", temperature);
+            //       props.updateTemperature(temperature);
+            //       props.setApiKey(apiKey);
+            //       props.updateShowCostType(showCostType);
+            //       props.updatePresencePenalty(presencePenalty);
+            //       props.updateMaxTokens(maxTokens);
+            //     }}
+            //   >
+            //     确定
+            //   </Button> */}
+            // </Space>,
+          ]
+        }
       >
         <div style={{ height: 8 }} />
         <Space direction={"vertical"} style={{ width: "100%" }} size={16}>
