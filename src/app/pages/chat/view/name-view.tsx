@@ -12,13 +12,11 @@ export default function NavbarTItleView(props: {
     name += props.id;
   }
   return (
-    <Navbar.Brand>
-      <div>
-        <div className={styles.nmaep}>
-          <div className={styles.name}>{name}</div>
-        </div>
-        <div style={{ fontSize: 13 }}>共{props.count}条记录</div>
+    <div>
+      <div className={styles.nmaep}>
+        <div className={styles.name}>{name}</div>
       </div>
-    </Navbar.Brand>
+      <div style={{ fontSize: 13 }}>共{props.count}条记录</div>
+    </div>
   );
 }

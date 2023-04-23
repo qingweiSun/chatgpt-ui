@@ -230,13 +230,15 @@ export default function ChatView() {
           height: 68,
         }}
       >
-        {name && (
-          <NavbarTItleView
-            name={name}
-            count={messages.length}
-            id={chatId.current}
-          />
-        )}
+        <Navbar.Brand>
+          {name && (
+            <NavbarTItleView
+              name={name}
+              count={messages.length}
+              id={chatId.current}
+            />
+          )}
+        </Navbar.Brand>
         <Navbar.Content css={{ gap: isMobile ? 16 : undefined }}>
           <Navbar.Item>
             <div className={styles.toggle} onClick={() => {}}>
