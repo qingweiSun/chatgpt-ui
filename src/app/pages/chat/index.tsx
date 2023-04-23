@@ -65,6 +65,7 @@ export default function ChatView() {
   const { gpt } = useContext(GptContext);
   useEffect(() => {
     if (chatId.current != current.id || name != current.name) {
+      setName(current.name);
       chatId.current = current.id;
       const list =
         JSON.parse(localStorage.getItem("historyList" + current.id) || "[]") ||
@@ -74,7 +75,6 @@ export default function ChatView() {
       } else {
         setMessages(list);
       }
-      setName(current.name);
     }
   }, [current.id, current.name]);
   const scrollRef = useRef(null); //监听滚动
@@ -248,7 +248,7 @@ export default function ChatView() {
           {!isMobile && chatId.current != 10000 && (
             <Navbar.Item>
               <EditName
-                name={name || "新的会话"}
+                name={name}
                 setName={(text) => {
                   setName(text);
                   setId({ id: current.id || -1, name: text });
