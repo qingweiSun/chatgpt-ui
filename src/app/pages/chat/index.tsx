@@ -51,32 +51,28 @@ export default function ChatView() {
 
   const [questioningMode, setQuestioningMode] = useState<MaxTokensLimitProps>();
 
-  const [prompt, setPrompt] = useStateSync<ChatMessage>({
-    data: {
-      role: "system",
-      content: "你是AI",
-    },
-  });
-  const [messages, setMessages] = useStateSync<ChatMessage[]>([prompt]);
   const { current, setId } = useContext(IdContext);
   const chatId = useRef(current.id);
   const [name, setName] = useState(current.name);
+  const [messages, setMessages] = useStateSync<ChatMessage[]>(
+    JSON.parse(localStorage.getItem("historyList" + current.id) || "[]") || []
+  );
 
   const { gpt } = useContext(GptContext);
-  useEffect(() => {
-    if (chatId.current != current.id || name != current.name) {
-      setName(current.name);
-      chatId.current = current.id;
-      const list =
-        JSON.parse(localStorage.getItem("historyList" + current.id) || "[]") ||
-        [];
-      if (list.length == 0) {
-        setMessages([]);
-      } else {
-        setMessages(list);
-      }
-    }
-  }, [current.id, current.name]);
+  // useEffect(() => {
+  //   if (chatId.current != current.id || name != current.name) {
+  //     setName(current.name);
+  //     chatId.current = current.id;
+  //     const list =
+  //       JSON.parse(localStorage.getItem("historyList" + current.id) || "[]") ||
+  //       [];
+  //     if (list.length == 0) {
+  //       setMessages([]);
+  //     } else {
+  //       setMessages(list);
+  //     }
+  //   }
+  // }, [current.id, current.name]);
   const scrollRef = useRef(null); //监听滚动
   const { canScroll } = useScroll(scrollRef);
   const [loading, setLoading] = useStateSync(false);
@@ -320,17 +316,14 @@ export default function ChatView() {
         {messages.length == 0 && (
           <PromptView
             setPrompt={(text) => {
-              setPrompt(
+              setMessages([
                 {
                   data: {
                     role: "system",
                     content: text,
                   },
                 },
-                (newState) => {
-                  setMessages([newState]);
-                }
-              );
+              ]);
             }}
           />
         )}
