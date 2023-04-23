@@ -47,7 +47,6 @@ export interface GptMessage {
 }
 
 export default function ChatView() {
-  const [name, setName] = useState("");
   const { isMobile } = useContext(context);
 
   const [questioningMode, setQuestioningMode] = useState<MaxTokensLimitProps>();
@@ -61,6 +60,7 @@ export default function ChatView() {
   const [messages, setMessages] = useStateSync<ChatMessage[]>([prompt]);
   const { current, setId } = useContext(IdContext);
   const chatId = useRef(current.id);
+  const [name, setName] = useState(current.name);
 
   const { gpt } = useContext(GptContext);
   useEffect(() => {
