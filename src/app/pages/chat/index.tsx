@@ -79,6 +79,12 @@ export default function ChatView() {
   const [controller, setController] = useState<AbortController>(); //中断请求
   const [questionText, setQuestionText] = useStateSync("");
   useEffect(() => {
+    if (current.id && messages.length > 0) {
+      localStorage.setItem(
+        "historyList" + current.id,
+        JSON.stringify(messages)
+      );
+    }
     if (name.startsWith("新的会话")) {
       const tempName =
         messages.find((e) => {
@@ -193,17 +199,6 @@ export default function ChatView() {
       );
     });
   }, [messages]);
-
-  useEffect(() => {
-    if (!loading) {
-      if (current.id && messages.length > 0) {
-        localStorage.setItem(
-          "historyList" + current.id,
-          JSON.stringify(messages)
-        );
-      }
-    }
-  }, [loading]);
 
   return (
     <div className={styles.container}>

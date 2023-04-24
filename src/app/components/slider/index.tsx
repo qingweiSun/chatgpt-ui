@@ -231,7 +231,6 @@ export default function Slider(props: {
           index={10000}
           showEdit={false}
           onClick={() => {
-            localStorage.setItem("historyList" + 2, JSON.stringify([]));
             setId({ id: 10000, name: "随便聊聊" });
             props.closeSlider?.();
           }}
