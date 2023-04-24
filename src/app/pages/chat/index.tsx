@@ -79,22 +79,11 @@ export default function ChatView() {
   const [controller, setController] = useState<AbortController>(); //中断请求
   const [questionText, setQuestionText] = useStateSync("");
   useEffect(() => {
-    if (current.id) {
-      if (messages.length == 0) {
-        localStorage.removeItem("historyList" + current.id);
-      } else {
-        if (messages.length > 1) {
-          localStorage.setItem(
-            "historyList" + current.id,
-            JSON.stringify(messages)
-          );
-        } else if (messages[0].data.content != "你是AI") {
-          localStorage.setItem(
-            "historyList" + current.id,
-            JSON.stringify(messages)
-          );
-        }
-      }
+    if (current.id && messages.length > 0) {
+      localStorage.setItem(
+        "historyList" + current.id,
+        JSON.stringify(messages)
+      );
     }
     if (name.startsWith("新的会话")) {
       const tempName =
