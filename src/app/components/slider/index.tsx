@@ -240,7 +240,7 @@ export default function Slider(props: {
           onDelete={() => {
             setHistoryList([]);
             //获取全部localStorage的key
-            var keys = Object.keys(localStorage);
+            const keys = Object.keys(localStorage);
             //遍历key
             for (var i = 0; i < keys.length; i++) {
               //如果key以historyList开头或者以questioningMode开头

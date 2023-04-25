@@ -35,11 +35,11 @@ export interface GptMessage {
 export default function ChatView() {
   const { isMobile } = useContext(context);
 
-  const [questioningMode, setQuestioningMode] = useState<MaxTokensLimitProps>();
-
   const { current, setId } = useContext(IdContext);
-  const chatId = useRef(current.id);
   const [name, setName] = useState(current.name);
+  const [questioningMode, setQuestioningMode] = useState<MaxTokensLimitProps>(
+    JSON.parse(localStorage.getItem("questioningMode" + current.id) || "{}")
+  );
   const [messages, setMessages] = useStateSync<ChatMessage[]>(
     JSON.parse(localStorage.getItem("historyList" + current.id) || "[]") || []
   );
@@ -69,7 +69,7 @@ export default function ChatView() {
       }
     }
 
-    if (messages.length == 0 && chatId.current == 10000) {
+    if (messages.length == 0 && current.id == 10000) {
       setMessages([
         {
           data: {
@@ -97,20 +97,14 @@ export default function ChatView() {
   useEffect(() => {
     if (current.id && current.id != -1) {
       canScroll.current = true;
-      if (current.id === 10000) {
-        setQuestioningMode({
-          value: "one",
-          desc: "连续对话",
-        });
-      } else {
-        setQuestioningMode(
-          JSON.parse(
-            localStorage.getItem("questioningMode" + current.id) || "{}"
-          )
-        );
-      }
     }
-  }, [current.id]);
+    const newList =
+      JSON.parse(localStorage.getItem("historyList" + current.id) || "[]") ||
+      [];
+    if (newList.length == 0 && messages.length > 0) {
+      setMessages([]);
+    }
+  }, [current]);
   const send = async () => {
     if (loading) {
       if (controller) {
@@ -192,7 +186,7 @@ export default function ChatView() {
             <NavbarTItleView
               name={name}
               count={messages.length}
-              id={chatId.current}
+              id={current.id}
             />
           )}
         </Navbar.Brand>
@@ -206,7 +200,7 @@ export default function ChatView() {
               </MobileSlider>
             </div>
           </Navbar.Item>
-          {!isMobile && chatId.current != 10000 && (
+          {!isMobile && current.id != 10000 && (
             <Navbar.Item>
               <EditName
                 name={name}

@@ -12,7 +12,6 @@ import AppContext from "@/app/hooks/use-style";
 import IdContext from "@/app/hooks/use-chat-id";
 import { ConfigProvider } from "antd";
 import GptContext from "./hooks/use-gpt";
-import { useRouter } from "next/navigation";
 import { HistoryItem } from "./components/slider";
 
 const theme = createTheme({
@@ -32,7 +31,6 @@ export default function Index() {
     size: "medium",
   });
 
-  const router = useRouter();
 
   const [gpt, setGpt] = useState<{
     key: string;
