@@ -198,7 +198,15 @@ html {
     margin: 0 !important;
     padding: 0 !important;
 }
-
+div{
+    font-family: system-ui;
+}
+/** {*/
+/*    font-family: system-ui;*/
+/*}*/
+.md-code{
+    font-family: system-ui;
+}
 img {
     -webkit-touch-callout: none; /* 禁止长按保存图片 */
     -webkit-user-select: none; /* 禁止选择图片 */
@@ -217,6 +225,7 @@ img {
     margin-inline-end: 0 !important;
     padding-inline: 6px !important;
 }
+
 input, textarea {
     -webkit-text-size-adjust: 100%;
     caret-color: #0072F5;

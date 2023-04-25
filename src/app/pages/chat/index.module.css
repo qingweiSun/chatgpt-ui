@@ -43,7 +43,7 @@
     -moz-user-select: text !important; /*火狐*/
     -webkit-user-select: text !important; /*webkit浏览器*/
     -ms-user-select: text !important; /*IE10*/
-   
+    font-family: system-ui;
     
 }
 .message{
@@ -84,6 +84,7 @@
     -webkit-user-select: text !important; /*webkit浏览器*/
     -ms-user-select: text !important; /*IE10*/
     background: #e7f5ff;
+    font-family: system-ui;
 }
 
 .code {
