@@ -73,21 +73,21 @@ export default function Slider(props: {
       >
         {historyList[propsItem.index - 1]?.top &&
           !(historyList[propsItem.index]?.top ?? false) && (
-            <div style={{ marginLeft: 16, color: "#999999", fontSize: 12 }}>
+            <div style={{ marginLeft: 16, color: "#666666", fontSize: 12 }}>
               其他会话
             </div>
           )}
 
         {propsItem.index == 0 &&
           (historyList[propsItem.index]?.top ?? false) && (
-            <div style={{ marginLeft: 16, color: "#999999", fontSize: 12 }}>
+            <div style={{ marginLeft: 16, color: "#666666", fontSize: 12 }}>
               置顶会话
             </div>
           )}
 
         {propsItem.index == 0 &&
           !(historyList[propsItem.index]?.top ?? false) && (
-            <div style={{ marginLeft: 16, color: "#999999", fontSize: 12 }}>
+            <div style={{ marginLeft: 16, color: "#666666", fontSize: 12 }}>
               全部会话
             </div>
           )}
@@ -380,7 +380,7 @@ function HistoryItemView(props: {
                 padding: 0,
                 color: props.current
                   ? "var(--nextui-colors-primary)"
-                  : "#696969",
+                  : "#444444",
               }}
               className={styles.delete}
               onClick={() => {
