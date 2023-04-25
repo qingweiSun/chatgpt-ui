@@ -215,8 +215,9 @@ img {
 
 .ant-tag {
     margin-inline-end: 0 !important;
-    padding-inline: 6 !important;
+    padding-inline: 6px !important;
 }
 input, textarea {
     -webkit-text-size-adjust: 100%;
+    caret-color: #0072F5;
 }

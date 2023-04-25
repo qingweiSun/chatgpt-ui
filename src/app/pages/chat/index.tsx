@@ -1,18 +1,8 @@
 import styles from "./index.module.css";
-import { Button, Input, Navbar } from "@nextui-org/react";
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { Navbar } from "@nextui-org/react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import UserView from "@/app/pages/chat/user-chat-view";
-import {
-  ChevronUp,
-  CloseSquare,
-  Delete,
-  Download,
-  Edit,
-  EditSquare,
-  Filter,
-  MoreSquare,
-  Send,
-} from "react-iconly";
+import { Delete, Download, Edit, Filter, MoreSquare } from "react-iconly";
 import toast from "react-hot-toast";
 import useStateSync from "@/app/hooks/use-state-with-call";
 import { generateMessage } from "@/app/pages/chat/api/generate";
@@ -24,17 +14,13 @@ import IdContext from "@/app/hooks/use-chat-id";
 import MobileSlider from "@/app/components/slider/mobile";
 import { exportMarkdown } from "@/app/components/setting";
 import PromptView from "@/app/components/prompt-view";
-import LargeInput from "@/app/components/large-input";
-import { Tooltip } from "antd";
 import GptContext from "@/app/hooks/use-gpt";
 import MaxTokensLimit, {
   MaxTokensLimitProps,
 } from "@/app/components/max-tokens-limit";
-import TextArea from "antd/es/input/TextArea";
 import { context } from "@/app/hooks/context-mobile";
 import NavbarTItleView from "./view/name-view";
 import InputView from "./view/input-view";
-import React from "react";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -59,20 +45,6 @@ export default function ChatView() {
   );
 
   const { gpt } = useContext(GptContext);
-  // useEffect(() => {
-  //   if (chatId.current != current.id || name != current.name) {
-  //     setName(current.name);
-  //     chatId.current = current.id;
-  //     const list =
-  //       JSON.parse(localStorage.getItem("historyList" + current.id) || "[]") ||
-  //       [];
-  //     if (list.length == 0) {
-  //       setMessages([]);
-  //     } else {
-  //       setMessages(list);
-  //     }
-  //   }
-  // }, [current.id, current.name]);
   const scrollRef = useRef(null); //监听滚动
   const { canScroll } = useScroll(scrollRef);
   const [loading, setLoading] = useStateSync(false);
@@ -325,6 +297,9 @@ export default function ChatView() {
         setQuestionText={setQuestionText}
         loading={loading}
         send={send}
+        onFocus={() => {
+          canScroll.current = true;
+        }}
       />
     </div>
   );

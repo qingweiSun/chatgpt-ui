@@ -1,9 +1,8 @@
-import { Button, ConfigProvider, Image, Modal, Space, Tooltip } from "antd";
+import {Button, Card, ConfigProvider, Image, Modal, Space, Tooltip} from "antd";
 import React, { useContext, useState } from "react";
 import { Scan } from "react-iconly";
 import { context } from "@/app/hooks/context-mobile";
 import styles from "./delete.module.css";
-import { Card } from "@nextui-org/react";
 export default function RewardView() {
   const { isMobile } = useContext(context);
 
@@ -49,15 +48,13 @@ export default function RewardView() {
             因为免费版的访问速度可能会受到限制或不稳定，因此，如果你想提速的话，可以用自己的apikey充值或者可以请我喝杯咖啡的话，我会非常感激！
           </div>
           <div style={{ padding: `16px ${isMobile ? 16 : 64}px` }}>
-            <Card isHoverable>
-              <Card.Body>
+            <Card hoverable bordered>
                 <Image
                   preview={false}
                   src={"./IMG_1300.jpg"}
                   alt={"收款码"}
                   style={{ flex: 1, width: "100%", borderRadius: 32 }}
                 />
-              </Card.Body>
             </Card>
           </div>
         </Space>

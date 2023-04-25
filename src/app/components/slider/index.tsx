@@ -276,7 +276,7 @@ export default function Slider(props: {
           css={{
             flex: "0 0 auto",
             "&:hover": {
-              background: "#ffffff",
+              background: "rgba(255,255,255,0.4)",
             },
           }}
           onClick={() => {

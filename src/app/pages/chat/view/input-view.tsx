@@ -2,21 +2,28 @@ import TextArea from "antd/es/input/TextArea";
 import styles from "../index.module.css";
 import { Button } from "@nextui-org/react";
 import { CloseSquare, Send } from "react-iconly";
+import { useContext } from "react";
+import { context } from "@/app/hooks/context-mobile";
 
 export default function InputView(props: {
   questionText: string;
   setQuestionText: (value: string) => void;
   send: () => void;
+  onFocus: () => void;
   loading: boolean;
 }) {
+  const { isMobile } = useContext(context);
+
   return (
     <div className={styles.bottom}>
       <TextArea
         value={props.questionText}
         className={styles.question}
         bordered={false}
+        autoFocus
+        onFocus={props.onFocus}
         placeholder="请输入您想提问的问题（⌥+Return换行）"
-        autoSize={{ minRows: 7, maxRows: 16 }}
+        autoSize={{ minRows: isMobile ? 4 : 7, maxRows: 16 }}
         onChange={(e) => {
           props.setQuestionText(e.target.value);
         }}

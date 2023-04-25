@@ -8,7 +8,6 @@ import {
   Segmented,
   Slider,
   Space,
-  Tooltip,
 } from "antd";
 import React, { useContext, useState } from "react";
 import { Setting } from "react-iconly";
@@ -16,6 +15,7 @@ import AppContext from "@/app/hooks/use-style";
 import { context } from "@/app/hooks/context-mobile";
 import styles from "./delete.module.css";
 import GptContext from "../hooks/use-gpt";
+
 const { TextArea } = Input;
 
 export default function ApiKeyModal(props: {
@@ -41,6 +41,7 @@ export default function ApiKeyModal(props: {
   const { mode, setMode } = useContext(AppContext);
   const { isMobile } = useContext(context);
   const { gpt, setGpt } = useContext(GptContext);
+
   //余额查询
   async function updateBilling(key: string) {
     try {
@@ -53,7 +54,7 @@ export default function ApiKeyModal(props: {
       if (!response.ok) {
         return {
           type: "error",
-          message: "您的账户已被封禁，请登录OpenAI进行查看。",
+          message: response.statusText,
         };
       }
       return response.json();
@@ -153,7 +154,7 @@ export default function ApiKeyModal(props: {
               size={"large"}
               style={{ fontSize: 14, width: "100%" }}
               placeholder={
-                "请输入您自己的apiKey，以便获得更好的体验，本站不会记录"
+                "请输入您自己的apiKey，以便获得更好的体验，本站不会做任何记录"
               }
               onChange={(e) => {
                 if (gpt) {
