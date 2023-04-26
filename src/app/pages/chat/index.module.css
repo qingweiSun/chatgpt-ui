@@ -208,7 +208,7 @@
     font-size: 11px;
     border: #cccccc 1px solid;
     border-radius: 12px;
-    padding: 2px 12px;
+    padding: 1px 12px;
     cursor: pointer;
     opacity: 0;
     transition: all linear 0.3s;
@@ -228,14 +228,14 @@
     opacity: 1;
 }
 @keyframes fade-in {  
-  0% {  
-    opacity: 0;  
-    transform: scale(0.95);  
-  }  
-  100% {  
-    opacity: 1;  
-    transform: scale(1);  
-  }  
+    0% {  
+        opacity: 0;  
+        transform: scale(0.95);  
+    }  
+    100% {  
+        opacity: 1;  
+        transform: scale(1);  
+    }  
 }  
 
 .transition_group {
@@ -258,5 +258,5 @@
 }
 
 .prompt:hover{
-  color: #167aff;
+    color: #167aff;
 }

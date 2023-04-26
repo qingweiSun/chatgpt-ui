@@ -7,7 +7,10 @@ import { ChatMessage } from "@/app/pages/chat/index";
 import MarkdownText, { copyToClipboard } from "@/app/pages/chat/markdown-text";
 import { context } from "@/app/hooks/context-mobile";
 
-const BotChatTextItemView = (props: { children: ChatMessage }) => {
+const BotChatTextItemView = (props: {
+  deleteItem: () => void;
+  children: ChatMessage;
+}) => {
   const { isMobile } = useContext(context);
   return (
     <div
@@ -43,31 +46,33 @@ const BotChatTextItemView = (props: { children: ChatMessage }) => {
           alignItems: "start",
         }}
       >
-        <div
-          style={{
-            color: "#a0a0a0",
-            fontSize: 12,
-            gap: 8,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          {props.children.time}
-          {props.children.time && (
-            <div
-              className={styles["chat-message-top-action-item"]}
-              onClick={() => copyToClipboard(props.children.data.content)}
-            >
-              复制
+        {props.children.time && (
+          <div
+            style={{
+              color: "#a0a0a0",
+              fontSize: 12,
+              gap: 8,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            {props.children.time}
+            <div style={{ display: "flex" }}>
+              <div
+                className={styles["chat-message-top-action-item"]}
+                onClick={() => copyToClipboard(props.children.data.content)}
+              >
+                复制
+              </div>
+              <div
+                className={styles["chat-message-top-action-item"]}
+                onClick={() => props.deleteItem()}
+              >
+                删除
+              </div>
             </div>
-          )}
-          {/*<div*/}
-          {/*  className={styles["chat-message-top-action-item"]}*/}
-          {/*  onClick={() => copyToClipboard(String("xx"))}*/}
-          {/*>*/}
-          {/*  重试*/}
-          {/*</div>*/}
-        </div>
+          </div>
+        )}
         <div className={styles.bot}>
           {props.children.data.content == "loading" && (
             <Loading size={"xs"} type={"points"} />
@@ -83,7 +88,13 @@ const BotChatTextItemView = (props: { children: ChatMessage }) => {
 };
 
 // eslint-disable-next-line react/display-name
-const BotChatTextView = React.memo((props: { children: ChatMessage }) => {
-  return <BotChatTextItemView>{props.children}</BotChatTextItemView>;
-});
+const BotChatTextView = React.memo(
+  (props: { children: ChatMessage; deleteItem: () => void }) => {
+    return (
+      <BotChatTextItemView deleteItem={props.deleteItem}>
+        {props.children}
+      </BotChatTextItemView>
+    );
+  }
+);
 export default BotChatTextView;

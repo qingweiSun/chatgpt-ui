@@ -40,8 +40,8 @@ export default function Index() {
 
   useEffect(() => {
     setLoading(false);
-    setMode(JSON.parse(localStorage.getItem("mode-new") || "{}") || {});
-    setGpt(JSON.parse(localStorage.getItem("gpt") || "{}") || {});
+    setMode(JSON.parse(localStorage.getItem("mode-new") ?? "{}") ?? {});
+    setGpt(JSON.parse(localStorage.getItem("gpt") ?? "{}") ?? {});
     //获取地址栏参数
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -60,18 +60,20 @@ export default function Index() {
           }
         });
         if (!hasId) {
-          setId(JSON.parse(localStorage.getItem("current") || tempCurrent));
+          setId(JSON.parse(localStorage.getItem("current") ?? tempCurrent));
         }
       } else {
-        setId(JSON.parse(localStorage.getItem("current") || tempCurrent));
+        setId(JSON.parse(localStorage.getItem("current") ?? tempCurrent));
       }
     } else {
-      setId(JSON.parse(localStorage.getItem("current") || tempCurrent));
+      setId(JSON.parse(localStorage.getItem("current") ?? tempCurrent));
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("gpt", JSON.stringify(gpt));
+    if (gpt) {
+      localStorage.setItem("gpt", JSON.stringify(gpt));
+    }
   }, [gpt]);
 
   useEffect(() => {

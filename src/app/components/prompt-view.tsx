@@ -233,7 +233,7 @@ export default function PromptView(props: {
             }}
             alt={"chatgpt"}
           />
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
             <div
               style={{
                 color: "#a0a0a0",

@@ -77,7 +77,6 @@ export default function ChatView() {
             content:
               "我是AI助手，专门为您提供语言处理和应用解决方案,有什么需要帮助的么。",
           },
-          time: new Date().toLocaleString(),
         },
       ]);
     }
@@ -159,7 +158,15 @@ export default function ChatView() {
           {message.data.role != "assistant" ? (
             <UserView>{message}</UserView>
           ) : (
-            <BotChatTextView>{message}</BotChatTextView>
+            <BotChatTextView
+              deleteItem={() => {
+                const newMessages = [...messages];
+                newMessages.splice(index, 1);
+                setMessages(newMessages);
+              }}
+            >
+              {message}
+            </BotChatTextView>
           )}
         </div>
       );

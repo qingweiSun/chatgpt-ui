@@ -44,7 +44,7 @@ export default function MaxTokensLimit(props: {
           color: "#444444",
           "&:hover": {
             color: "var(--nextui-colors-primary)",
-            background: "#b7d5f8",
+            // background: "#b7d5f8",
           },
         }}
       >
