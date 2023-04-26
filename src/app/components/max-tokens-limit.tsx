@@ -42,6 +42,10 @@ export default function MaxTokensLimit(props: {
         css={{
           background: "var(--nextui-colors-accents1)",
           color: "#444444",
+          "&:hover": {
+            color: "var(--nextui-colors-primary)",
+            background: "#b7d5f8",
+          },
         }}
       >
         <div style={{ fontSize: 13 }}>{props.select?.desc ?? "连续对话"}</div>
@@ -64,7 +68,6 @@ export default function MaxTokensLimit(props: {
           return (
             <Dropdown.Item
               key={item.value}
-              // description={item.tip}
               css={{
                 height: "auto",
               }}

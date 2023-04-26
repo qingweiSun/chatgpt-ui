@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { context } from "@/app/hooks/context-mobile";
 import { Input, Modal } from "antd";
+import TextArea from "antd/es/input/TextArea";
 
 const RESPONSIVE_MOBILE = 768;
 
@@ -21,9 +22,6 @@ export default function EditName(props: {
   const { isMobile } = useContext(context);
   const [name, setName] = useState(props.name || "");
 
-  useEffect(() => {
-    setName(props.name || "");
-  }, [props.name]);
   return (
     <Popover
       placement={"bottom-right"}
@@ -33,6 +31,9 @@ export default function EditName(props: {
       onOpenChange={(isOpen) => {
         if (!isMobile) {
           setVisible(isOpen);
+        }
+        if (isOpen) {
+          setName(props.name || "");
         }
       }}
     >
@@ -48,26 +49,33 @@ export default function EditName(props: {
       </Popover.Trigger>
       <Popover.Content>
         <Grid.Container
-          css={{ borderRadius: "14px", padding: "0.75rem", width: "220px" }}
+          css={{ borderRadius: "14px", paddingTop: 12, width: "280px" }}
         >
           <Row justify="center" align="center">
             <Text b>重命名</Text>
           </Row>
-          <Row justify="center" align="center">
-            <div style={{ padding: "16px 0" }}>
-              <Input
-                value={name}
-                autoFocus
-                placeholder="请输入名称"
-                size="large"
-                style={{ fontSize: 15, borderRadius: 10, borderWidth: 2 }}
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-              />
-            </div>
-          </Row>
-          <Row justify="flex-end" align="center">
+          <div style={{ padding: 18, width: "100%" }}>
+            <TextArea
+              value={name}
+              placeholder="请输入名称"
+              size="large"
+              autoSize={{ minRows: 1, maxRows: 3 }}
+              style={{
+                fontSize: 15,
+                borderRadius: 10,
+                borderWidth: 2,
+                width: "100%",
+              }}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
+          </div>
+          <Row
+            justify="flex-end"
+            align="center"
+            style={{ paddingBottom: 12, paddingRight: 12 }}
+          >
             <Button
               size="sm"
               light

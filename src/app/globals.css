@@ -199,14 +199,10 @@ html {
     padding: 0 !important;
 }
 div{
-    font-family: system-ui;
+    font-family: system-ui ;
 }
-/** {*/
-/*    font-family: system-ui;*/
-/*}*/
-.md-code{
-    font-family: system-ui;
-}
+
+
 img {
     -webkit-touch-callout: none; /* 禁止长按保存图片 */
     -webkit-user-select: none; /* 禁止选择图片 */

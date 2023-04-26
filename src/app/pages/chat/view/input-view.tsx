@@ -4,6 +4,7 @@ import { Button } from "@nextui-org/react";
 import { CloseSquare, Send } from "react-iconly";
 import { useContext } from "react";
 import { context } from "@/app/hooks/context-mobile";
+import AppContext from "@/app/hooks/use-style";
 
 export default function InputView(props: {
   questionText: string;
@@ -13,7 +14,7 @@ export default function InputView(props: {
   loading: boolean;
 }) {
   const { isMobile } = useContext(context);
-
+  const { mode, setMode } = useContext(AppContext);
   return (
     <div className={styles.bottom}>
       <TextArea

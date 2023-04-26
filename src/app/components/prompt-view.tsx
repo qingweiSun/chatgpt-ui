@@ -233,12 +233,12 @@ export default function PromptView(props: {
             }}
             alt={"chatgpt"}
           />
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             <div
               style={{
                 color: "#a0a0a0",
                 fontSize: 12,
-                gap: 8,
+                marginTop: 2,
                 display: "flex",
                 alignItems: "center",
               }}
@@ -288,7 +288,9 @@ export default function PromptView(props: {
                               >
                                 <Tag
                                   color={color}
-                                  style={{ cursor: "pointer" }}
+                                  style={{
+                                    cursor: "pointer",
+                                  }}
                                   onClick={() => {
                                     props.setPrompt(value.desc);
                                   }}
