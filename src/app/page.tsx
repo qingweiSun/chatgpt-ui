@@ -31,7 +31,6 @@ export default function Index() {
     size: "medium",
   });
 
-
   const [gpt, setGpt] = useState<{
     key: string;
     temperature: string;
@@ -72,9 +71,7 @@ export default function Index() {
   }, []);
 
   useEffect(() => {
-    if (gpt?.key) {
-      localStorage.setItem("gpt", JSON.stringify(gpt));
-    }
+    localStorage.setItem("gpt", JSON.stringify(gpt));
   }, [gpt]);
 
   useEffect(() => {
