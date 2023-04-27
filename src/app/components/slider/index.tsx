@@ -185,7 +185,9 @@ export default function Slider(props: {
             return i.top ? -1 : 1;
           })
           .map((item, index) => {
-            return <ItemView item={item} index={index} key={index} showEdit />;
+            return (
+              <ItemView item={item} index={index} key={item.id} showEdit />
+            );
           })}
       </Fragment>
     );
@@ -219,10 +221,12 @@ export default function Slider(props: {
           overflowY: "scroll",
           gap: 12,
           display: "flex",
+          height: "100%",
           flexDirection: "column",
         }}
       >
         <ItemView
+          key={10000}
           item={{
             title: "随便聊聊",
             id: 10000,

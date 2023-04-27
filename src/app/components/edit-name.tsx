@@ -49,7 +49,7 @@ export default function EditName(props: {
       </Popover.Trigger>
       <Popover.Content>
         <Grid.Container
-          css={{ borderRadius: "14px", paddingTop: 12, width: "280px" }}
+          css={{ borderRadius: "14px", paddingTop: 12, width: "220px" }}
         >
           <Row justify="center" align="center">
             <Text b>重命名</Text>
