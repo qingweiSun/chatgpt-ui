@@ -1,59 +1,72 @@
-import { Fragment, useContext, useEffect, useMemo, useState } from "react";
-import styles from "./index.module.css";
-import { Button } from "@nextui-org/react";
-import { ArrowDown, ArrowUp, Delete, Edit, Plus, Setting } from "react-iconly";
-import Image from "next/image";
-import ChatGptLogo from "../../icons/chatgpt.svg";
-import IdContext from "@/app/hooks/use-chat-id";
-import { useRouter } from "next/navigation";
-import {
-  DeleteView,
-  SelectButtonView,
-  SelectView,
-} from "@/app/components/delete-view";
+import RewardView from "@/app/components/Reward";
+import { SelectButtonView, SelectView } from "@/app/components/delete-view";
 import EditName from "@/app/components/edit-name";
 import SettingModal from "@/app/components/setting";
-import RewardView from "@/app/components/Reward";
+import {
+  clearSlider,
+  db,
+  deleteSlider,
+  getSliderMaxId,
+  insertSlider,
+  updateSlider,
+} from "@/app/db/db";
+import IdContext from "@/app/hooks/use-chat-id";
+import { Button } from "@nextui-org/react";
+import { useLiveQuery } from "dexie-react-hooks";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useContext, useEffect, useMemo } from "react";
+import { ArrowDown, ArrowUp, Delete, Edit, Plus, Setting } from "react-iconly";
+import ChatGptLogo from "../../icons/chatgpt.svg";
+import styles from "./index.module.css";
+import { MaxTokensLimitProps } from "../max-tokens-limit";
 import { toast } from "react-hot-toast";
 
 //https://react-iconly.jrgarciadev.com/ 图标
-
+//https://dexie.org/docs/Tutorial/React 数据库
 export interface HistoryItem {
   title: string;
   id: number;
   top: boolean;
+  mode?: MaxTokensLimitProps;
 }
 
 export default function Slider(props: {
   isMobile?: boolean;
   closeSlider?: () => void;
 }) {
-  const [historyList, setHistoryList] = useState<HistoryItem[]>(
-    JSON.parse(localStorage.getItem("historyList") || "[]")
+  const historyList = useLiveQuery(() =>
+    db.sliders.where("id").notEqual(1).toArray()
   );
   const { current, setId } = useContext(IdContext);
   const router = useRouter();
 
   useEffect(() => {
-    const newList = historyList.map((item) => {
-      if (item.id == current.id) {
-        item.title = current.name;
-      }
-      return item;
+    db.on("populate", function () {
+      db.sliders.put({
+        id: 1,
+        title: "随便聊聊",
+        top: false,
+      });
+      db.sliders.put({
+        id: 1000,
+        title: "新的回话1000",
+        top: false,
+      });
     });
-    setHistoryList(newList);
-  }, [current.name]);
+    setId({ id: 1, name: "随便聊聊" });
+  }, []);
   useEffect(() => {
-    if (historyList.length == 0) {
-      setHistoryList([
-        {
-          title: "新的会话1",
-          id: 1,
+    if (historyList) {
+      if (historyList.length == 0) {
+        insertSlider({
+          id: 1000,
+          title: "新的回话1000",
           top: false,
-        },
-      ]);
+        });
+        setId({ id: 1000, name: "新的回话1" });
+      }
     }
-    localStorage.setItem("historyList", JSON.stringify(historyList));
   }, [historyList]);
 
   function ItemView(propsItem: {
@@ -71,7 +84,8 @@ export default function Slider(props: {
           gap: 12,
         }}
       >
-        {historyList[propsItem.index - 1]?.top &&
+        {historyList &&
+          historyList[propsItem.index - 1]?.top &&
           !(historyList[propsItem.index]?.top ?? false) && (
             <div style={{ marginLeft: 16, color: "#666666", fontSize: 12 }}>
               其他会话
@@ -79,6 +93,7 @@ export default function Slider(props: {
           )}
 
         {propsItem.index == 0 &&
+          historyList &&
           (historyList[propsItem.index]?.top ?? false) && (
             <div style={{ marginLeft: 16, color: "#666666", fontSize: 12 }}>
               置顶会话
@@ -86,6 +101,7 @@ export default function Slider(props: {
           )}
 
         {propsItem.index == 0 &&
+          historyList &&
           !(historyList[propsItem.index]?.top ?? false) && (
             <div style={{ marginLeft: 16, color: "#666666", fontSize: 12 }}>
               全部会话
@@ -101,14 +117,6 @@ export default function Slider(props: {
               propsItem.onClick();
             } else {
               setId({ id: propsItem.item.id, name: propsItem.item.title });
-              setHistoryList(
-                historyList.map((item, i) => {
-                  return {
-                    ...item,
-                    selected: item.id == propsItem.item.id,
-                  };
-                })
-              );
               props.closeSlider?.();
             }
           }}
@@ -116,82 +124,53 @@ export default function Slider(props: {
             setId({ id: propsItem.item.id, name: name });
             props.closeSlider?.();
           }}
-          onDelete={() => {
-            const newList = historyList.filter((_, i) => i != propsItem.index);
-            localStorage.removeItem("historyList" + propsItem.item.id);
-            if (current.id == propsItem.item.id) {
-              if (newList.length == 0) {
-                setHistoryList([]);
-                setId({
-                  id: 1,
-                  name: "新的会话1",
-                });
-                return;
+          onDelete={async () => {
+            await deleteSlider(propsItem.item.id);
+            //从 historyList 中删除 获得临时数据
+            const tempList = historyList?.filter(
+              (_, i) => i != propsItem.index
+            );
+            if (tempList) {
+              if (tempList.length > 0) {
+                if (tempList.length > propsItem.index) {
+                  //首先判断删除的是不是current，如果不是，则不需要定位，如果是，则需要定位到下一个
+                  if (current.id == propsItem.item.id) {
+                    //定位到当前的下一个
+                    setId({
+                      id: tempList[propsItem.index].id,
+                      name: tempList[propsItem.index].title,
+                    });
+                  }
+                }
               }
-              if (propsItem.index == 0) {
-                setHistoryList(
-                  newList.map((item, i) => {
-                    return {
-                      ...item,
-                    };
-                  })
-                );
-                setId({
-                  id: newList[0].id,
-                  name: newList[0].title,
-                });
-              } else {
-                setHistoryList(
-                  newList.map((item, i) => {
-                    return {
-                      ...item,
-                      selected: i == propsItem.index - 1,
-                    };
-                  })
-                );
-                setId({
-                  id: newList[propsItem.index - 1].id,
-                  name: newList[propsItem.index - 1].title,
-                });
-              }
-            } else {
-              setHistoryList(newList);
             }
           }}
           isTop={propsItem.item.top}
           onTop={() => {
-            setHistoryList(
-              historyList.map((item, i) => {
-                return {
-                  ...item,
-                  top: item.id == propsItem.item.id ? !item.top : item.top,
-                };
-              })
-            );
+            updateSlider({
+              id: propsItem.item.id,
+              title: propsItem.item.title,
+              top: !propsItem.item.top,
+            });
           }}
         />
       </div>
     );
   }
 
-  const MenuListView = useMemo(() => {
-    return (
-      <Fragment>
-        {historyList
-          .sort((a, b) => {
-            return b.id - a.id;
-          })
-          .sort((i) => {
-            return i.top ? -1 : 1;
-          })
-          .map((item, index) => {
-            return (
-              <ItemView item={item} index={index} key={item.id} showEdit />
-            );
-          })}
-      </Fragment>
-    );
-  }, [historyList]);
+  const sliderList = useMemo(() => {
+    return historyList
+      ?.sort((a, b) => {
+        return b.id - a.id;
+      })
+      .sort((i) => {
+        return i.top ? -1 : 1;
+      })
+      .map((item, index) => {
+        return <ItemView item={item} index={index} key={item.id} showEdit />;
+      });
+  }, [historyList, current]);
+
   return (
     <div className={`${styles.slider}`}>
       <div
@@ -226,23 +205,23 @@ export default function Slider(props: {
         }}
       >
         <ItemView
-          key={10000}
+          key={1}
           item={{
             title: "随便聊聊",
-            id: 10000,
+            id: 1,
             top: false,
           }}
-          index={10000}
+          index={1}
           showEdit={false}
           onClick={() => {
-            setId({ id: 10000, name: "随便聊聊" });
+            setId({ id: 1, name: "随便聊聊" });
             props.closeSlider?.();
           }}
         />
-        {MenuListView}
+        {sliderList}
         <SelectButtonView
           onDelete={() => {
-            setHistoryList([]);
+            clearSlider();
             //获取全部localStorage的key
             const keys = Object.keys(localStorage);
             //遍历key
@@ -256,10 +235,6 @@ export default function Slider(props: {
                 localStorage.removeItem(keys[i]);
               }
             }
-            setId({
-              id: 1,
-              name: "新的会话1",
-            });
           }}
           title="警告"
           description="清理后无法找回，数据无价，请注意保存！"
@@ -283,26 +258,14 @@ export default function Slider(props: {
               background: "rgba(255,255,255,0.4)",
             },
           }}
-          onClick={() => {
+          onClick={async () => {
             //获取historyListid最大的
-            const sortList = historyList.sort((item1, item2) => {
-              return item2.id - item1.id;
+            const newId = (await getSliderMaxId()) + 1;
+            insertSlider({
+              title: "新的会话" + newId,
+              id: newId,
+              top: false,
             });
-            console.log(sortList);
-            const newId = sortList[0].id + 1;
-            setHistoryList([
-              {
-                title: "新的会话" + newId,
-                id: newId,
-                top: false,
-              },
-              ...historyList.map((item) => {
-                return {
-                  ...item,
-                  selected: false,
-                };
-              }),
-            ]);
             setId({ id: newId, name: "新的会话" + newId });
             props.closeSlider?.();
           }}

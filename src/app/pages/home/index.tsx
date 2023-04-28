@@ -6,6 +6,8 @@ import { context } from "@/app/hooks/context-mobile";
 import AppContext from "@/app/hooks/use-style";
 import IdContext from "@/app/hooks/use-chat-id";
 import { toast } from "react-hot-toast";
+import { db } from "@/app/db/db";
+import { useLiveQuery } from "dexie-react-hooks";
 
 export default function Home() {
   const { isMobile } = useContext(context);
@@ -23,6 +25,10 @@ export default function Home() {
         return styles.cardModeMedium;
     }
   };
+
+  const record = useLiveQuery(() => {
+    return db.sliders.get(current.id);
+  }, [current]);
 
   return (
     <div
@@ -52,7 +58,7 @@ export default function Home() {
             zIndex: 10,
           }}
         />
-        {current.id > 0 && <ChatView key={current.id} />}
+        {record && <ChatView key={record.id} item={record} />}
       </div>
     </div>
   );

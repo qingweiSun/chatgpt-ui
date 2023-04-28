@@ -21,6 +21,9 @@ import MaxTokensLimit, {
 import { context } from "@/app/hooks/context-mobile";
 import NavbarTItleView from "./view/name-view";
 import InputView from "./view/input-view";
+import { useLiveQuery } from "dexie-react-hooks";
+import { db, updateSliderMode, updateSliderTitle } from "@/app/db/db";
+import { HistoryItem } from "@/app/components/slider";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -32,16 +35,12 @@ export interface GptMessage {
   content: string | "loading";
 }
 
-export default function ChatView() {
+export default function ChatView(props: { item: HistoryItem }) {
   const { isMobile } = useContext(context);
 
-  const { current, setId } = useContext(IdContext);
-  const [name, setName] = useState(current.name);
-  const [questioningMode, setQuestioningMode] = useState<MaxTokensLimitProps>(
-    JSON.parse(localStorage.getItem("questioningMode" + current.id) || "{}")
-  );
   const [messages, setMessages] = useStateSync<ChatMessage[]>(
-    JSON.parse(localStorage.getItem("historyList" + current.id) || "[]") || []
+    JSON.parse(localStorage.getItem("historyList" + props.item.id) || "[]") ||
+      []
   );
 
   const { gpt } = useContext(GptContext);
@@ -51,25 +50,19 @@ export default function ChatView() {
   const [controller, setController] = useState<AbortController>(); //中断请求
   const [questionText, setQuestionText] = useStateSync("");
   useEffect(() => {
-    if (current.id && messages.length > 0) {
+    if (props.item.id && messages.length > 0) {
       localStorage.setItem(
-        "historyList" + current.id,
+        "historyList" + props.item.id,
         JSON.stringify(messages)
       );
     }
-    if (name.startsWith("新的会话")) {
+    if (props.item?.title.startsWith("新的会话")) {
       const tempName =
         messages.find((e) => {
           return e.data.role === "user";
         })?.data.content || "";
-
-      if (tempName != "") {
-        setName(tempName);
-        setId({ id: current.id || -1, name: tempName });
-      }
     }
-
-    if (messages.length == 0 && current.id == 10000) {
+    if (messages.length == 0 && props.item.id == 1) {
       setMessages([
         {
           data: {
@@ -82,28 +75,6 @@ export default function ChatView() {
     }
   }, [messages]);
 
-  useEffect(() => {
-    if (questioningMode) {
-      if (current.id && current.id != -1) {
-        localStorage.setItem(
-          "questioningMode" + current.id,
-          JSON.stringify(questioningMode)
-        );
-      }
-    }
-  }, [questioningMode]);
-
-  useEffect(() => {
-    if (current.id && current.id != -1) {
-      canScroll.current = true;
-    }
-    const newList =
-      JSON.parse(localStorage.getItem("historyList" + current.id) || "[]") ||
-      [];
-    if (newList.length == 0 && messages.length > 0) {
-      setMessages([]);
-    }
-  }, [current]);
   const send = async () => {
     if (loading) {
       if (controller) {
@@ -133,7 +104,7 @@ export default function ChatView() {
       await generateMessage(
         newState,
         gpt,
-        questioningMode?.value || "one",
+        props.item?.mode?.value || "one",
         controllerValue,
         (newMessages) => {
           setMessages(newMessages);
@@ -189,11 +160,11 @@ export default function ChatView() {
         }}
       >
         <Navbar.Brand>
-          {name && (
+          {props.item?.title && (
             <NavbarTItleView
-              name={name}
+              name={props.item?.title}
               count={messages.length}
-              id={current.id}
+              id={props.item.id}
             />
           )}
         </Navbar.Brand>
@@ -207,13 +178,12 @@ export default function ChatView() {
               </MobileSlider>
             </div>
           </Navbar.Item>
-          {!isMobile && current.id != 10000 && (
+          {!isMobile && props.item.id != 1 && (
             <Navbar.Item>
               <EditName
-                name={name}
+                name={props.item?.title}
                 setName={(text) => {
-                  setName(text);
-                  setId({ id: current.id || -1, name: text });
+                  updateSliderTitle(props.item.id, text);
                 }}
               >
                 <div className={styles.link}>
@@ -227,9 +197,9 @@ export default function ChatView() {
           <Navbar.Item>
             <MaxTokensLimit
               isDisabled={false}
-              select={questioningMode}
+              select={props.item?.mode}
               updateSelect={(value) => {
-                setQuestioningMode(value);
+                updateSliderMode(props.item.id, value);
               }}
             >
               <Filter set="curved" size={23} />
@@ -240,7 +210,7 @@ export default function ChatView() {
             <SelectView
               onDelete={() => {
                 setMessages([]);
-                localStorage.removeItem("historyList" + current.id);
+                localStorage.removeItem("historyList" + props.item.id);
                 toast.success("已重置");
               }}
               title={"提示"}
