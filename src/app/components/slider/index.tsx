@@ -226,10 +226,7 @@ export default function Slider(props: {
             //遍历key
             for (var i = 0; i < keys.length; i++) {
               //如果key以historyList开头或者以questioningMode开头
-              if (
-                keys[i].indexOf("historyList") == 0 ||
-                keys[i].indexOf("questioningMode") == 0
-              ) {
+              if (keys[i].indexOf("historyList") == 0) {
                 //删除该key
                 localStorage.removeItem(keys[i]);
               }

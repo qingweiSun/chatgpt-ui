@@ -61,6 +61,7 @@ export default function ChatView(props: { item: HistoryItem }) {
         messages.find((e) => {
           return e.data.role === "user";
         })?.data.content || "";
+      updateSliderTitle(props.item.id, tempName);
     }
     if (messages.length == 0 && props.item.id == 1) {
       setMessages([
