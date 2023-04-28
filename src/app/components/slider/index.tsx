@@ -126,7 +126,6 @@ export default function Slider(props: {
                     });
                   }
                 }
-              } else {
                 setId({
                   id: tempList[tempList.length - 1].id,
                 });
