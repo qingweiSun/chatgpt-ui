@@ -229,7 +229,7 @@ export default function ChatView(props: { item: HistoryItem }) {
                 <div>{props.item.explain ?? true ? "默认" : "简洁模式"}</div>
                 {!(props.item.explain ?? true) && (
                   <div style={{ fontSize: 12, color: "#999999" }}>
-                    当前默认会强行修改系统设定，使得答案会更简练并且节省
+                    当前模式会强行修改系统设定，使得答案会更简练并且节省
                     tokens，但是可能会导致答案不够优质，如果您需要更好的的答案，请点击恢复系统设定。
                   </div>
                 )}
