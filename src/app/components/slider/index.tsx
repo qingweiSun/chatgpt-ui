@@ -70,6 +70,7 @@ export default function Slider(props: {
         }}
       >
         {historyList &&
+          propsItem.item.id != 1 &&
           historyList[propsItem.index - 1]?.top &&
           !(historyList[propsItem.index]?.top ?? false) && (
             <div style={{ marginLeft: 16, color: "#666666", fontSize: 12 }}>
@@ -192,7 +193,6 @@ export default function Slider(props: {
         }}
       >
         <ItemView
-          key={1}
           item={{
             title: "随便聊聊",
             id: 1,
