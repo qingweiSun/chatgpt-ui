@@ -13,6 +13,7 @@ import IdContext from "@/app/hooks/use-chat-id";
 import { ConfigProvider } from "antd";
 import GptContext from "./hooks/use-gpt";
 import { HistoryItem } from "./components/slider";
+import { db } from "./db/db";
 
 const theme = createTheme({
   type: "light", // it could be "light" or "dark"
@@ -68,6 +69,22 @@ export default function Index() {
     } else {
       setId(JSON.parse(localStorage.getItem("current") ?? tempCurrent));
     }
+  }, []);
+
+  useEffect(() => {
+    db.on("populate", function () {
+      db.sliders.put({
+        id: 1,
+        title: "随便聊聊",
+        top: false,
+      });
+      db.sliders.put({
+        id: 1000,
+        title: "新的会话1000",
+        top: false,
+      });
+    });
+    setId({ id: 1 });
   }, []);
 
   useEffect(() => {

@@ -42,26 +42,11 @@ export default function Slider(props: {
   const router = useRouter();
 
   useEffect(() => {
-    db.on("populate", function () {
-      db.sliders.put({
-        id: 1,
-        title: "随便聊聊",
-        top: false,
-      });
-      db.sliders.put({
-        id: 1000,
-        title: "新的回话1000",
-        top: false,
-      });
-    });
-    setId({ id: 1 });
-  }, []);
-  useEffect(() => {
     if (historyList) {
       if (historyList.length == 0) {
         insertSlider({
           id: 1000,
-          title: "新的回话1000",
+          title: "新的会话1000",
           top: false,
         });
         setId({ id: 1000 });
