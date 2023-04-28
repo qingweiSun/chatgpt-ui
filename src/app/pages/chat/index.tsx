@@ -226,10 +226,11 @@ export default function ChatView(props: { item: HistoryItem }) {
                   flexDirection: "column",
                 }}
               >
-                <div>{props.item.explain ?? true ? "默认" : "无需解释"}</div>
+                <div>{props.item.explain ?? true ? "默认" : "简洁模式"}</div>
                 {!(props.item.explain ?? true) && (
                   <div style={{ fontSize: 12, color: "#999999" }}>
-                    当前默认会强行修改系统设定，使得答案会更简练，但是可能会导致答案不完整，如果您需要完整的答案，请点击恢复系统设定。
+                    当前默认会强行修改系统设定，使得答案会更简练并且节省
+                    tokens，但是可能会导致答案不够优质，如果您需要更好的的答案，请点击恢复系统设定。
                   </div>
                 )}
               </div>
@@ -245,7 +246,7 @@ export default function ChatView(props: { item: HistoryItem }) {
                 className={styles.link}
                 onClick={() => {
                   if (props.item.explain ?? true) {
-                    toast.success("已关闭解释模式");
+                    toast.success("已开启简洁模式");
                   } else {
                     toast.success("已恢复系统设定");
                   }

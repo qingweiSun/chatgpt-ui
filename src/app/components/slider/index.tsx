@@ -252,6 +252,8 @@ export default function Slider(props: {
               title: "新的会话" + newId,
               id: newId,
               top: false,
+              explain:
+                (localStorage.getItem("defaultMode") ?? "default") == "default",
             });
             setId({ id: newId });
             props.closeSlider?.();

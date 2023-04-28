@@ -41,6 +41,9 @@ export default function ApiKeyModal(props: {
   const { mode, setMode } = useContext(AppContext);
   const { isMobile } = useContext(context);
   const { gpt, setGpt } = useContext(GptContext);
+  const [defaultModel, setDefaultModel] = useState<string>(
+    localStorage.getItem("defaultMode") ?? "default"
+  );
 
   //余额查询
   async function updateBilling(key: string) {
@@ -366,6 +369,47 @@ export default function ApiKeyModal(props: {
               </ConfigProvider>
             </Space>
           )}
+          <Space direction={"vertical"} size={6}>
+            <Space>
+              <div>
+                创建新会话时默认使用：
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      borderRadius: 8,
+                    },
+                  }}
+                >
+                  <Segmented
+                    options={[
+                      {
+                        label: <div>默认</div>,
+                        value: "default",
+                      },
+                      {
+                        label: <div>简洁模式</div>,
+                        value: "simple",
+                      },
+                    ]}
+                    style={{ background: "#e9e9e9" }}
+                    value={defaultModel}
+                    onChange={(value) => {
+                      localStorage.setItem("defaultMode", value.toString());
+                      setDefaultModel(value.toString());
+                    }}
+                  />
+                </ConfigProvider>
+              </div>
+            </Space>
+            <div
+              style={{
+                color: "#666666",
+                fontSize: 12,
+              }}
+            >
+              简洁模式使得答案会更简练并且节省tokens，但是可能会导致答案不够优质，如果您需要更好的的答案，请点击恢复系统设定。
+            </div>
+          </Space>
           {balance.length > 0 && (
             <Card bordered={false} style={{ marginTop: 4 }}>
               <Space direction={"vertical"}>
