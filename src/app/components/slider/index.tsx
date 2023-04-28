@@ -54,7 +54,7 @@ export default function Slider(props: {
         top: false,
       });
     });
-    setId({ id: 1, name: "随便聊聊" });
+    setId({ id: 1 });
   }, []);
   useEffect(() => {
     if (historyList) {
@@ -64,7 +64,7 @@ export default function Slider(props: {
           title: "新的回话1000",
           top: false,
         });
-        setId({ id: 1000, name: "新的回话1" });
+        setId({ id: 1000 });
       }
     }
   }, [historyList]);
@@ -116,12 +116,12 @@ export default function Slider(props: {
             if (propsItem.onClick) {
               propsItem.onClick();
             } else {
-              setId({ id: propsItem.item.id, name: propsItem.item.title });
+              setId({ id: propsItem.item.id });
               props.closeSlider?.();
             }
           }}
           onRename={(name) => {
-            setId({ id: propsItem.item.id, name: name });
+            setId({ id: propsItem.item.id });
             props.closeSlider?.();
           }}
           onDelete={async () => {
@@ -138,7 +138,6 @@ export default function Slider(props: {
                     //定位到当前的下一个
                     setId({
                       id: tempList[propsItem.index].id,
-                      name: tempList[propsItem.index].title,
                     });
                   }
                 }
@@ -214,7 +213,7 @@ export default function Slider(props: {
           index={1}
           showEdit={false}
           onClick={() => {
-            setId({ id: 1, name: "随便聊聊" });
+            setId({ id: 1 });
             props.closeSlider?.();
           }}
         />
@@ -266,7 +265,7 @@ export default function Slider(props: {
               id: newId,
               top: false,
             });
-            setId({ id: newId, name: "新的会话" + newId });
+            setId({ id: newId });
             props.closeSlider?.();
           }}
         >

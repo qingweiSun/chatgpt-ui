@@ -21,8 +21,8 @@ const theme = createTheme({
 
 export default function Index() {
   const [loading, setLoading] = useState(true);
-  const tempCurrent = JSON.stringify({ id: 1, name: "随便聊聊" });
-  const [current, setId] = useState({ id: -1, name: "随便聊聊" });
+  const tempCurrent = JSON.stringify({ id: 1 });
+  const [current, setId] = useState({ id: -1 });
   const [mode, setMode] = useState<{
     mode: "card" | "normal" | string;
     size?: "small" | "medium" | "large" | string;
@@ -54,7 +54,7 @@ export default function Index() {
         let hasId = false;
         historyList.forEach((item: HistoryItem) => {
           if (item.id == +id) {
-            setId({ id: item.id, name: item.title });
+            setId({ id: item.id });
             hasId = true;
             return;
           }
@@ -79,11 +79,7 @@ export default function Index() {
   useEffect(() => {
     if (current.id != -1) {
       localStorage.setItem("current", JSON.stringify(current));
-      window.history.replaceState(
-        null,
-        "",
-        "/?id=" + current.id + "&name=" + encodeURIComponent(current.name)
-      );
+      window.history.replaceState(null, "", "/?id=" + current.id);
     }
   }, [current]);
 
