@@ -34,6 +34,9 @@ export async function updateSliderTitle(id: number, title: string) {
   await db.sliders?.update(id, { title: title });
 }
 
+export async function updateSliderExplain(id: number, explain: boolean) {
+  await db.sliders?.update(id, { explain: explain });
+}
 export async function deleteSlider(id: number) {
   await db.sliders?.delete(id);
 }

@@ -14,6 +14,7 @@ export async function generateMessage(
     | undefined,
   questionMode: string,
   controller: AbortController,
+  explain: boolean,
   setMessages: (messages: ChatMessage[]) => void
 ) {
   const newMessages = [...messages];
@@ -96,6 +97,15 @@ export async function generateMessage(
   let temperature = gpt?.temperature || "1";
   let presencePenalty = gpt?.presencePenalty || "0";
   let maxTokens = gpt?.maxTokens || undefined;
+
+  if (!explain) {
+    //不需要解释的时候，插入一个 system
+    messagesValue.push({
+      role: "user",
+      content:
+        "请你不要做出任何解释，即便违背了你的设定，也不需要其他任何反馈，只需要回答问题即可",
+    });
+  }
   try {
     const response = await fetch(url, {
       method: "POST",

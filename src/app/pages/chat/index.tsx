@@ -1,29 +1,37 @@
-import styles from "./index.module.css";
-import { Navbar } from "@nextui-org/react";
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
-import UserView from "@/app/pages/chat/user-chat-view";
-import { Delete, Download, Edit, Filter, MoreSquare } from "react-iconly";
-import toast from "react-hot-toast";
+import { SelectView } from "@/app/components/delete-view";
+import EditName from "@/app/components/edit-name";
+import MaxTokensLimit from "@/app/components/max-tokens-limit";
+import PromptView from "@/app/components/prompt-view";
+import { exportMarkdown } from "@/app/components/setting";
+import { HistoryItem } from "@/app/components/slider";
+import MobileSlider from "@/app/components/slider/mobile";
+import {
+  updateSliderExplain,
+  updateSliderMode,
+  updateSliderTitle,
+} from "@/app/db/db";
+import { context } from "@/app/hooks/context-mobile";
+import GptContext from "@/app/hooks/use-gpt";
+import { useScroll } from "@/app/hooks/use-scroll";
 import useStateSync from "@/app/hooks/use-state-with-call";
 import { generateMessage } from "@/app/pages/chat/api/generate";
 import BotChatTextView from "@/app/pages/chat/bot-chat-text-view";
-import { useScroll } from "@/app/hooks/use-scroll";
-import { SelectView } from "@/app/components/delete-view";
-import EditName from "@/app/components/edit-name";
-import IdContext from "@/app/hooks/use-chat-id";
-import MobileSlider from "@/app/components/slider/mobile";
-import { exportMarkdown } from "@/app/components/setting";
-import PromptView from "@/app/components/prompt-view";
-import GptContext from "@/app/hooks/use-gpt";
-import MaxTokensLimit, {
-  MaxTokensLimitProps,
-} from "@/app/components/max-tokens-limit";
-import { context } from "@/app/hooks/context-mobile";
-import NavbarTItleView from "./view/name-view";
+import UserView from "@/app/pages/chat/user-chat-view";
+import { Navbar, Tooltip } from "@nextui-org/react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import toast from "react-hot-toast";
+import {
+  Delete,
+  Download,
+  Edit,
+  Filter,
+  Lock,
+  MoreSquare,
+  Unlock,
+} from "react-iconly";
+import styles from "./index.module.css";
 import InputView from "./view/input-view";
-import { useLiveQuery } from "dexie-react-hooks";
-import { db, updateSliderMode, updateSliderTitle } from "@/app/db/db";
-import { HistoryItem } from "@/app/components/slider";
+import NavbarTItleView from "./view/name-view";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -107,6 +115,7 @@ export default function ChatView(props: { item: HistoryItem }) {
         gpt,
         props.item?.mode?.value || "one",
         controllerValue,
+        props.item.explain ?? true,
         (newMessages) => {
           setMessages(newMessages);
         }
@@ -170,15 +179,17 @@ export default function ChatView(props: { item: HistoryItem }) {
           )}
         </Navbar.Brand>
         <Navbar.Content css={{ gap: isMobile ? 16 : undefined }}>
-          <Navbar.Item>
-            <div className={styles.toggle} onClick={() => {}}>
-              <MobileSlider>
-                <div className={styles.link}>
-                  <MoreSquare set="curved" size={23} />
-                </div>
-              </MobileSlider>
-            </div>
-          </Navbar.Item>
+          {isMobile && (
+            <Navbar.Item>
+              <div className={styles.toggle} onClick={() => {}}>
+                <MobileSlider>
+                  <div className={styles.link}>
+                    <MoreSquare set="curved" size={23} />
+                  </div>
+                </MobileSlider>
+              </div>
+            </Navbar.Item>
+          )}
           {!isMobile && props.item.id != 1 && (
             <Navbar.Item>
               <EditName
@@ -194,7 +205,6 @@ export default function ChatView(props: { item: HistoryItem }) {
               </EditName>
             </Navbar.Item>
           )}
-
           <Navbar.Item>
             <MaxTokensLimit
               isDisabled={false}
@@ -206,12 +216,46 @@ export default function ChatView(props: { item: HistoryItem }) {
               <Filter set="curved" size={23} />
             </MaxTokensLimit>
           </Navbar.Item>
-
+          <Tooltip
+            content={
+              "当前模式：" + (props.item.explain ?? true ? "默认" : "无需解释")
+            }
+          >
+            <Navbar.Item>
+              <div
+                className={styles.link}
+                onClick={() => {
+                  if (props.item.explain ?? true) {
+                    toast.success("已关闭解释模式，答案会更简练");
+                  } else {
+                    toast.success("已恢复系统设定");
+                  }
+                  updateSliderExplain(
+                    props.item.id,
+                    !(props.item.explain ?? true)
+                  );
+                }}
+              >
+                {props.item.explain ?? true ? (
+                  <Unlock set="curved" size={23} />
+                ) : (
+                  <Lock
+                    size={23}
+                    primaryColor="var(--nextui-colors-error)"
+                    set="bold"
+                  />
+                )}
+              </div>
+            </Navbar.Item>
+          </Tooltip>
           <Navbar.Item>
             <SelectView
               onDelete={() => {
-                setMessages([]);
-                localStorage.removeItem("historyList" + props.item.id);
+                //获取系统消息
+                const systemMessage = messages.filter(
+                  (item) => item.data.role == "system"
+                );
+                setMessages([...systemMessage]);
                 toast.success("已重置");
               }}
               title={"提示"}

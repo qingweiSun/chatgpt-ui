@@ -29,6 +29,7 @@ export interface HistoryItem {
   id: number;
   top: boolean;
   mode?: MaxTokensLimitProps;
+  explain?: boolean;
 }
 
 export default function Slider(props: {
