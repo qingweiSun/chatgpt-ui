@@ -83,8 +83,8 @@ export default function Index() {
         title: "新的会话1000",
         top: false,
       });
+      setId({ id: 1 });
     });
-    setId({ id: 1 });
   }, []);
 
   useEffect(() => {
