@@ -1,12 +1,11 @@
-import styles from "./index.module.css";
-import React, { useContext } from "react";
-import MarkdownText, { copyToClipboard } from "@/app/pages/chat/markdown-text";
-import { ChatMessage } from "@/app/pages/chat/index";
-import Image from "next/image";
-import HeadImage from "../../icons/head.jpeg";
-import UserImage from "../../images/avatar.jpg";
 import { context } from "@/app/hooks/context-mobile";
+import { ChatMessage } from "@/app/pages/chat/index";
+import MarkdownText, { copyToClipboard } from "@/app/pages/chat/markdown-text";
 import { util } from "@/app/utils/util";
+import Image from "next/image";
+import React, { useContext } from "react";
+import UserImage from "../../images/avatar.jpg";
+import styles from "./index.module.css";
 const UserItemView = (props: {
   deleteItem: () => void;
   children: ChatMessage;

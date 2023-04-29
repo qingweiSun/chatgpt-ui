@@ -366,6 +366,8 @@ function HistoryItemView(props: {
                   ? props.isDarkMode
                     ? "#cccccc"
                     : "var(--nextui-colors-primary)"
+                  : props.isDarkMode
+                  ? "#cccccc"
                   : "unset",
               }}
               className={styles.delete}
