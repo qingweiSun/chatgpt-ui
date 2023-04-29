@@ -60,12 +60,10 @@ export default function ChatView(props: { item: HistoryItem }) {
   const [controller, setController] = useState<AbortController>(); //中断请求
   const [questionText, setQuestionText] = useStateSync("");
   useEffect(() => {
-    if (props.item.id && messages.length > 0) {
-      localStorage.setItem(
-        "historyList" + props.item.id,
-        JSON.stringify(messages)
-      );
-    }
+    localStorage.setItem(
+      "historyList" + props.item.id,
+      JSON.stringify(messages)
+    );
     if (props.item?.title.startsWith("新的会话")) {
       const tempName =
         messages.find((e) => {
