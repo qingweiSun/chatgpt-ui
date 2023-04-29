@@ -370,7 +370,7 @@ function HistoryItemView(props: {
                   ? "#cccccc"
                   : "unset",
               }}
-              className={styles.delete}
+              className={props.current ? styles.current : styles.delete}
               onClick={() => {
                 props.onTop();
               }}
@@ -384,12 +384,12 @@ function HistoryItemView(props: {
             <EditName
               setName={props.onRename}
               name={props.title}
-              className={styles.delete}
+              className={props.current ? styles.current : styles.delete}
             >
               <Edit set="curved" size={18} />
             </EditName>
             <SelectView
-              className={styles.delete}
+              className={props.current ? styles.current : styles.delete}
               placement={"bottom-right"}
               onDelete={props.onDelete}
               title={"提示"}

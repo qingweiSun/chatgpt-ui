@@ -169,7 +169,7 @@ export default function ApiKeyModal(props: {
               style={{
                 fontSize: 14,
                 width: "100%",
-                background: isDarkMode ? "#333333" : undefined,
+                background: isDarkMode ? "#2b2f31" : undefined,
                 color: isDarkMode ? "#cccccc" : undefined,
               }}
               placeholder={
@@ -252,11 +252,12 @@ export default function ApiKeyModal(props: {
               <Input
                 placeholder={"不限制请留空"}
                 bordered={!isDarkMode}
+                size="large"
                 className="custom-prompt"
                 style={{
                   width: "100%",
-                  fontSize: 13,
-                  background: isDarkMode ? "#333333" : undefined,
+                  fontSize: 14,
+                  background: isDarkMode ? "#2b2f31" : undefined,
                   color: isDarkMode ? "#cccccc" : undefined,
                 }}
                 value={gpt?.maxTokens}
@@ -295,9 +296,9 @@ export default function ApiKeyModal(props: {
                   token: isDarkMode
                     ? {
                         borderRadius: 8,
-                        colorBgBase: "#1c1c1c",
+                        colorBgBase: "#2b2f31",
                         colorFillSecondary: "transparent",
-                        colorTextBase: "#fff",
+                        colorTextBase: "#eeeeee",
                       }
                     : {
                         borderRadius: 8,
@@ -337,9 +338,9 @@ export default function ApiKeyModal(props: {
                   token: isDarkMode
                     ? {
                         borderRadius: 8,
-                        colorBgBase: "#1c1c1c",
+                        colorBgBase: "#2b2f31",
                         colorFillSecondary: "transparent",
-                        colorTextBase: "#fff",
+                        colorTextBase: "#eeeeee",
                       }
                     : {
                         borderRadius: 8,
@@ -384,9 +385,9 @@ export default function ApiKeyModal(props: {
                     token: isDarkMode
                       ? {
                           borderRadius: 8,
-                          colorBgBase: "#1c1c1c",
+                          colorBgBase: "#2b2f31",
                           colorFillSecondary: "transparent",
-                          colorTextBase: "#fff",
+                          colorTextBase: "#eeeeee",
                         }
                       : {
                           borderRadius: 8,

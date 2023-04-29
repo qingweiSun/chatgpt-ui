@@ -1,15 +1,16 @@
-import styles from "@/app/pages/chat/index.module.css";
 import AiLOGO from "@/app/icons/bot.svg";
-import Image from "next/image";
-import React, { useContext, useState } from "react";
+import AiLOGODark from "@/app/icons/bot_dark.svg";
+import styles from "@/app/pages/chat/index.module.css";
+import { Button, Popover } from "@nextui-org/react";
 import { ConfigProvider, Tag, Tooltip } from "antd";
+import TextArea from "antd/es/input/TextArea";
+import Image from "next/image";
+import { useContext, useState } from "react";
+import { toast } from "react-hot-toast";
+import { Edit } from "react-iconly";
+import { useMediaQuery } from "react-responsive";
 import { context } from "../hooks/context-mobile";
 import UserImage from "../images/avatar.jpg";
-import { Edit } from "react-iconly";
-import { Button, Popover } from "@nextui-org/react";
-import TextArea from "antd/es/input/TextArea";
-import { toast } from "react-hot-toast";
-import { useMediaQuery } from "react-responsive";
 export default function PromptView(props: {
   setPrompt: (text: string) => void;
 }) {
@@ -225,7 +226,7 @@ export default function PromptView(props: {
         >
           <Image
             className={styles.avatar}
-            src={AiLOGO}
+            src={isDarkMode ? AiLOGODark : AiLOGO}
             style={{
               width: 36,
               height: 36,
@@ -399,6 +400,7 @@ export default function PromptView(props: {
                     className="custom-prompt"
                     placeholder="请输入自定义角色属性"
                     autoFocus
+                    bordered={!isDarkMode}
                     value={customPrompt}
                     onChange={(e) => {
                       setCustomPrompt(e.target.value);
@@ -409,7 +411,7 @@ export default function PromptView(props: {
                       borderWidth: 2,
                       fontSize: 15,
                       borderColor: isDarkMode ? "#333333" : undefined,
-                      backgroundColor: isDarkMode ? "#1a1a1a" : undefined,
+                      backgroundColor: isDarkMode ? "#2b2f31" : undefined,
                       color: isDarkMode ? "#cccccc" : undefined,
                     }}
                     autoSize={{ minRows: 4, maxRows: 10 }}

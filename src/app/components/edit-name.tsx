@@ -71,6 +71,7 @@ export default function EditName(props: {
               value={name}
               placeholder="请输入名称"
               size="large"
+              bordered={!isDarkMode}
               autoSize={{ minRows: 1, maxRows: 3 }}
               style={{
                 fontSize: 15,
@@ -78,7 +79,7 @@ export default function EditName(props: {
                 borderWidth: 2,
                 width: "100%",
                 borderColor: isDarkMode ? "#333333" : undefined,
-                backgroundColor: isDarkMode ? "#1a1a1a" : undefined,
+                backgroundColor: isDarkMode ? "#2b2f31" : undefined,
                 color: isDarkMode ? "#cccccc" : undefined,
               }}
               onChange={(e) => {

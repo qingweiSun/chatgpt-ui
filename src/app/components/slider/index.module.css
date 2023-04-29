@@ -73,12 +73,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    color: #696969;
+}
+.current {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #0072F5;
 }
 
 .delete:hover {
-    color: #965aed;
+    color: #0072F5;
 }
 
+.current:hover {
+    color: #965aed;
+}
 .bottom {
     position: absolute;
     bottom: 0;
@@ -88,8 +98,8 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
-    background: rgba(231, 245, 255, 0.1);
-    backdrop-filter: blur(12px);
+    background: rgba(231, 245, 255, 0.7);
+    backdrop-filter: blur(10px) saturate(180%);
     -webkit-backdrop-filter: blur(12px);
 }
 
@@ -110,10 +120,10 @@
 
 @media (prefers-color-scheme: dark) {
     .slider{
-        background: #1e1e1e;
+        background: #16181a;
     }
     .bottom{
-        background: rgba(17, 17, 17, 0.1);
+        background: rgba(17, 17, 17, 0.8);
     }
     .delete {
         color: #cccccc

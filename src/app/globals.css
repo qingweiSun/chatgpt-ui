@@ -176,4 +176,10 @@ input, textarea {
     .ant-modal-title {
         color: #cccccc !important;
     }
+    .ant-slider .ant-slider-rail{
+        background: #0072F5;
+    }
+    .ant-slider-rail:hover{
+        color: #0072F5;
+    }
 }
