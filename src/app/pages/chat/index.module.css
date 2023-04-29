@@ -128,8 +128,8 @@
     left: 300px;
     z-index: 1;
     background: rgba(247, 247, 247, 0.7);
-    backdrop-filter: blur(10px) saturate(180%);/* saturate(180%) blur(var(--nextui--navbarBlur)) */
-    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    backdrop-filter: blur(12px) saturate(180%) ;/* saturate(180%) blur(var(--nextui--navbarBlur)) */
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
     /* padding: 10px;
     padding-top: 20px; */
     border-top: 1px solid #eeeeee;
@@ -277,7 +277,7 @@
         color: #cccccc;
     }
     .bottom{
-        background: rgba(17, 17, 17,0.8);
+        background: rgba(17, 17, 17,0.9) ;
         border-top: 1px solid #1a1a1a;
     }
     .question{

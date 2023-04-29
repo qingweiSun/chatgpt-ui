@@ -171,7 +171,7 @@ export default function ChatView(props: { item: HistoryItem }) {
         disableShadow
         containerCss={{
           backgroundColor: isDarkMode
-            ? "rgba(17, 17, 17, 0.7) !important"
+            ? "rgba(17, 17, 17, 0.9) !important"
             : "rgba(247, 247, 247, 0.7) !important",
           borderBottom: `1px solid ${isDarkMode ? "#1a1a1a" : "#eeeeee"}`,
           boxShadow: "0 2px 4px rgb(0 0 0 / 1%)",
