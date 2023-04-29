@@ -2,17 +2,21 @@ import styles from "./index.module.css";
 import React, { useContext } from "react";
 import { Loading } from "@nextui-org/react";
 import AiLOGO from "../../icons/bot.svg";
+import AiLOGODark from "../../icons/bot_dark.svg";
 import Image from "next/image";
 import { ChatMessage } from "@/app/pages/chat/index";
 import MarkdownText, { copyToClipboard } from "@/app/pages/chat/markdown-text";
 import { context } from "@/app/hooks/context-mobile";
 import { util } from "@/app/utils/util";
+import { useMediaQuery } from "react-responsive";
 
 const BotChatTextItemView = (props: {
   deleteItem: () => void;
   children: ChatMessage;
 }) => {
   const { isMobile } = useContext(context);
+  const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
+
   return (
     <div
       className={styles.message}
@@ -26,7 +30,7 @@ const BotChatTextItemView = (props: {
     >
       <Image
         className={styles.avatar}
-        src={AiLOGO}
+        src={isDarkMode ? AiLOGODark : AiLOGO}
         style={{
           width: 36,
           height: 36,

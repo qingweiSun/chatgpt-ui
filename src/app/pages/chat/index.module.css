@@ -288,11 +288,11 @@
     }
     .bot {
         color: #cccccc;
-        background: #1a1a1a;
-        border: 1px solid #222222;
+        background: #1b1b1b;
+        border: 1px solid #1b1b1b;
     }
     .bot:hover{
-        border: 1px solid #333333;
+        border: 1px solid #252525;
     }
     .chat-md-top-action{
         background: #111111;
@@ -307,10 +307,10 @@
     .user {
         color: #cccccc;
         background: #0362cc;
-        border: 1px solid #222222;
+        border: 1px solid #0362cc;
     }
     .user:hover{
-        border: 1px solid #333333;
+        border: 1px solid #252525;
     }
     .prompt:hover{
         color: #dddddd;

@@ -161,7 +161,7 @@ export default function Slider(props: {
       .map((item, index) => {
         return <ItemView item={item} index={index} key={item.id} showEdit />;
       });
-  }, [historyList, current]);
+  }, [historyList, current, isDarkMode]);
 
   return (
     <div className={`${styles.slider}`}>
@@ -176,7 +176,7 @@ export default function Slider(props: {
         <Image
           src={ChatGptLogo}
           alt={"logo"}
-          style={{ opacity: isDarkMode ? 0.2 : 1 }}
+          style={{ opacity: isDarkMode ? 0.1 : 1 }}
         />
       </div>
       <div
