@@ -8,6 +8,7 @@ import AppContext from "@/app/hooks/use-style";
 
 export default function InputView(props: {
   questionText: string;
+  isDarkMode: boolean;
   setQuestionText: (value: string) => void;
   send: () => void;
   onFocus: () => void;
@@ -60,6 +61,11 @@ export default function InputView(props: {
             borderBottomLeftRadius: 8,
             borderTopLeftRadius: 8,
             borderTopRightRadius: 8,
+            background: props.isDarkMode
+              ? props.questionText.trim() == ""
+                ? "#1a1a1a !important"
+                : "#0362cc !important"
+              : undefined,
           }}
         >
           <div

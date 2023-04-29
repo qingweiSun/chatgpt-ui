@@ -2,10 +2,14 @@ import ReactMarkdown from "react-markdown";
 import RemarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import styles from "./index.module.css";
 import toast from "react-hot-toast";
+import { useMediaQuery } from "react-responsive";
 
 export default function MarkdownText(props: { children: string }) {
+  const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
+
   return (
     <ReactMarkdown
       remarkPlugins={[RemarkGfm]}
@@ -21,11 +25,11 @@ export default function MarkdownText(props: { children: string }) {
             >
               <SyntaxHighlighter
                 // @ts-ignore
-                style={oneLight}
+                style={isDarkMode ? oneDark : oneLight}
                 customStyle={{
                   margin: 0,
                   borderRadius: 0,
-                  backgroundColor: "#f7f7f7",
+                  backgroundColor: isDarkMode ? "#222222" : "#f7f7f7",
                 }}
                 language={match[1]}
                 PreTag="div"

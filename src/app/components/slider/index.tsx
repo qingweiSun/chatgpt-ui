@@ -21,6 +21,7 @@ import ChatGptLogo from "../../icons/chatgpt.svg";
 import styles from "./index.module.css";
 import { MaxTokensLimitProps } from "../max-tokens-limit";
 import { toast } from "react-hot-toast";
+import { useMediaQuery } from "react-responsive";
 
 //https://react-iconly.jrgarciadev.com/ 图标
 //https://dexie.org/docs/Tutorial/React 数据库
@@ -41,6 +42,7 @@ export default function Slider(props: {
   );
   const { current, setId } = useContext(IdContext);
   const router = useRouter();
+  const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
   // useEffect(() => {
   //   db.table("sliders").hook("deleting", function (primaryKey, obj) {
@@ -79,27 +81,22 @@ export default function Slider(props: {
           propsItem.item.id != 1 &&
           historyList[propsItem.index - 1]?.top &&
           !(historyList[propsItem.index]?.top ?? false) && (
-            <div style={{ marginLeft: 16, color: "#666666", fontSize: 12 }}>
-              其他会话
-            </div>
+            <div className={styles.label}>其他会话</div>
           )}
 
         {propsItem.index == 0 &&
           historyList &&
           (historyList[propsItem.index]?.top ?? false) && (
-            <div style={{ marginLeft: 16, color: "#666666", fontSize: 12 }}>
-              置顶会话
-            </div>
+            <div className={styles.label}>置顶会话</div>
           )}
 
         {propsItem.index == 0 &&
           historyList &&
           !(historyList[propsItem.index]?.top ?? false) && (
-            <div style={{ marginLeft: 16, color: "#666666", fontSize: 12 }}>
-              全部会话
-            </div>
+            <div className={styles.label}>全部会话</div>
           )}
         <HistoryItemView
+          isDarkMode={isDarkMode}
           showEdit={propsItem.showEdit}
           key={propsItem.index}
           title={propsItem.item.title}
@@ -176,7 +173,11 @@ export default function Slider(props: {
           overflow: "hidden",
         }}
       >
-        <Image src={ChatGptLogo} alt={"logo"} />
+        <Image
+          src={ChatGptLogo}
+          alt={"logo"}
+          style={{ opacity: isDarkMode ? 0.2 : 1 }}
+        />
       </div>
       <div
         style={{
@@ -248,7 +249,9 @@ export default function Slider(props: {
           css={{
             flex: "0 0 auto",
             "&:hover": {
-              background: "rgba(255,255,255,0.4)",
+              background: isDarkMode
+                ? "rgba(15, 50, 107,0.4)"
+                : "rgba(255,255,255,0.4)",
             },
           }}
           onClick={async () => {
@@ -280,6 +283,7 @@ function HistoryItemView(props: {
   current: boolean;
   showEdit: boolean;
   isTop: boolean;
+  isDarkMode: boolean;
   onClick: () => void;
   onDelete: () => void;
   onRename: (name: string) => void;
@@ -291,7 +295,13 @@ function HistoryItemView(props: {
       className={styles.historyItem}
       color="primary"
       css={{
-        color: props.current ? undefined : "#696969",
+        color: props.current
+          ? props.isDarkMode
+            ? "#dddddd"
+            : undefined
+          : props.isDarkMode
+          ? "#999999"
+          : "#696969",
         borderWidth: 1,
         margin: "0 12px",
         fontWeight: props.current ? 500 : 400,
@@ -299,7 +309,11 @@ function HistoryItemView(props: {
         justifyContent: "start",
         backdropFilter: "blur(4px)",
         display: "unset",
-        background: props.current ? "rgba(255,255,255,0.4)" : undefined,
+        background: props.current
+          ? props.isDarkMode
+            ? "rgba(15, 50, 107,0.6)"
+            : "rgba(255,255,255,0.4)"
+          : undefined,
         borderStyle: props.current ? undefined : "dashed",
         borderColor: props.current ? undefined : "#bfbfbf",
         "&:hover": {
@@ -341,8 +355,10 @@ function HistoryItemView(props: {
                 height: "auto",
                 padding: 0,
                 color: props.current
-                  ? "var(--nextui-colors-primary)"
-                  : "#444444",
+                  ? props.isDarkMode
+                    ? "#cccccc"
+                    : "var(--nextui-colors-primary)"
+                  : "unset",
               }}
               className={styles.delete}
               onClick={() => {
@@ -363,6 +379,7 @@ function HistoryItemView(props: {
               <Edit set="curved" size={18} />
             </EditName>
             <SelectView
+              className={styles.delete}
               placement={"bottom-right"}
               onDelete={props.onDelete}
               title={"提示"}

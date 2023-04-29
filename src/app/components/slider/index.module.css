@@ -99,3 +99,26 @@
     border-radius: 50%;
     background: var(--nextui-colors-primary);
 } */
+
+
+.label{
+    /* style={{ marginLeft: 16, color: "#666666", fontSize: 12 }} */
+    margin-left: 16px;
+    color: #666666;
+    font-size: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .slider{
+        background: #111111;
+    }
+    .bottom{
+        background: rgba(17, 17, 17, 0.1);
+    }
+    .delete {
+        color: #cccccc
+    }
+    .label{
+        color: #cccccc;
+    }
+}

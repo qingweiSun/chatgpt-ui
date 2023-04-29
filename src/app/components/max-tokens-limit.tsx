@@ -1,6 +1,7 @@
 import { Dropdown } from "@nextui-org/react";
 import { ReactNode, useContext, useState } from "react";
 import { context } from "../hooks/context-mobile";
+import { useMediaQuery } from "react-responsive";
 
 export interface MaxTokensLimitProps {
   value: string;
@@ -14,6 +15,7 @@ export default function MaxTokensLimit(props: {
   children: ReactNode;
 }) {
   const { isMobile } = useContext(context);
+  const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
   const data = [
     {
@@ -40,8 +42,8 @@ export default function MaxTokensLimit(props: {
         size={isMobile ? "sm" : "md"}
         isDisabled={props.isDisabled}
         css={{
-          background: "var(--nextui-colors-accents1)",
-          color: "#444444",
+          background: isDarkMode ? "#1b1b1b" : "var(--nextui-colors-accents1)",
+          color: isDarkMode ? "#cccccc" : "#444444",
           "&:hover": {
             color: "var(--nextui-colors-primary)",
             // background: "#b7d5f8",

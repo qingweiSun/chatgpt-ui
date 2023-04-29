@@ -9,9 +9,12 @@ import { Edit } from "react-iconly";
 import { Button, Popover } from "@nextui-org/react";
 import TextArea from "antd/es/input/TextArea";
 import { toast } from "react-hot-toast";
+import { useMediaQuery } from "react-responsive";
 export default function PromptView(props: {
   setPrompt: (text: string) => void;
 }) {
+  const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
+
   const data = [
     {
       title: "技术",
@@ -287,9 +290,13 @@ export default function PromptView(props: {
                                 overlayStyle={{ maxWidth: 500 }}
                               >
                                 <Tag
-                                  color={color}
+                                  color={isDarkMode ? "#222222" : color}
                                   style={{
                                     cursor: "pointer",
+                                    borderColor: isDarkMode
+                                      ? "#333333"
+                                      : undefined,
+                                    color: isDarkMode ? "#cccccc" : undefined,
                                   }}
                                   onClick={() => {
                                     props.setPrompt(value.desc);

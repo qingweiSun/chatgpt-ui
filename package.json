@@ -28,6 +28,7 @@
     "react-hot-toast": "^2.4.0",
     "react-iconly": "^2.2.10",
     "react-markdown": "^8.0.5",
+    "react-responsive": "^9.0.2",
     "react-scroll": "^1.8.9",
     "react-syntax-highlighter": "^15.5.0",
     "react-transition-group": "^4.4.5",

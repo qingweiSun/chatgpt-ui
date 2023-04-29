@@ -32,6 +32,7 @@ import {
 import styles from "./index.module.css";
 import InputView from "./view/input-view";
 import NavbarTItleView from "./view/name-view";
+import { useMediaQuery } from "react-responsive";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -45,6 +46,7 @@ export interface GptMessage {
 
 export default function ChatView(props: { item: HistoryItem }) {
   const { isMobile } = useContext(context);
+  const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
   const [messages, setMessages] = useStateSync<ChatMessage[]>(
     JSON.parse(localStorage.getItem("historyList" + props.item.id) || "[]") ||
@@ -170,8 +172,10 @@ export default function ChatView(props: { item: HistoryItem }) {
         maxWidth={"fluid"}
         disableShadow
         containerCss={{
-          backgroundColor: "rgba(247, 247, 247, 0.7) !important",
-          borderBottom: "1px solid #eeeeee",
+          backgroundColor: isDarkMode
+            ? "rgba(30, 30, 30, 0.7) !important"
+            : "rgba(247, 247, 247, 0.7) !important",
+          borderBottom: `1px solid ${isDarkMode ? "#252525" : "#eeeeee"}`,
           boxShadow: "0 2px 4px rgb(0 0 0 / 1%)",
           minHeight: 68,
           height: 68,
@@ -337,7 +341,8 @@ export default function ChatView(props: { item: HistoryItem }) {
         <div id={"home_end"} />
       </div>
       <InputView
-        questionText={questionText}
+        isDarkMode={isDarkMode}
+        questionText={questionText ?? ""}
         setQuestionText={setQuestionText}
         loading={loading}
         send={send}

@@ -16,7 +16,9 @@ export default function NavbarTItleView(props: {
       <div className={styles.nmaep}>
         <div className={styles.name}>{name}</div>
       </div>
-      <div style={{ fontSize: 13 }}>共{props.count}条记录</div>
+      <div style={{ fontSize: 13 }} className={styles.sub}>
+        共{props.count}条记录
+      </div>
     </div>
   );
 }

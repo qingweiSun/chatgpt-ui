@@ -41,6 +41,14 @@
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
+@media (prefers-color-scheme: dark) {
+    .cardModeContent {
+        border: 1px solid rgba(0,0,0,0.15);
+    }
+    .line{
+        display: none;
+    }
+}
 .home {
     display: flex;
     flex-direction: row;
@@ -51,6 +59,14 @@
 
 .slider {
     height: 100%;
+}
+
+.line{
+    width: 1px;
+    height: 100%;
+    background: #eeeeee;
+    z-index: 10;
+    
 }
 
 /*媒体查询*/

@@ -49,15 +49,7 @@ export default function Home() {
           </div>
         )}
         {!isMobile && <div style={{ width: 300 }} className={styles.slider} />}
-        <div
-          className={styles.slider}
-          style={{
-            width: 1,
-            height: "100%",
-            background: "#eeeeee",
-            zIndex: 10,
-          }}
-        />
+        <div className={styles.line} />
         {record && <ChatView key={record.id} item={record} />}
       </div>
     </div>
