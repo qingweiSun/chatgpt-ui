@@ -42,6 +42,11 @@ export default function Slider(props: {
   const { current, setId } = useContext(IdContext);
   const router = useRouter();
 
+  // useEffect(() => {
+  //   db.table("sliders").hook("deleting", function (primaryKey, obj) {
+  //     toast("删除");
+  //   });
+  // }, []);
   useEffect(() => {
     if (historyList) {
       if (historyList.length == 0) {
@@ -127,10 +132,11 @@ export default function Slider(props: {
                       id: tempList[propsItem.index].id,
                     });
                   }
+                } else {
+                  setId({
+                    id: tempList[tempList.length - 1].id,
+                  });
                 }
-                setId({
-                  id: tempList[tempList.length - 1].id,
-                });
               }
             }
           }}
