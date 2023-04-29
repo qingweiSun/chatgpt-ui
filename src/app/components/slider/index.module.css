@@ -98,8 +98,8 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
-    background: rgba(231, 245, 255, 0.7);
-    backdrop-filter: blur(10px) saturate(180%);
+    background: rgba(231, 245, 255, 0.6);
+    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(12px);
 }
 
@@ -123,7 +123,7 @@
         background: #16181a;
     }
     .bottom{
-        background: rgba(17, 17, 17, 0.8);
+        background: rgba(22, 24, 26, 0.8);
     }
     .delete {
         color: #999999
