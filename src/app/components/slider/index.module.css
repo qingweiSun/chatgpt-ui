@@ -126,9 +126,12 @@
         background: rgba(17, 17, 17, 0.8);
     }
     .delete {
-        color: #cccccc
+        color: #999999
     }
     .label{
+        color: #cccccc;
+    }
+    .current{
         color: #cccccc;
     }
 }
