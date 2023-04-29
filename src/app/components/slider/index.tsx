@@ -372,7 +372,7 @@ function HistoryItemView(props: {
                     : "var(--nextui-colors-primary)"
                   : props.isDarkMode
                   ? "#cccccc"
-                  : "unset",
+                  : "#999999",
               }}
               className={props.current ? styles.current : styles.delete}
               onClick={() => {

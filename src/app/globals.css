@@ -54,10 +54,10 @@ li {
 @media (prefers-color-scheme: dark) {
     html {
         color-scheme: dark;
-        background: #151515 !important;
+        background: #202020 !important;
     }
     body {
-        background: #151515 !important;
+        background: #202020 !important;
     }
 }
 

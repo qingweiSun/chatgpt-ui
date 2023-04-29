@@ -48,13 +48,18 @@ export default function RewardView() {
         // footer={[]}
       >
         <Modal.Header>
-          <Text b size={16}>
+          <Text b size={16} color={isDarkMode ? "#888888" : undefined}>
             捐赠
           </Text>
         </Modal.Header>
         <Modal.Body>
           <Space direction={"vertical"}>
-            <div style={{ fontSize: 14 }}>
+            <div
+              style={{
+                fontSize: 14,
+                color: isDarkMode ? "#999999" : undefined,
+              }}
+            >
               因为免费版的访问速度可能会受到限制或不稳定，因此，如果你想提速的话，可以用自己的apikey充值或者可以请我喝杯咖啡的话，我会非常感激！
             </div>
             <div style={{ padding: `16px ${isMobile ? 16 : 64}px` }}>
