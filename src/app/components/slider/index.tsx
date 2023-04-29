@@ -323,7 +323,11 @@ function HistoryItemView(props: {
             : "rgba(255,255,255,0.4)"
           : undefined,
         borderStyle: props.current ? undefined : "dashed",
-        borderColor: props.current ? undefined : "#bfbfbf",
+        borderColor: props.current
+          ? undefined
+          : props.isDarkMode
+          ? "#444444"
+          : "#bfbfbf",
         "&:hover": {
           borderColor: "var(--nextui-colors-primary)",
         },

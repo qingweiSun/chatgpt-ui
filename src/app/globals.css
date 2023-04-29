@@ -182,4 +182,7 @@ input, textarea {
     .ant-slider-rail:hover{
         color: #0072F5;
     }
+    ul, ol {
+        color: unset !important;
+    }
 }
