@@ -110,7 +110,7 @@
 
 @media (prefers-color-scheme: dark) {
     .slider{
-        background: #111111;
+        background: #1e1e1e;
     }
     .bottom{
         background: rgba(17, 17, 17, 0.1);

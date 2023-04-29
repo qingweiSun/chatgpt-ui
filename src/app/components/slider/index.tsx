@@ -16,7 +16,15 @@ import { useLiveQuery } from "dexie-react-hooks";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useMemo } from "react";
-import { ArrowDown, ArrowUp, Delete, Edit, Plus, Setting } from "react-iconly";
+import {
+  ArrowDown,
+  ArrowUp,
+  Delete,
+  Edit,
+  Image2,
+  Plus,
+  Setting,
+} from "react-iconly";
 import ChatGptLogo from "../../icons/chatgpt.svg";
 import styles from "./index.module.css";
 import { MaxTokensLimitProps } from "../max-tokens-limit";

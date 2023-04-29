@@ -265,7 +265,7 @@
 
 @media (prefers-color-scheme: dark) {
     .container {
-        background: #1e1e1e;
+        background: #111111;
     }
     .name{
         color: #cccccc;
@@ -277,8 +277,8 @@
         color: #cccccc;
     }
     .bottom{
-        background: rgba(30,30,30,0.8);
-        border-top: 1px solid #252525;
+        background: rgba(17, 17, 17,0.8);
+        border-top: 1px solid #1a1a1a;
     }
     .question{
         color: #cccccc;
