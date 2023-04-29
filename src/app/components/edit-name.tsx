@@ -56,13 +56,9 @@ export default function EditName(props: {
           {props.children}
         </a>
       </Popover.Trigger>
-      <Popover.Content
-        css={{
-          backgroundColor: isDarkMode ? "#1f1f1f" : undefined,
-        }}
-      >
+      <Popover.Content>
         <Grid.Container
-          css={{ borderRadius: "14px", paddingTop: 12, width: "230px" }}
+          css={{ borderRadius: "14px", paddingTop: 12, width: "240px" }}
         >
           <Row justify="center" align="center">
             <Text b color={isDarkMode ? "#cccccc" : undefined}>
@@ -111,7 +107,7 @@ export default function EditName(props: {
             <div style={{ width: 8 }} />
             <Button
               size="sm"
-              shadow={!isDarkMode}
+              shadow
               color="primary"
               auto
               onPress={() => {

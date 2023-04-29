@@ -35,11 +35,7 @@ export function SelectView(props: {
           {props.children}
         </a>
       </Popover.Trigger>
-      <Popover.Content
-        css={{
-          backgroundColor: isDarkMode ? "#1f1f1f" : undefined,
-        }}
-      >
+      <Popover.Content>
         <DeleteView
           isDarkMode={isDarkMode}
           onDelete={() => {
@@ -106,11 +102,7 @@ export function SelectButtonView(props: {
           清理全部
         </Button>
       </Popover.Trigger>
-      <Popover.Content
-        css={{
-          backgroundColor: isDarkMode ? "#1f1f1f" : undefined,
-        }}
-      >
+      <Popover.Content>
         <DeleteView
           isDarkMode={isDarkMode}
           onDelete={() => {
@@ -166,13 +158,7 @@ export const DeleteView = (props: {
           取消
         </Button>
         <div style={{ width: 8 }} />
-        <Button
-          size="sm"
-          shadow={!props.isDarkMode}
-          color="error"
-          auto
-          onPress={props.onDelete}
-        >
+        <Button size="sm" shadow color="error" auto onPress={props.onDelete}>
           确定
         </Button>
       </Row>

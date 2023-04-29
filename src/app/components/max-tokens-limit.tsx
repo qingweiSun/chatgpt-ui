@@ -1,4 +1,4 @@
-import { Dropdown } from "@nextui-org/react";
+import { Dropdown, NextUIProvider, createTheme } from "@nextui-org/react";
 import { ReactNode, useContext, useState } from "react";
 import { context } from "../hooks/context-mobile";
 import { useMediaQuery } from "react-responsive";

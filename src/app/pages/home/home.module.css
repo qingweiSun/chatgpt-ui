@@ -5,7 +5,7 @@
 
 .cardModeSmall{
     width: calc(100% - 40px);
-    height: calc(100% - 40px);
+    /* height: calc(100% - 40px); */
     padding: 20px 20px;
     display: flex;
     margin: 0 auto;
@@ -15,7 +15,7 @@
 
 .cardModeMedium {
     width: calc(100% - 80px);
-    height: calc(100% - 80px);
+    /* height: calc(100% - 80px); */
     padding: 40px 40px;
     display: flex;
     margin: 0 auto;
@@ -25,7 +25,7 @@
 
 .cardModeLarge {
     width: calc(100% - 160px);
-    height: calc(100% - 160px);
+    /* height: calc(100% - 160px); */
     padding: 80px 80px;
     display: flex;
     margin: 0 auto;

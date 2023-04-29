@@ -10,11 +10,13 @@ import {
   Space,
 } from "antd";
 import React, { useContext, useState } from "react";
-import { Setting } from "react-iconly";
+import { CloseSquare, Setting } from "react-iconly";
 import AppContext from "@/app/hooks/use-style";
 import { context } from "@/app/hooks/context-mobile";
 import styles from "./delete.module.css";
 import GptContext from "../hooks/use-gpt";
+import { useTheme } from "@nextui-org/react";
+import { useMediaQuery } from "react-responsive";
 
 const { TextArea } = Input;
 
@@ -37,6 +39,7 @@ export default function ApiKeyModal(props: {
   const [showCostType, setShowCostType] = useState<"tokens" | "$" | "none">(
     props.showCostType
   );
+  const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
   const { mode, setMode } = useContext(AppContext);
   const { isMobile } = useContext(context);
@@ -84,6 +87,12 @@ export default function ApiKeyModal(props: {
         destroyOnClose
         width={600}
         cancelText={"取消"}
+        closeIcon={
+          <CloseSquare
+            set="curved"
+            primaryColor={isDarkMode ? "#bbbbbb" : undefined}
+          />
+        }
         afterClose={() => {
           setShowCostType(props.showCostType);
         }}
@@ -154,8 +163,15 @@ export default function ApiKeyModal(props: {
             <div>apiKey:</div>
             <Input
               value={gpt?.key}
+              className="custom-prompt"
+              bordered={!isDarkMode}
               size={"large"}
-              style={{ fontSize: 14, width: "100%" }}
+              style={{
+                fontSize: 14,
+                width: "100%",
+                background: isDarkMode ? "#333333" : undefined,
+                color: isDarkMode ? "#cccccc" : undefined,
+              }}
               placeholder={
                 "请输入您自己的apiKey，以便获得更好的体验，本站不会做任何记录"
               }
@@ -233,22 +249,29 @@ export default function ApiKeyModal(props: {
           <Space direction={"vertical"} size={6}>
             <Space>
               max_tokens:
-              <InputNumber
+              <Input
                 placeholder={"不限制请留空"}
-                style={{ width: "100%", fontSize: 13 }}
-                value={gpt?.maxTokens}
-                onBlur={(value) => {
-                  console.log(value.target.value);
-                  if (value.target.value == "") {
-                    if (gpt) {
-                      setGpt({ ...gpt, maxTokens: "" });
-                    }
-                  }
+                bordered={!isDarkMode}
+                className="custom-prompt"
+                style={{
+                  width: "100%",
+                  fontSize: 13,
+                  background: isDarkMode ? "#333333" : undefined,
+                  color: isDarkMode ? "#cccccc" : undefined,
                 }}
-                onChange={(value) => {
-                  console.log(value);
+                value={gpt?.maxTokens}
+                // onBlur={(value) => {
+                //   console.log(value.target.value);
+                //   if (value.target.value == "") {
+                //     if (gpt) {
+                //       setGpt({ ...gpt, maxTokens: "" });
+                //     }
+                //   }
+                // }}
+                onChange={(e) => {
+                  console.log(e);
                   if (gpt) {
-                    setGpt({ ...gpt, maxTokens: value + "" });
+                    setGpt({ ...gpt, maxTokens: e.target.value + "" });
                   }
                 }}
               />
@@ -263,46 +286,22 @@ export default function ApiKeyModal(props: {
               输入标记和生成标记的总长度受模型上下文长度的限制。越大或者留空越会消耗apiKey的额度
             </div>
           </Space>
-          {/* <Space>
-            显示计费：
-            <ConfigProvider
-              theme={{
-                token: {
-                  borderRadius: 8,
-                },
-              }}
-            >
-              <Segmented
-                options={[
-                  {
-                    label: <div>tokens</div>,
-                    value: "tokens",
-                  },
-                  {
-                    label: <div>美元</div>,
-                    value: "$",
-                  },
-                  {
-                    label: <div>不显示</div>,
-                    value: "none",
-                  },
-                ]}
-                style={{ background: "#e9e9e9" }}
-                value={showCostType}
-                onChange={(value) => {
-                  setShowCostType(value.toString() as any);
-                }}
-              />
-            </ConfigProvider>
-          </Space> */}
+
           {!isMobile && (
             <Space direction={"horizontal"}>
               <div>布局：</div>
               <ConfigProvider
                 theme={{
-                  token: {
-                    borderRadius: 8,
-                  },
+                  token: isDarkMode
+                    ? {
+                        borderRadius: 8,
+                        colorBgBase: "#1c1c1c",
+                        colorFillSecondary: "transparent",
+                        colorTextBase: "#fff",
+                      }
+                    : {
+                        borderRadius: 8,
+                      },
                 }}
               >
                 <Segmented
@@ -316,7 +315,7 @@ export default function ApiKeyModal(props: {
                       value: "card",
                     },
                   ]}
-                  style={{ background: "#e9e9e9" }}
+                  style={{ background: isDarkMode ? undefined : "#e9e9e9" }}
                   value={mode.mode ?? "card"}
                   onChange={(value) => {
                     const modeValue = {
@@ -335,9 +334,16 @@ export default function ApiKeyModal(props: {
               <div>卡片边距：</div>
               <ConfigProvider
                 theme={{
-                  token: {
-                    borderRadius: 8,
-                  },
+                  token: isDarkMode
+                    ? {
+                        borderRadius: 8,
+                        colorBgBase: "#1c1c1c",
+                        colorFillSecondary: "transparent",
+                        colorTextBase: "#fff",
+                      }
+                    : {
+                        borderRadius: 8,
+                      },
                 }}
               >
                 <Segmented
@@ -355,7 +361,7 @@ export default function ApiKeyModal(props: {
                       value: "large",
                     },
                   ]}
-                  style={{ background: "#e9e9e9" }}
+                  style={{ background: isDarkMode ? undefined : "#e9e9e9" }}
                   value={mode.size ?? "medium"}
                   onChange={(value) => {
                     const modeValue = {
@@ -375,9 +381,16 @@ export default function ApiKeyModal(props: {
                 创建新会话时默认使用：
                 <ConfigProvider
                   theme={{
-                    token: {
-                      borderRadius: 8,
-                    },
+                    token: isDarkMode
+                      ? {
+                          borderRadius: 8,
+                          colorBgBase: "#1c1c1c",
+                          colorFillSecondary: "transparent",
+                          colorTextBase: "#fff",
+                        }
+                      : {
+                          borderRadius: 8,
+                        },
                   }}
                 >
                   <Segmented
@@ -391,7 +404,7 @@ export default function ApiKeyModal(props: {
                         value: "simple",
                       },
                     ]}
-                    style={{ background: "#e9e9e9" }}
+                    style={{ background: isDarkMode ? undefined : "#e9e9e9" }}
                     value={defaultModel}
                     onChange={(value) => {
                       localStorage.setItem("defaultMode", value.toString());

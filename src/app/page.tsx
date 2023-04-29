@@ -2,7 +2,7 @@
 
 //https://nextui.org/docs/guide/getting-started ui
 // 1. import `NextUIProvider` component
-import { createTheme } from "@nextui-org/react";
+import { NextUIProvider, createTheme } from "@nextui-org/react";
 import { Fragment, useEffect, useState } from "react";
 import Home from "@/app/pages/home";
 import { Toaster, toast } from "react-hot-toast";
@@ -14,6 +14,7 @@ import { ConfigProvider } from "antd";
 import GptContext from "./hooks/use-gpt";
 import { HistoryItem } from "./components/slider";
 import { db } from "./db/db";
+import { useMediaQuery } from "react-responsive";
 
 const theme = createTheme({
   type: "light", // it could be "light" or "dark"
