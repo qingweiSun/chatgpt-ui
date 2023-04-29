@@ -137,7 +137,15 @@ export default function ChatView(props: { item: HistoryItem }) {
           }}
         >
           {message.data.role != "assistant" ? (
-            <UserView>{message}</UserView>
+            <UserView
+              deleteItem={() => {
+                const newMessages = [...messages];
+                newMessages.splice(index, 1);
+                setMessages(newMessages);
+              }}
+            >
+              {message}
+            </UserView>
           ) : (
             <BotChatTextView
               deleteItem={() => {

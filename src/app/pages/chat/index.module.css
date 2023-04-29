@@ -227,6 +227,9 @@
 .message:hover div.chat-message-top-action-item {
     opacity: 1;
 }
+.user-message:hover div.chat-message-top-action-item {
+    opacity: 1;
+}
 @keyframes fade-in {  
     0% {  
         opacity: 0;  

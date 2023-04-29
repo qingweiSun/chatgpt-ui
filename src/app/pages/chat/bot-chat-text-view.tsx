@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ChatMessage } from "@/app/pages/chat/index";
 import MarkdownText, { copyToClipboard } from "@/app/pages/chat/markdown-text";
 import { context } from "@/app/hooks/context-mobile";
+import { util } from "@/app/utils/util";
 
 const BotChatTextItemView = (props: {
   deleteItem: () => void;
@@ -56,7 +57,7 @@ const BotChatTextItemView = (props: {
               alignItems: "center",
             }}
           >
-            {props.children.time}
+            {util.getDateFormat(props.children.time)}
             <div style={{ display: "flex" }}>
               <div
                 className={styles["chat-message-top-action-item"]}
