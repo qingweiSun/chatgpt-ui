@@ -55,6 +55,9 @@ li {
     html {
         color-scheme: dark;
     }
+    body {
+        background: #151515;
+    }
 }
 
 
@@ -160,4 +163,9 @@ img {
 input, textarea {
     -webkit-text-size-adjust: 100%;
     caret-color: #0072F5;
+}
+@media (prefers-color-scheme: dark) {
+    .custom-prompt::placeholder {
+        color: #999;
+    }
 }

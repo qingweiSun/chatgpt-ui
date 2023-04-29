@@ -1,4 +1,11 @@
-import { Button, Grid, Popover, Row, Text } from "@nextui-org/react";
+import {
+  Button,
+  Grid,
+  NextUIProvider,
+  Popover,
+  Row,
+  Text,
+} from "@nextui-org/react";
 import React, {
   useCallback,
   useContext,
@@ -9,6 +16,7 @@ import React, {
 import { context } from "@/app/hooks/context-mobile";
 import { Input, Modal } from "antd";
 import TextArea from "antd/es/input/TextArea";
+import { useMediaQuery } from "react-responsive";
 
 const RESPONSIVE_MOBILE = 768;
 
@@ -21,6 +29,7 @@ export default function EditName(props: {
   const [visible, setVisible] = useState(false);
   const { isMobile } = useContext(context);
   const [name, setName] = useState(props.name || "");
+  const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
   return (
     <Popover
@@ -47,15 +56,22 @@ export default function EditName(props: {
           {props.children}
         </a>
       </Popover.Trigger>
-      <Popover.Content>
+      <Popover.Content
+        css={{
+          backgroundColor: isDarkMode ? "#1f1f1f" : undefined,
+        }}
+      >
         <Grid.Container
           css={{ borderRadius: "14px", paddingTop: 12, width: "230px" }}
         >
           <Row justify="center" align="center">
-            <Text b>重命名</Text>
+            <Text b color={isDarkMode ? "#cccccc" : undefined}>
+              重命名
+            </Text>
           </Row>
           <div style={{ padding: 18, width: "100%" }}>
             <TextArea
+              className="custom-prompt"
               value={name}
               placeholder="请输入名称"
               size="large"
@@ -65,6 +81,9 @@ export default function EditName(props: {
                 borderRadius: 10,
                 borderWidth: 2,
                 width: "100%",
+                borderColor: isDarkMode ? "#333333" : undefined,
+                backgroundColor: isDarkMode ? "#1a1a1a" : undefined,
+                color: isDarkMode ? "#cccccc" : undefined,
               }}
               onChange={(e) => {
                 setName(e.target.value);
@@ -80,6 +99,9 @@ export default function EditName(props: {
               size="sm"
               light
               auto
+              css={{
+                color: isDarkMode ? "#cccccc" : undefined,
+              }}
               onPress={() => {
                 setVisible(false);
               }}
@@ -89,7 +111,7 @@ export default function EditName(props: {
             <div style={{ width: 8 }} />
             <Button
               size="sm"
-              shadow
+              shadow={!isDarkMode}
               color="primary"
               auto
               onPress={() => {

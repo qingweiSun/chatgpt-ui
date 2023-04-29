@@ -251,6 +251,8 @@ export default function ChatView(props: { item: HistoryItem }) {
             hideArrow
             css={{
               width: !(props.item.explain ?? true) ? 200 : "unset",
+              background: isDarkMode ? "#1f1f1f" : undefined,
+              color: isDarkMode ? "#cccccc" : undefined,
             }}
           >
             <Navbar.Item>

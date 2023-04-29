@@ -288,7 +288,7 @@
     }
     .bot {
         color: #cccccc;
-        background: #1c1c1c;
+        background: #1a1a1a;
         border: 1px solid #222222;
     }
     .bot:hover{
@@ -311,5 +311,8 @@
     }
     .user:hover{
         border: 1px solid #333333;
+    }
+    .prompt:hover{
+        color: #dddddd;
     }
 }

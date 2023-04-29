@@ -2,6 +2,7 @@ import { Button, Grid, Popover, Row, Text } from "@nextui-org/react";
 import styles from "./delete.module.css";
 import { ReactNode, useState } from "react";
 import { PopoverPlacement } from "@nextui-org/react/types/popover/utils";
+import { useMediaQuery } from "react-responsive";
 
 export function SelectView(props: {
   onDelete: () => void;
@@ -12,6 +13,7 @@ export function SelectView(props: {
   children: ReactNode;
 }) {
   const [showDelete, setShowDelete] = useState(false);
+  const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
   return (
     <Popover
@@ -33,8 +35,13 @@ export function SelectView(props: {
           {props.children}
         </a>
       </Popover.Trigger>
-      <Popover.Content>
+      <Popover.Content
+        css={{
+          backgroundColor: isDarkMode ? "#1f1f1f" : undefined,
+        }}
+      >
         <DeleteView
+          isDarkMode={isDarkMode}
           onDelete={() => {
             props.onDelete();
             setShowDelete(false);
@@ -58,6 +65,7 @@ export function SelectButtonView(props: {
   className?: string;
 }) {
   const [showDelete, setShowDelete] = useState(false);
+  const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
   return (
     <Popover
@@ -98,8 +106,13 @@ export function SelectButtonView(props: {
           清理全部
         </Button>
       </Popover.Trigger>
-      <Popover.Content>
+      <Popover.Content
+        css={{
+          backgroundColor: isDarkMode ? "#1f1f1f" : undefined,
+        }}
+      >
         <DeleteView
+          isDarkMode={isDarkMode}
           onDelete={() => {
             props.onDelete();
             setShowDelete(false);
@@ -118,6 +131,7 @@ export const DeleteView = (props: {
   onDelete: () => void;
   onCancel: () => void;
   title?: string;
+  isDarkMode: boolean;
   description?: string;
 }) => {
   return (
@@ -125,19 +139,40 @@ export const DeleteView = (props: {
       css={{ borderRadius: "14px", padding: "0.75rem", width: "220px" }}
     >
       <Row justify="center" align="center">
-        <Text b>{props.title}</Text>
+        <Text b color={props.isDarkMode ? "#cccccc" : undefined}>
+          {props.title}
+        </Text>
       </Row>
       <Row justify="center" align="center">
-        <div style={{ padding: 16 }}>
+        <div
+          style={{
+            padding: 16,
+            color: props.isDarkMode ? "#cccccc" : undefined,
+          }}
+        >
           <Text>{props.description}</Text>
         </div>
       </Row>
       <Row justify="flex-end" align="center">
-        <Button size="sm" light auto onPress={props.onCancel}>
+        <Button
+          size="sm"
+          light
+          auto
+          onPress={props.onCancel}
+          css={{
+            color: props.isDarkMode ? "#cccccc" : undefined,
+          }}
+        >
           取消
         </Button>
         <div style={{ width: 8 }} />
-        <Button size="sm" shadow color="error" auto onPress={props.onDelete}>
+        <Button
+          size="sm"
+          shadow={!props.isDarkMode}
+          color="error"
+          auto
+          onPress={props.onDelete}
+        >
           确定
         </Button>
       </Row>

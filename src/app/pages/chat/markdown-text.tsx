@@ -29,7 +29,7 @@ export default function MarkdownText(props: { children: string }) {
                 customStyle={{
                   margin: 0,
                   borderRadius: 0,
-                  backgroundColor: isDarkMode ? "#222222" : "#f7f7f7",
+                  backgroundColor: isDarkMode ? "#1f1f1f" : "#f7f7f7",
                 }}
                 language={match[1]}
                 PreTag="div"

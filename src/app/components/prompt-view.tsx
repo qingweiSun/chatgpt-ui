@@ -366,7 +366,11 @@ export default function PromptView(props: {
             <Popover isBordered placement="top-right" offset={20}>
               <Popover.Trigger>
                 <div
-                  style={{ display: "flex", alignItems: "center", gap: 4 }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 4,
+                  }}
                   className={styles.prompt}
                   onClick={() => {
                     setShowCustomPrompt(true);
@@ -376,11 +380,23 @@ export default function PromptView(props: {
                   <Edit set="curved" size={18} />
                 </div>
               </Popover.Trigger>
-              <Popover.Content>
+              <Popover.Content
+                css={{
+                  backgroundColor: isDarkMode ? "#1f1f1f" : undefined,
+                }}
+              >
                 <div style={{ padding: 16, textAlign: "center" }}>
-                  <div style={{ fontWeight: 500 }}>自定义角色属性</div>
+                  <div
+                    style={{
+                      fontWeight: 500,
+                      color: isDarkMode ? "#cccccc" : undefined,
+                    }}
+                  >
+                    自定义角色属性
+                  </div>
                   <div style={{ height: 16 }} />
                   <TextArea
+                    className="custom-prompt"
                     placeholder="请输入自定义角色属性"
                     autoFocus
                     value={customPrompt}
@@ -392,6 +408,9 @@ export default function PromptView(props: {
                       width: isMobile ? "70vw" : 600,
                       borderWidth: 2,
                       fontSize: 15,
+                      borderColor: isDarkMode ? "#333333" : undefined,
+                      backgroundColor: isDarkMode ? "#1a1a1a" : undefined,
+                      color: isDarkMode ? "#cccccc" : undefined,
                     }}
                     autoSize={{ minRows: 4, maxRows: 10 }}
                   />
