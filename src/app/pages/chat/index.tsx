@@ -165,6 +165,7 @@ export default function ChatView(props: { item: HistoryItem }) {
   return (
     <div className={styles.container}>
       <Navbar
+        className={styles.navbar}
         variant="sticky"
         maxWidth={"fluid"}
         disableShadow

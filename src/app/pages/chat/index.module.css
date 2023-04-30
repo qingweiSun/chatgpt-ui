@@ -10,11 +10,7 @@
 }
 
 .navbar{
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 1;
-    left: 300px;
+    -webkit-app-region: drag;
 }
 .bot {
     color: #111111;

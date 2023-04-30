@@ -31,6 +31,7 @@ import { MaxTokensLimitProps } from "../max-tokens-limit";
 import { toast } from "react-hot-toast";
 import { useMediaQuery } from "react-responsive";
 import { Scrollbars } from "replace-custom-scrollbars";
+import ThemeChangeView from "../theme-change";
 
 //https://react-iconly.jrgarciadev.com/ 图标
 //https://dexie.org/docs/Tutorial/React 数据库
@@ -258,7 +259,7 @@ export default function Slider(props: {
           <SettingModal>
             <Setting set="two-tone" size={22} />
           </SettingModal>
-          <RewardView />
+          <ThemeChangeView />
         </div>
         <Button
           auto
