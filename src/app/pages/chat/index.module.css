@@ -17,7 +17,7 @@
     left: 300px;
 }
 .bot {
-    color: #333333;
+    color: #111111;
     background: #ffffff;
     transition: all 0.5s ease; /* 过渡动画 */
     border-radius: 4px 12px 12px 12px;
@@ -59,7 +59,7 @@
 .user {
     padding: 12px 16px;
     transition: all 0.5s ease; /* 过渡动画 */
-    color: #333333;
+    color: #111111;
     max-width: 80%;
     border: 1px solid #eeeeee;
     width: auto;
@@ -95,7 +95,7 @@
     overflow:hidden;
 }
 .name {
-    color: #444444;
+    color: #333333;
     font-weight: 600;
     white-space: nowrap;
     font-size: 18px;

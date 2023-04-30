@@ -173,7 +173,7 @@ export default function Slider(props: {
   }, [historyList, current, isDarkMode]);
 
   return (
-    <div data-tauri-drag-region
+    <div
          className={`${styles.slider}`}>
       <div className={styles.head}>
         <div
@@ -318,7 +318,7 @@ function HistoryItemView(props: {
             : undefined
           : props.isDarkMode
           ? "#999999"
-          : "#696969",
+          : "#444444",
         borderWidth: 1,
         margin: "0 12px",
         fontWeight: props.current ? 500 : 400,
@@ -381,7 +381,7 @@ function HistoryItemView(props: {
                     : "var(--nextui-colors-primary)"
                   : props.isDarkMode
                   ? "#999999"
-                  : "#999999",
+                  : "#696969",
               }}
               className={props.current ? styles.current : styles.delete}
               onClick={() => {
