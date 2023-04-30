@@ -134,6 +134,9 @@
     .bottom {
         left: 0;
     }
+    .navbar{
+        left: 0;
+    }
 
     .avatar {
         display: none;
