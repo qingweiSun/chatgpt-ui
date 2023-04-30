@@ -350,6 +350,7 @@ export default function ChatView(props: { item: HistoryItem }) {
           />
         )}
         {MessageViewList}
+        <div style={{ height: 150 }} />
         <div id={"home_end"} />
       </div>
       <InputView

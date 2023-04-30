@@ -174,78 +174,83 @@ export default function Slider(props: {
 
   return (
     <div className={`${styles.slider}`}>
-      <div className={styles.head}>
-        <div
-          style={{
-            position: "absolute",
-            left: -10,
-            top: -10,
-            overflow: "hidden",
-            pointerEvents: "none",
-          }}
-        >
-          <Image
-            src={ChatGptLogo}
-            alt={"logo"}
-            style={{ opacity: isDarkMode ? 0.1 : 0.6 }}
-          />
-        </div>
-        <div
-          style={{
-            padding: "16px 16px",
-            display: "flex",
-            flexDirection: "column",
-            gap: 4,
-          }}
-        >
-          <div style={{ height: 16 }} />
-          <div className={styles.title}>ChatGPT</div>
-          <div className={styles.sub}>Based on OpenAI API (gpt-3.5-turbo).</div>
-        </div>
-      </div>
       <div
         style={{
-          gap: 12,
           display: "flex",
           flexDirection: "column",
+          gap: 12,
           height: "100%",
-          width: "100%",
+          overflowY: "scroll",
         }}
       >
-        <div>
-          <ItemView
-            item={{
-              title: "随便聊聊",
-              id: 1,
-              top: false,
+        <div className={styles.head}>
+          <div
+            style={{
+              position: "absolute",
+              left: -10,
+              top: -10,
+              overflow: "hidden",
+              pointerEvents: "none",
             }}
-            index={1}
-            showEdit={false}
-            onClick={() => {
-              setId({ id: 1 });
-              props.closeSlider?.();
+          >
+            <Image
+              src={ChatGptLogo}
+              alt={"logo"}
+              style={{ opacity: isDarkMode ? 0.1 : 0.6 }}
+            />
+          </div>
+          <div
+            style={{
+              padding: "16px 16px",
+              display: "flex",
+              flexDirection: "column",
+              gap: 4,
             }}
-          />
+          >
+            <div style={{ height: 16 }} />
+            <div className={styles.title}>ChatGPT</div>
+            <div className={styles.sub}>
+              Based on OpenAI API (gpt-3.5-turbo).
+            </div>
+          </div>
         </div>
+        <ItemView
+          item={{
+            title: "随便聊聊",
+            id: 1,
+            top: false,
+          }}
+          index={1}
+          showEdit={false}
+          onClick={() => {
+            setId({ id: 1 });
+            props.closeSlider?.();
+          }}
+        />
         {sliderList}
         {(historyList?.length ?? 0) > 0 && (
-          <SelectButtonView
-            onDelete={() => {
-              clearSlider();
-              //获取全部localStorage的key
-              const keys = Object.keys(localStorage);
-              //遍历key
-              for (var i = 0; i < keys.length; i++) {
-                //如果key以historyList开头或者以questioningMode开头
-                if (keys[i].indexOf("historyList") == 0) {
-                  //删除该key
-                  localStorage.removeItem(keys[i]);
+          <div
+            style={{ width: "100%", display: "flex", flexDirection: "column" }}
+          >
+            <SelectButtonView
+              onDelete={() => {
+                clearSlider();
+                //获取全部localStorage的key
+                const keys = Object.keys(localStorage);
+                //遍历key
+                for (var i = 0; i < keys.length; i++) {
+                  //如果key以historyList开头或者以questioningMode开头
+                  if (keys[i].indexOf("historyList") == 0) {
+                    //删除该key
+                    localStorage.removeItem(keys[i]);
+                  }
                 }
-              }
-            }}
-            title="警告"
-            description="清理后无法找回，数据无价，请注意保存！"
-          />
+              }}
+              title="警告"
+              description="清理后无法找回，数据无价，请注意保存！"
+            />
+            <div style={{ color: "transparent", height: 72 }}></div>
+          </div>
         )}
       </div>
       <div className={styles.bottom}>

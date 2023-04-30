@@ -1,12 +1,9 @@
 .slider {
     width: 300px;
-    display: flex;
-    flex-direction: column;
     position: absolute;
     bottom: 0;
     top: 0;
     background: linear-gradient(135deg, #e7f5ff, #e7f5ff);
-    gap: 12px;
     overflow-x: hidden;
     overflow-y: scroll;
     -webkit-app-region: drag;
@@ -90,14 +87,13 @@
     color: #965aed;
 }
 .bottom {
-    position: sticky;
+    position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     padding: 16px;
     align-items: center;
     display: flex;
-    z-index: 1;
     justify-content: space-between;
     background: rgba(231, 245, 255, 0.7);
     backdrop-filter: blur(12px); 
