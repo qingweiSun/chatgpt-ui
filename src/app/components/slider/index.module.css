@@ -148,6 +148,7 @@
     }
     .label{
         color: #777777;
+        background: rgba(22, 24, 26, 0.6);
     }
     .current{
         color: #cccccc;
