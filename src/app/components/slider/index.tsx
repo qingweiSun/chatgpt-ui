@@ -15,7 +15,7 @@ import { Button } from "@nextui-org/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { Fragment, useContext, useEffect, useMemo, useState } from "react";
 import {
   ArrowDown,
   ArrowUp,
@@ -79,14 +79,7 @@ export default function Slider(props: {
     onClick?: () => void;
   }) {
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-          gap: 12,
-        }}
-      >
+      <Fragment>
         {historyList &&
           propsItem.item.id != 1 &&
           historyList[propsItem.index - 1]?.top &&
@@ -156,7 +149,7 @@ export default function Slider(props: {
             });
           }}
         />
-      </div>
+      </Fragment>
     );
   }
 
