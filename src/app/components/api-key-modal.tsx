@@ -17,6 +17,7 @@ import styles from "./delete.module.css";
 import GptContext from "../hooks/use-gpt";
 import { useTheme } from "@nextui-org/react";
 import { useMediaQuery } from "react-responsive";
+import { SettingIcon } from "../icons/theme-iocn";
 
 const { TextArea } = Input;
 
@@ -78,7 +79,7 @@ export default function ApiKeyModal(props: {
           setApiKeyModalOpen(true);
         }}
       >
-        <Setting set="two-tone" />
+        <SettingIcon />
       </Button>
       <Modal
         title="设置"
