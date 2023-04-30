@@ -15,7 +15,7 @@ import { Button } from "@nextui-org/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import {
   ArrowDown,
   ArrowUp,
@@ -30,6 +30,7 @@ import styles from "./index.module.css";
 import { MaxTokensLimitProps } from "../max-tokens-limit";
 import { toast } from "react-hot-toast";
 import { useMediaQuery } from "react-responsive";
+import { Scrollbars } from "replace-custom-scrollbars";
 
 //https://react-iconly.jrgarciadev.com/ 图标
 //https://dexie.org/docs/Tutorial/React 数据库
@@ -51,7 +52,7 @@ export default function Slider(props: {
   const { current, setId } = useContext(IdContext);
   const router = useRouter();
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
-
+  const [scrollTop, setScrollTop] = useState(0);
   // useEffect(() => {
   //   db.table("sliders").hook("deleting", function (primaryKey, obj) {
   //     toast("删除");
@@ -173,76 +174,80 @@ export default function Slider(props: {
 
   return (
     <div className={`${styles.slider}`}>
-      <div
-        style={{
-          position: "absolute",
-          left: -10,
-          top: -10,
-          overflow: "hidden",
-        }}
-      >
-        <Image
-          src={ChatGptLogo}
-          alt={"logo"}
-          style={{ opacity: isDarkMode ? 0.1 : 1 }}
-        />
-      </div>
-      <div
-        style={{
-          padding: "16px 16px",
-          display: "flex",
-          flexDirection: "column",
-          gap: 4,
-        }}
-      >
-        <div style={{ height: 16 }} />
-        <div className={styles.title}>ChatGPT</div>
-        <div className={styles.sub}>Based on OpenAI API (gpt-3.5-turbo).</div>
-      </div>
-      <div
-        style={{
-          overflowY: "scroll",
-          gap: 12,
-          display: "flex",
-          height: "100%",
-          flexDirection: "column",
-        }}
-      >
-        <ItemView
-          item={{
-            title: "随便聊聊",
-            id: 1,
-            top: false,
+      <div className={styles.head}>
+        <div
+          style={{
+            position: "absolute",
+            left: -10,
+            top: -10,
+            overflow: "hidden",
+            pointerEvents: "none",
           }}
-          index={1}
-          showEdit={false}
-          onClick={() => {
-            setId({ id: 1 });
-            props.closeSlider?.();
-          }}
-        />
-        {sliderList}
-        {(historyList?.length ?? 0) > 0 && (
-          <SelectButtonView
-            onDelete={() => {
-              clearSlider();
-              //获取全部localStorage的key
-              const keys = Object.keys(localStorage);
-              //遍历key
-              for (var i = 0; i < keys.length; i++) {
-                //如果key以historyList开头或者以questioningMode开头
-                if (keys[i].indexOf("historyList") == 0) {
-                  //删除该key
-                  localStorage.removeItem(keys[i]);
-                }
-              }
-            }}
-            title="警告"
-            description="清理后无法找回，数据无价，请注意保存！"
+        >
+          <Image
+            src={ChatGptLogo}
+            alt={"logo"}
+            style={{ opacity: isDarkMode ? 0.1 : 0.6 }}
           />
-        )}
-        <div style={{ height: 76, width: "100%", flex: "0 0 auto" }} />
+        </div>
+        <div
+          style={{
+            padding: "16px 16px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 4,
+          }}
+        >
+          <div style={{ height: 16 }} />
+          <div className={styles.title}>ChatGPT</div>
+          <div className={styles.sub}>Based on OpenAI API (gpt-3.5-turbo).</div>
+        </div>
       </div>
+      <Scrollbars>
+        <div
+          style={{
+            gap: 12,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <div style={{ height: 90, width: "100%" }} />
+          <ItemView
+            item={{
+              title: "随便聊聊",
+              id: 1,
+              top: false,
+            }}
+            index={1}
+            showEdit={false}
+            onClick={() => {
+              setId({ id: 1 });
+              props.closeSlider?.();
+            }}
+          />
+          {sliderList}
+          {(historyList?.length ?? 0) > 0 && (
+            <SelectButtonView
+              onDelete={() => {
+                clearSlider();
+                //获取全部localStorage的key
+                const keys = Object.keys(localStorage);
+                //遍历key
+                for (var i = 0; i < keys.length; i++) {
+                  //如果key以historyList开头或者以questioningMode开头
+                  if (keys[i].indexOf("historyList") == 0) {
+                    //删除该key
+                    localStorage.removeItem(keys[i]);
+                  }
+                }
+              }}
+              title="警告"
+              description="清理后无法找回，数据无价，请注意保存！"
+            />
+          )}
+          <div style={{ height: 76, width: "100%", flex: "0 0 auto" }} />
+        </div>
+      </Scrollbars>
       <div className={styles.bottom}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <SettingModal>
@@ -371,8 +376,8 @@ function HistoryItemView(props: {
                     ? "#cccccc"
                     : "var(--nextui-colors-primary)"
                   : props.isDarkMode
-                  ? "#cccccc"
-                  : "#999999",
+                  ? "#999999"
+                  : "#696969",
               }}
               className={props.current ? styles.current : styles.delete}
               onClick={() => {
