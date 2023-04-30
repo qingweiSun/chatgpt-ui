@@ -124,13 +124,6 @@
     padding-left: 16px;
     color: #666666;
     font-size: 12px;
-    position: sticky;
-    top: 98px;
-    z-index: 1;
-    background: rgba(231, 245, 255, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-
 }
 
 @media (prefers-color-scheme: dark) {
@@ -148,7 +141,6 @@
     }
     .label{
         color: #777777;
-        background: rgba(22, 24, 26, 0.6);
     }
     .current{
         color: #cccccc;
