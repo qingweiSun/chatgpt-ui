@@ -333,7 +333,7 @@ export default function ChatView(props: { item: HistoryItem }) {
           }
         }}
       >
-        <div style={{ height: 70 }} />
+        <div />
 
         {messages.length == 0 && (
           <PromptView
@@ -350,7 +350,6 @@ export default function ChatView(props: { item: HistoryItem }) {
           />
         )}
         {MessageViewList}
-        <div style={{ height: 150 }} />
         <div id={"home_end"} />
       </div>
       <InputView
