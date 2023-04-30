@@ -164,152 +164,168 @@ export default function ChatView(props: { item: HistoryItem }) {
 
   return (
     <div className={styles.container}>
-      <Navbar
-        className={styles.navbar}
-        variant="sticky"
-        maxWidth={"fluid"}
-        disableShadow
-        containerCss={{
-          backgroundColor: isDarkMode
-            ? "rgba(17, 17, 17, 0.8) !important"
-            : "rgba(247, 247, 247, 0.7) !important",
-          borderBottom: `1px solid ${isDarkMode ? "#1a1a1a" : "#eeeeee"}`,
-          boxShadow: "0 2px 4px rgb(0 0 0 / 1%)",
-          minHeight: 68,
-          height: 68,
-        }}
-      >
-        <Navbar.Brand>
-          {props.item?.title && (
-            <NavbarTItleView
-              name={props.item?.title}
-              count={messages.length}
-              id={props.item.id}
-            />
-          )}
-        </Navbar.Brand>
-        <Navbar.Content css={{ gap: isMobile ? 16 : undefined }}>
-          {isMobile && (
-            <Navbar.Item>
-              <div className={styles.toggle} onClick={() => {}}>
-                <MobileSlider>
-                  <div className={styles.link}>
-                    <MoreSquare set="curved" size={23} />
-                  </div>
-                </MobileSlider>
-              </div>
-            </Navbar.Item>
-          )}
-          {!isMobile && props.item.id != 1 && (
-            <Navbar.Item>
-              <EditName
+      <div className={styles.navbar}>
+        <Navbar
+          variant="sticky"
+          maxWidth={"fluid"}
+          disableShadow
+          containerCss={{
+            backgroundColor: isDarkMode
+              ? "rgba(17, 17, 17, 0.8) !important"
+              : "rgba(247, 247, 247, 0.7) !important",
+            borderBottom: `1px solid ${isDarkMode ? "#1a1a1a" : "#eeeeee"}`,
+            boxShadow: "0 2px 4px rgb(0 0 0 / 1%)",
+            minHeight: 68,
+            height: 68,
+          }}
+        >
+          <Navbar.Brand data-tauri-drag-region>
+            {props.item?.title && (
+              <NavbarTItleView
                 name={props.item?.title}
-                setName={(text) => {
-                  updateSliderTitle(props.item.id, text);
-                }}
-              >
-                <div className={styles.link}>
-                  {/*<Edit set="light" size={23} />*/}
-                  <Edit set="curved" size={23} />
+                count={messages.length}
+                id={props.item.id}
+              />
+            )}
+          </Navbar.Brand>
+          <Navbar.Content css={{ gap: isMobile ? 16 : undefined }}>
+            {isMobile && (
+              <Navbar.Item>
+                <div className={styles.toggle} onClick={() => {}}>
+                  <MobileSlider>
+                    <div className={styles.link}>
+                      <MoreSquare set="curved" size={23} />
+                    </div>
+                  </MobileSlider>
                 </div>
-              </EditName>
-            </Navbar.Item>
-          )}
-          <Navbar.Item>
-            <MaxTokensLimit
-              isDisabled={false}
-              select={props.item?.mode}
-              updateSelect={(value) => {
-                updateSliderMode(props.item.id, value);
-              }}
-            >
-              <Filter set="curved" size={23} />
-            </MaxTokensLimit>
-          </Navbar.Item>
-          <Tooltip
-            content={
-              <div
-                style={{
-                  padding: 2,
-                  display: "flex",
-                  gap: 4,
-                  flexDirection: "column",
-                }}
-              >
-                <div>{props.item.explain ?? true ? "默认" : "简洁模式"}</div>
-                {!(props.item.explain ?? true) && (
-                  <div style={{ fontSize: 12, color: "#999999" }}>
-                    当前模式会强行修改系统设定，使得答案会更简练并且节省
-                    tokens，但是可能会导致答案不够优质，如果您需要更好的的答案，请点击恢复系统设定。
+              </Navbar.Item>
+            )}
+            {!isMobile && props.item.id != 1 && (
+              <Navbar.Item>
+                <EditName
+                  className={styles.link}
+                  name={props.item?.title}
+                  setName={(text) => {
+                    updateSliderTitle(props.item.id, text);
+                  }}
+                >
+                  <div className={styles.link}>
+                    {/*<Edit set="light" size={23} />*/}
+                    <Edit set="curved" size={23} />
                   </div>
-                )}
-              </div>
-            }
-            placement="bottom"
-            hideArrow
-            css={{
-              width: !(props.item.explain ?? true) ? 200 : "unset",
-            }}
-          >
+                </EditName>
+              </Navbar.Item>
+            )}
             <Navbar.Item>
-              <div
-                className={styles.link}
-                onClick={() => {
-                  if (props.item.explain ?? true) {
-                    toast.success("已开启简洁模式");
-                  } else {
-                    toast.success("已恢复系统设定");
-                  }
-                  updateSliderExplain(
-                    props.item.id,
-                    !(props.item.explain ?? true)
-                  );
+              <MaxTokensLimit
+                isDisabled={false}
+                select={props.item?.mode}
+                updateSelect={(value) => {
+                  updateSliderMode(props.item.id, value);
                 }}
               >
-                {props.item.explain ?? true ? (
-                  <Unlock set="curved" size={23} />
-                ) : (
-                  <Lock
-                    size={23}
-                    // primaryColor="var(--nextui-colors-error)"
-                    set="bold"
-                  />
-                )}
-              </div>
+                <Filter set="curved" size={23} />
+              </MaxTokensLimit>
             </Navbar.Item>
-          </Tooltip>
-          <Navbar.Item>
-            <SelectView
-              onDelete={() => {
-                //获取系统消息
-                const systemMessage = messages.filter(
-                  (item) => item.data.role == "system"
-                );
-                setMessages([...systemMessage]);
-                toast.success("已重置");
+            <Tooltip
+              content={
+                <div
+                  style={{
+                    padding: 2,
+                    display: "flex",
+                    gap: 4,
+                    flexDirection: "column",
+                  }}
+                >
+                  <div>{props.item.explain ?? true ? "默认" : "简洁模式"}</div>
+                  {!(props.item.explain ?? true) && (
+                    <div style={{ fontSize: 12, color: "#999999" }}>
+                      当前模式会强行修改系统设定，使得答案会更简练并且节省
+                      tokens，但是可能会导致答案不够优质，如果您需要更好的的答案，请点击恢复系统设定。
+                    </div>
+                  )}
+                </div>
+              }
+              placement="bottom"
+              hideArrow
+              css={{
+                width: !(props.item.explain ?? true) ? 200 : "unset",
               }}
-              title={"提示"}
-              description={"确定要重置此会话吗？"}
-              placement={"bottom-right"}
-              className={styles.link}
             >
-              <Delete set="curved" size={23} />
-            </SelectView>
-          </Navbar.Item>
-          {!isMobile && (
+              <Navbar.Item>
+                <div
+                  className={styles.link}
+                  onClick={() => {
+                    if (props.item.explain ?? true) {
+                      toast.success("已开启简洁模式");
+                    } else {
+                      toast.success("已恢复系统设定");
+                    }
+                    updateSliderExplain(
+                      props.item.id,
+                      !(props.item.explain ?? true)
+                    );
+                  }}
+                >
+                  {props.item.explain ?? true ? (
+                    <Unlock set="curved" size={23} />
+                  ) : (
+                    <Lock
+                      size={23}
+                      // primaryColor="var(--nextui-colors-error)"
+                      set="bold"
+                    />
+                  )}
+                </div>
+              </Navbar.Item>
+            </Tooltip>
             <Navbar.Item>
-              <div
-                className={styles.link}
-                onClick={() => {
-                  exportMarkdown({ messages });
+              <SelectView
+                onDelete={() => {
+                  //获取系统消息
+                  const systemMessage = messages.filter(
+                    (item) => item.data.role == "system"
+                  );
+                  setMessages([...systemMessage]);
+                  toast.success("已重置");
                 }}
+                title={"提示"}
+                description={"确定要重置此会话吗？"}
+                placement={"bottom-right"}
+                className={styles.link}
               >
-                <Download set="curved" size={23} />
-              </div>
+                <Delete set="curved" size={23} />
+              </SelectView>
             </Navbar.Item>
-          )}
-        </Navbar.Content>
-      </Navbar>
+            {!isMobile && (
+              <Navbar.Item>
+                <div
+                  className={styles.link}
+                  onClick={() => {
+                    exportMarkdown({ messages });
+                  }}
+                >
+                  <Download set="curved" size={23} />
+                </div>
+              </Navbar.Item>
+            )}
+          </Navbar.Content>
+        </Navbar>
+      </div>
+      {!isMobile && (
+        <div
+          data-tauri-drag-region
+          style={{
+            zIndex: 10000,
+            height: 60,
+            width: "70%",
+            position: "absolute",
+            top: 0,
+            left: 0,
+          }}
+        />
+      )}
+
       <div
         style={{ display: "flex", flexDirection: "column", gap: 24 }}
         ref={scrollRef}
@@ -319,8 +335,9 @@ export default function ChatView(props: { item: HistoryItem }) {
           }
         }}
       >
-        <div />
-        {messages.length == 0 && (
+          <div style={{height:70}}/>
+
+          {messages.length == 0 && (
           <PromptView
             setPrompt={(text) => {
               setMessages([

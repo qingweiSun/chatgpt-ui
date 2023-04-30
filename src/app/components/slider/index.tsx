@@ -173,7 +173,8 @@ export default function Slider(props: {
   }, [historyList, current, isDarkMode]);
 
   return (
-    <div className={`${styles.slider}`}>
+    <div data-tauri-drag-region
+         className={`${styles.slider}`}>
       <div className={styles.head}>
         <div
           style={{

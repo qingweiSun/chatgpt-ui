@@ -12,7 +12,7 @@ export default function NavbarTItleView(props: {
     name += props.id;
   }
   return (
-    <div>
+    <div >
       <div className={styles.nmaep}>
         <div className={styles.name}>{name}</div>
       </div>

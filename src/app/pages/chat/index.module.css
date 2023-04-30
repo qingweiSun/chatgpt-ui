@@ -9,26 +9,15 @@
     flex: 1;
 }
 
-
-.appbar {
-    display: flex;
-    justify-content: space-between;
-    padding: 16px;
-    border-bottom: 1px solid #eeeeee;
-    z-index: 1;
-    background: rgba(247, 247, 247, 0.7);
-    backdrop-filter: blur(12px) saturate(160%);
-    -webkit-backdrop-filter: blur(12px) saturate(160%);
+.navbar{
     position: absolute;
     top: 0;
-    align-items: center;
-    left: 0;
     right: 0;
+    z-index: 1;
+    left: 300px;
 }
-
-
 .bot {
-    color: #444444;
+    color: #333333;
     background: #ffffff;
     transition: all 0.5s ease; /* 过渡动画 */
     border-radius: 4px 12px 12px 12px;
@@ -43,20 +32,19 @@
     -moz-user-select: text !important; /*火狐*/
     -webkit-user-select: text !important; /*webkit浏览器*/
     -ms-user-select: text !important; /*IE10*/
-    font-family: system-ui;
-    
+
 }
 .message{
-    opacity: 0;  
-    transform: scale(0.9);  
-    animation: fade-in 200ms ease-in-out 100ms forwards;  
-    transform-origin: top left;  
+    opacity: 0;
+    transform: scale(0.9);
+    animation: fade-in 200ms ease-in-out 100ms forwards;
+    transform-origin: top left;
 }
 .user-message{
-    opacity: 0;  
-    transform: scale(0.9);  
-    animation: fade-in 200ms ease-in-out 100ms forwards;  
-    transform-origin: top right;  
+    opacity: 0;
+    transform: scale(0.9);
+    animation: fade-in 200ms ease-in-out 100ms forwards;
+    transform-origin: top right;
 }
 .bot:hover {
     box-shadow: 0 0 10px 10px rgb(0 0 0 / 2%);
@@ -71,7 +59,7 @@
 .user {
     padding: 12px 16px;
     transition: all 0.5s ease; /* 过渡动画 */
-    color: #444444;
+    color: #333333;
     max-width: 80%;
     border: 1px solid #eeeeee;
     width: auto;
@@ -84,7 +72,6 @@
     -webkit-user-select: text !important; /*webkit浏览器*/
     -ms-user-select: text !important; /*IE10*/
     background: #e7f5ff;
-    font-family: system-ui;
 }
 
 .code {
@@ -99,10 +86,10 @@
     color: #167aff;
 }
 
-@keyframes marquee {  
-    0% { transform: translateX(0); } /*起始位置，向右移动0px*/  
-    100% { transform: translateX(-100%); } /*结束位置，向左移动父元素宽度的距离*/  
-}  
+@keyframes marquee {
+    0% { transform: translateX(0); } /*起始位置，向右移动0px*/
+    100% { transform: translateX(-100%); } /*结束位置，向左移动父元素宽度的距离*/
+}
 .nmaep{
     max-width: 400px;
     overflow:hidden;
@@ -118,7 +105,7 @@
 }
 .name:hover{
     overflow:visible;
-    animation: marquee 5s linear infinite; /*使用animation属性来设置文字滚动动画*/  
+    animation: marquee 5s linear infinite; /*使用animation属性来设置文字滚动动画*/
 }
 
 .bottom {
@@ -230,16 +217,16 @@
 .user-message:hover div.chat-message-top-action-item {
     opacity: 1;
 }
-@keyframes fade-in {  
-    0% {  
-        opacity: 0;  
-        transform: scale(0.95);  
-    }  
-    100% {  
-        opacity: 1;  
-        transform: scale(1);  
-    }  
-}  
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
 
 .transition_group {
     display: flex;
@@ -252,7 +239,7 @@
     -webkit-app-region: drag;
 }
 .question{
-    transition: all 0.2s ease-in-out; 
+    transition: all 0.2s ease-in-out;
     padding: 12px;
     background: transparent;
     /* background-color: rgba(255, 255, 255, 0.8); */
