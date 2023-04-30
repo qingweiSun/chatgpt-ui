@@ -203,15 +203,18 @@ export default function Slider(props: {
           <div className={styles.sub}>Based on OpenAI API (gpt-3.5-turbo).</div>
         </div>
       </div>
-      <Scrollbars>
-        <div
-          style={{
-            gap: 12,
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <div style={{ height: 90, width: "100%" }} />
+      <div
+        style={{
+          gap: 12,
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+          width: "100%",
+          overflowY: "scroll",
+        }}
+      >
+        <div>
+          <div style={{ height: 100, width: "100%" }} />
           <ItemView
             item={{
               title: "随便聊聊",
@@ -225,29 +228,29 @@ export default function Slider(props: {
               props.closeSlider?.();
             }}
           />
-          {sliderList}
-          {(historyList?.length ?? 0) > 0 && (
-            <SelectButtonView
-              onDelete={() => {
-                clearSlider();
-                //获取全部localStorage的key
-                const keys = Object.keys(localStorage);
-                //遍历key
-                for (var i = 0; i < keys.length; i++) {
-                  //如果key以historyList开头或者以questioningMode开头
-                  if (keys[i].indexOf("historyList") == 0) {
-                    //删除该key
-                    localStorage.removeItem(keys[i]);
-                  }
-                }
-              }}
-              title="警告"
-              description="清理后无法找回，数据无价，请注意保存！"
-            />
-          )}
-          <div style={{ height: 76, width: "100%", flex: "0 0 auto" }} />
         </div>
-      </Scrollbars>
+        {sliderList}
+        {(historyList?.length ?? 0) > 0 && (
+          <SelectButtonView
+            onDelete={() => {
+              clearSlider();
+              //获取全部localStorage的key
+              const keys = Object.keys(localStorage);
+              //遍历key
+              for (var i = 0; i < keys.length; i++) {
+                //如果key以historyList开头或者以questioningMode开头
+                if (keys[i].indexOf("historyList") == 0) {
+                  //删除该key
+                  localStorage.removeItem(keys[i]);
+                }
+              }
+            }}
+            title="警告"
+            description="清理后无法找回，数据无价，请注意保存！"
+          />
+        )}
+        <div style={{ height: 76, width: "100%", flex: "0 0 auto" }} />
+      </div>
       <div className={styles.bottom}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <SettingModal>
@@ -377,7 +380,7 @@ function HistoryItemView(props: {
                     : "var(--nextui-colors-primary)"
                   : props.isDarkMode
                   ? "#999999"
-                  : "#696969",
+                  : "#999999",
               }}
               className={props.current ? styles.current : styles.delete}
               onClick={() => {
