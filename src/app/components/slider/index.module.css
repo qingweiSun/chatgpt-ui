@@ -99,6 +99,12 @@
     backdrop-filter: blur(12px); 
     -webkit-backdrop-filter: blur(12px);
 }
+
+.clear{
+    background: rgba(231, 245, 255, 0.2);
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+}
 .head{
     position: sticky;
     top: 0;
@@ -132,6 +138,9 @@
     }
     .bottom{
         background: rgba(22, 24, 26, 0.6);
+    }
+    .clear{
+        background: rgba(22, 24, 26, 0.2);
     }
     .head{
         background: rgba(22, 24, 26, 0.6);

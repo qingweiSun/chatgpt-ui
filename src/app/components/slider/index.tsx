@@ -224,7 +224,14 @@ export default function Slider(props: {
         {sliderList}
         {(historyList?.length ?? 0) > 0 && (
           <div
-            style={{ width: "100%", display: "flex", flexDirection: "column" }}
+            className={styles.clear}
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              position: "sticky",
+              bottom: 0,
+            }}
           >
             <SelectButtonView
               onDelete={() => {
