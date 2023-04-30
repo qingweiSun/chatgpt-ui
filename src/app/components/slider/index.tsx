@@ -118,6 +118,7 @@ export default function Slider(props: {
           }}
           onDelete={async () => {
             await deleteSlider(propsItem.item.id);
+            localStorage.removeItem("historyList" + propsItem.item.id);
             //从 historyList 中删除 获得临时数据
             const tempList = historyList?.filter(
               (_, i) => i != propsItem.index

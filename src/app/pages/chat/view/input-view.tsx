@@ -61,10 +61,12 @@ export default function InputView(props: {
             borderBottomLeftRadius: 8,
             borderTopLeftRadius: 8,
             borderTopRightRadius: 8,
-            background: props.isDarkMode
+            background: props.loading
+              ? undefined
+              : props.isDarkMode
               ? props.questionText.trim() == ""
                 ? "#1a1a1a !important"
-                : "#0362cc !important"
+                : undefined
               : undefined,
           }}
         >
