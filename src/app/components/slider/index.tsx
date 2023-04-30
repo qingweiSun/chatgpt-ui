@@ -173,8 +173,7 @@ export default function Slider(props: {
   }, [historyList, current, isDarkMode]);
 
   return (
-    <div
-         className={`${styles.slider}`}>
+    <div className={`${styles.slider}`}>
       <div className={styles.head}>
         <div
           style={{
@@ -211,11 +210,9 @@ export default function Slider(props: {
           flexDirection: "column",
           height: "100%",
           width: "100%",
-          overflowY: "scroll",
         }}
       >
         <div>
-          <div style={{ height: 100, width: "100%" }} />
           <ItemView
             item={{
               title: "随便聊聊",
@@ -250,7 +247,6 @@ export default function Slider(props: {
             description="清理后无法找回，数据无价，请注意保存！"
           />
         )}
-        <div style={{ height: 76, width: "100%", flex: "0 0 auto" }} />
       </div>
       <div className={styles.bottom}>
         <div style={{ display: "flex", alignItems: "center" }}>

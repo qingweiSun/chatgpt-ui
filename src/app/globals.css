@@ -186,8 +186,5 @@ input, textarea {
         color: unset !important;
     }
 }
-/* 将滚动条放在最上面 */  
-::-webkit-scrollbar {  
-    display: none; /* webkit浏览器 */  
-}  
+
 
