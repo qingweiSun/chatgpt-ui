@@ -8,7 +8,6 @@ import { useMediaQuery } from "react-responsive";
 import ThemeIcon from "../icons/dark-mode-svgrepo-com.svg";
 import Image from "next/image";
 import { Category, Graph } from "react-iconly";
-import { DarkIcon, LightIcon, SystemIcon } from "../icons/theme-iocn";
 export default function ThemeChangeView() {
   const [isElectron, setIsElectron] = useState(
     typeof navigator !== "undefined" &&
@@ -55,9 +54,7 @@ export default function ThemeChangeView() {
         }}
       >
         <Button className={styles.link} type={"link"} style={{ fontSize: 15 }}>
-          {darkMode == "system" && <SystemIcon />}
-          {darkMode == "light" && <LightIcon />}
-          {darkMode == "dark" && <DarkIcon />}
+          <Graph set="two-tone" />
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Menu
