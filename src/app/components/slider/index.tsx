@@ -191,7 +191,7 @@ export default function Slider(props: {
             <Image
               src={ChatGptLogo}
               alt={"logo"}
-              style={{ opacity: isDarkMode ? 0.1 : 0.6 }}
+              style={{ opacity: isDarkMode ? 0.1 : 0.8 }}
             />
           </div>
           <div
@@ -267,7 +267,6 @@ export default function Slider(props: {
           bordered
           borderWeight={"light"}
           css={{
-            flex: "0 0 auto",
             "&:hover": {
               background: isDarkMode
                 ? "rgba(15, 50, 107,0.4)"
@@ -323,6 +322,7 @@ function HistoryItemView(props: {
           ? "#999999"
           : "#444444",
         borderWidth: 1,
+        lineHeight: "unset !important",
         margin: "0 12px",
         fontWeight: props.current ? 500 : 400,
         flex: "0 0 auto",

@@ -97,6 +97,7 @@ export default function ThemeChangeView() {
               key={item.value}
               css={{
                 height: "auto",
+                color: isDarkMode ? "#cccccc" : undefined,
               }}
             >
               <div

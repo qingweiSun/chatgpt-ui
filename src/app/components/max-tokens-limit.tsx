@@ -21,7 +21,7 @@ export default function MaxTokensLimit(props: {
     {
       value: "one",
       desc: "连续对话",
-      tip: "完整理解上下文，但会过度消耗key",
+      tip: "完整理解上下文",
     },
     {
       value: "two",
@@ -72,6 +72,7 @@ export default function MaxTokensLimit(props: {
               key={item.value}
               css={{
                 height: "auto",
+                color: isDarkMode ? "#cccccc" : undefined,
               }}
             >
               <div
