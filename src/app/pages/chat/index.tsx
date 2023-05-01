@@ -272,7 +272,7 @@ export default function ChatView(props: { item: HistoryItem }) {
                 ) : (
                   <Lock
                     size={23}
-                    // primaryColor="var(--nextui-colors-error)"
+                    primaryColor="var(--nextui-colors-error)"
                     set="bold"
                   />
                 )}

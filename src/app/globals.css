@@ -188,7 +188,7 @@ input, textarea {
 
     /* webkit 核心浏览器 */  
     ::selection {  
-        background: #38414e;  
+        background: #38414e !important;  
     }  
 }
 
