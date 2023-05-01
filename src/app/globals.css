@@ -185,6 +185,11 @@ input, textarea {
     ul, ol {
         color: unset !important;
     }
+
+    /* webkit 核心浏览器 */  
+    ::selection {  
+        background: #38414e;  
+    }  
 }
 
 
