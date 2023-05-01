@@ -4,13 +4,17 @@ import MarkdownText, { copyToClipboard } from "@/app/pages/chat/markdown-text";
 import { util } from "@/app/utils/util";
 import Image from "next/image";
 import React, { useContext } from "react";
-import UserImage from "../../images/avatar.jpg";
+import UserImage from "../../images/av1.png";
 import styles from "./index.module.css";
+import { useMediaQuery } from "react-responsive";
+//https://www.iconfont.cn/illustrations/detail?spm=a313x.7781069.1998910419.d9df05512&cid=43905 头像
 const UserItemView = (props: {
   deleteItem: () => void;
   children: ChatMessage;
 }) => {
   const { isMobile } = useContext(context);
+  const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
+
   return (
     <div
       className={styles["user-message"]}
@@ -34,7 +38,7 @@ const UserItemView = (props: {
             overflow: "hidden",
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "#ffffff",
+            backgroundColor: isDarkMode ? "#1b1b1b" : "#ffffff",
             borderRadius: 14,
             boxShadow: "0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%)",
           }}
@@ -47,6 +51,7 @@ const UserItemView = (props: {
               style={{
                 width: 36,
                 height: 36,
+                padding: 4,
               }}
             />
           }

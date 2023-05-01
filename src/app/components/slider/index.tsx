@@ -1,4 +1,3 @@
-import RewardView from "@/app/components/Reward";
 import { SelectButtonView, SelectView } from "@/app/components/delete-view";
 import EditName from "@/app/components/edit-name";
 import SettingModal from "@/app/components/setting";
@@ -16,22 +15,12 @@ import { useLiveQuery } from "dexie-react-hooks";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Fragment, useContext, useEffect, useMemo, useState } from "react";
-import {
-  ArrowDown,
-  ArrowUp,
-  Delete,
-  Edit,
-  Image2,
-  Plus,
-  Setting,
-} from "react-iconly";
-import ChatGptLogo from "../../icons/chatgpt.svg";
-import styles from "./index.module.css";
-import { MaxTokensLimitProps } from "../max-tokens-limit";
-import { toast } from "react-hot-toast";
+import { ArrowDown, ArrowUp, Delete, Edit, Plus, Setting } from "react-iconly";
 import { useMediaQuery } from "react-responsive";
-import { Scrollbars } from "replace-custom-scrollbars";
+import ChatGptLogo from "../../icons/chatgpt.svg";
+import { MaxTokensLimitProps } from "../max-tokens-limit";
 import ThemeChangeView from "../theme-change";
+import styles from "./index.module.css";
 
 //https://react-iconly.jrgarciadev.com/ 图标
 //https://dexie.org/docs/Tutorial/React 数据库

@@ -10,7 +10,7 @@ import { toast } from "react-hot-toast";
 import { Edit } from "react-iconly";
 import { useMediaQuery } from "react-responsive";
 import { context } from "../hooks/context-mobile";
-import UserImage from "../images/avatar.jpg";
+import UserImage from "../images/av1.png";
 export default function PromptView(props: {
   setPrompt: (text: string) => void;
 }) {
@@ -338,7 +338,7 @@ export default function PromptView(props: {
                 overflow: "hidden",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#ffffff",
+                backgroundColor: isDarkMode ? "#1b1b1b" : "#ffffff",
                 borderRadius: 14,
                 boxShadow: "0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%)",
               }}
@@ -351,6 +351,7 @@ export default function PromptView(props: {
                   style={{
                     width: 36,
                     height: 36,
+                    padding: 4,
                   }}
                 />
               }
