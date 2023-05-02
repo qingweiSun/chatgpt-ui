@@ -21,6 +21,7 @@ import { Navbar, Tooltip } from "@nextui-org/react";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import {
+  Bookmark,
   Delete,
   Download,
   Edit,
@@ -149,6 +150,7 @@ export default function ChatView(props: { item: HistoryItem }) {
             </UserView>
           ) : (
             <BotChatTextView
+              id={props.item.id}
               deleteItem={() => {
                 const newMessages = [...messages];
                 newMessages.splice(index, 1);

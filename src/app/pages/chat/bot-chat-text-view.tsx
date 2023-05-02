@@ -9,10 +9,12 @@ import MarkdownText, { copyToClipboard } from "@/app/pages/chat/markdown-text";
 import { context } from "@/app/hooks/context-mobile";
 import { util } from "@/app/utils/util";
 import { useMediaQuery } from "react-responsive";
+import { toast } from "react-hot-toast";
 
 const BotChatTextItemView = (props: {
   deleteItem: () => void;
   children: ChatMessage;
+  id: number;
 }) => {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
@@ -75,6 +77,25 @@ const BotChatTextItemView = (props: {
               >
                 删除
               </div>
+              {props.id != 2 && (
+                <div
+                  className={styles["chat-message-top-action-item"]}
+                  onClick={() => {
+                    const temp: ChatMessage[] =
+                      JSON.parse(
+                        localStorage.getItem("historyList" + 2) || "[]"
+                      ) || [];
+                    temp.push(props.children);
+                    localStorage.setItem(
+                      "historyList" + 2,
+                      JSON.stringify(temp)
+                    );
+                    toast.success(" 已保存到随便录记记");
+                  }}
+                >
+                  保存到随便录记
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -94,9 +115,9 @@ const BotChatTextItemView = (props: {
 
 // eslint-disable-next-line react/display-name
 const BotChatTextView = React.memo(
-  (props: { children: ChatMessage; deleteItem: () => void }) => {
+  (props: { children: ChatMessage; deleteItem: () => void; id: number }) => {
     return (
-      <BotChatTextItemView deleteItem={props.deleteItem}>
+      <BotChatTextItemView deleteItem={props.deleteItem} id={props.id}>
         {props.children}
       </BotChatTextItemView>
     );

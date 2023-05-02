@@ -9,14 +9,15 @@ import { useScroll } from "@/app/hooks/use-scroll";
 import UserView from "../chat/user-chat-view";
 import { toast } from "react-hot-toast";
 import { exportMarkdown } from "@/app/components/setting";
-import { Delete, Download } from "react-iconly";
+import { Bookmark, Delete, Download } from "react-iconly";
 import { SelectView } from "@/app/components/delete-view";
 import { ChatMessage } from "../chat";
 import { Empty } from "antd";
+import BotChatTextView from "../chat/bot-chat-text-view";
 export default function NoteView() {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
-  const [messages, setMessages] = useState<string[]>(
+  const [messages, setMessages] = useState<ChatMessage[]>(
     JSON.parse(localStorage.getItem("historyList" + 2) || "[]") || []
   );
   const [questionText, setQuestionText] = useState<string>("");
@@ -73,16 +74,7 @@ export default function NoteView() {
             <div
               className={styles.link}
               onClick={() => {
-                const tempData: ChatMessage[] = messages.map((e) => {
-                  return {
-                    data: {
-                      role: "user",
-                      content: e,
-                    },
-                    time: new Date().toLocaleString(),
-                  };
-                });
-                exportMarkdown({ messages: tempData });
+                exportMarkdown({ messages: messages });
               }}
             >
               <Download set="curved" size={23} />
@@ -114,20 +106,29 @@ export default function NoteView() {
           </div>
         )}
         {messages.map((value, index) => {
-          return (
+          return value.data.role == "user" ? (
             <UserView
-              key={value}
+              key={index}
               deleteItem={() => {
                 const newMessages = [...messages];
                 newMessages.splice(index, 1);
                 setMessages(newMessages);
               }}
             >
-              {{
-                data: { role: "user", content: value },
-                time: new Date().toLocaleString(),
-              }}
+              {value}
             </UserView>
+          ) : (
+            <BotChatTextView
+              id={2}
+              key={index}
+              deleteItem={() => {
+                const newMessages = [...messages];
+                newMessages.splice(index, 1);
+                setMessages(newMessages);
+              }}
+            >
+              {value}
+            </BotChatTextView>
           );
         })}
         <div style={{ height: 150 }} />
@@ -141,7 +142,13 @@ export default function NoteView() {
         placeholder="请输入您想记下的事情（⌥+Return换行）,支持markdown显示"
         send={() => {
           const newMessages = [...messages];
-          newMessages.push(questionText);
+          newMessages.push({
+            data: {
+              role: "user",
+              content: questionText,
+            },
+            time: new Date().toLocaleString(),
+          });
           setMessages(newMessages);
           setQuestionText("");
         }}
