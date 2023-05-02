@@ -170,6 +170,13 @@ export default function ChatView(props: { item: HistoryItem }) {
         variant="sticky"
         maxWidth={"fluid"}
         disableShadow
+        onDoubleClick={() => {
+          try {
+            // 发送放大窗口的消息给主进程
+            const electron = window.require("electron");
+            electron.ipcRenderer.send("maximize-window");
+          } catch (e) {}
+        }}
         containerCss={{
           backgroundColor: isDarkMode
             ? "rgba(17, 17, 17, 0.8) !important"
