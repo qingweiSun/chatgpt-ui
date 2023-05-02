@@ -211,6 +211,19 @@ export default function Slider(props: {
             props.closeSlider?.();
           }}
         />
+        <ItemView
+          item={{
+            title: "随便记记",
+            id: 2,
+            top: false,
+          }}
+          index={1}
+          showEdit={false}
+          onClick={() => {
+            setId({ id: 2 });
+            props.closeSlider?.();
+          }}
+        />
         {sliderList}
         {(historyList?.length ?? 0) > 0 && (
           <div

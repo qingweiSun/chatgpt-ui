@@ -10,6 +10,7 @@ import { db } from "@/app/db/db";
 import { useLiveQuery } from "dexie-react-hooks";
 import { NextUIProvider, createTheme } from "@nextui-org/react";
 import { useMediaQuery } from "react-responsive";
+import NoteView from "../note/note";
 
 export default function Home() {
   const { isMobile } = useContext(context);
@@ -66,6 +67,7 @@ export default function Home() {
           )}
           <div className={styles.line} />
           {record && <ChatView key={record.id} item={record} />}
+          {!record && <NoteView />}
         </div>
       </div>
     </>

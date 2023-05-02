@@ -13,6 +13,7 @@ export default function InputView(props: {
   send: () => void;
   onFocus: () => void;
   loading: boolean;
+  placeholder?: string;
 }) {
   const { isMobile } = useContext(context);
   const { mode, setMode } = useContext(AppContext);
@@ -24,7 +25,9 @@ export default function InputView(props: {
         bordered={false}
         autoFocus
         onFocus={props.onFocus}
-        placeholder="请输入您想提问的问题（⌥+Return换行）"
+        placeholder={
+          props.placeholder ?? "请输入您想提问的问题（⌥+Return换行）"
+        }
         autoSize={{ minRows: isMobile ? 4 : 7, maxRows: 16 }}
         onChange={(e) => {
           props.setQuestionText(e.target.value);
