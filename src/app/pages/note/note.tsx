@@ -12,6 +12,7 @@ import { exportMarkdown } from "@/app/components/setting";
 import { Delete, Download } from "react-iconly";
 import { SelectView } from "@/app/components/delete-view";
 import { ChatMessage } from "../chat";
+import { Empty } from "antd";
 export default function NoteView() {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
@@ -99,6 +100,19 @@ export default function NoteView() {
         }}
       >
         <div />
+        {messages.length == 0 && (
+          <div style={{ height: "100%", marginTop: "20%" }}>
+            <Empty
+              image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+              imageStyle={{ height: 160 }}
+              description={
+                <div style={{ color: isDarkMode ? "#999999" : "#b9b9b9" }}>
+                  这里是您的临时笔记寄存处，记得要处理奥
+                </div>
+              }
+            />
+          </div>
+        )}
         {messages.map((value, index) => {
           return (
             <UserView
