@@ -33,6 +33,7 @@ import styles from "./index.module.css";
 import InputView from "./view/input-view";
 import NavbarTItleView from "./view/name-view";
 import { useMediaQuery } from "react-responsive";
+import TemplateView from "@/app/components/template-view";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -253,7 +254,7 @@ export default function ChatView(props: { item: HistoryItem }) {
             }}
           >
             <Navbar.Item>
-              <div
+              <a
                 className={styles.link}
                 onClick={() => {
                   if (props.item.explain ?? true) {
@@ -276,9 +277,10 @@ export default function ChatView(props: { item: HistoryItem }) {
                     set="bold"
                   />
                 )}
-              </div>
+              </a>
             </Navbar.Item>
           </Tooltip>
+          {/* <TemplateView /> */}
           <Navbar.Item>
             <SelectView
               onDelete={() => {
