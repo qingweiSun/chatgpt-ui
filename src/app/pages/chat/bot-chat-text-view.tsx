@@ -90,10 +90,10 @@ const BotChatTextItemView = (props: {
                       "historyList" + 2,
                       JSON.stringify(temp)
                     );
-                    toast.success(" 已保存到随便录记记");
+                    toast.success(" 已保存到随便记记");
                   }}
                 >
-                  保存到随便录记
+                  保存到随便记记
                 </div>
               )}
             </div>
