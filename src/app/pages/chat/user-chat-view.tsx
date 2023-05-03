@@ -42,6 +42,12 @@ const UserItemView = (props: {
       toast.success(" 已保存到随便记记");
     },
   };
+
+  const completeO = {
+    label: "完成",
+    key: "4",
+    onClick: () => props.onCompleted && props.onCompleted(),
+  };
   const [operations, setOperations] = React.useState<MenuProps["items"]>([]);
 
   useEffect(() => {
@@ -49,7 +55,7 @@ const UserItemView = (props: {
       case 1:
         break;
       case 2:
-        setOperations([copyO, deleteO]);
+        setOperations([copyO, deleteO, { type: "divider" }, completeO]);
         break;
       default:
         if (props.children.data.role === "user") {
