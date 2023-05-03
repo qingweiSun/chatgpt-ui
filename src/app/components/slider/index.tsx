@@ -15,7 +15,16 @@ import { useLiveQuery } from "dexie-react-hooks";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Fragment, useContext, useEffect, useMemo, useState } from "react";
-import { ArrowDown, ArrowUp, Delete, Edit, Plus, Setting } from "react-iconly";
+import {
+  ArrowDown,
+  ArrowUp,
+  Chat,
+  Delete,
+  Edit,
+  EditSquare,
+  Plus,
+  Setting,
+} from "react-iconly";
 import { useMediaQuery } from "react-responsive";
 import ChatGptLogo from "../../icons/chatgpt.svg";
 import { MaxTokensLimitProps } from "../max-tokens-limit";
@@ -66,6 +75,7 @@ export default function Slider(props: {
     index: number;
     showEdit: boolean;
     onClick?: () => void;
+    icon?: React.ReactNode;
   }) {
     return (
       <Fragment>
@@ -93,6 +103,7 @@ export default function Slider(props: {
           key={propsItem.index}
           title={propsItem.item.title}
           current={current.id == propsItem.item.id}
+          icon={propsItem.icon}
           onClick={() => {
             if (propsItem.onClick) {
               propsItem.onClick();
@@ -152,7 +163,15 @@ export default function Slider(props: {
         return i.top ? -1 : 1;
       })
       .map((item, index) => {
-        return <ItemView item={item} index={index} key={item.id} showEdit />;
+        return (
+          <ItemView
+            item={item}
+            index={index}
+            key={item.id}
+            showEdit
+            // icon=<Chat set="curved" size={16} style={{ flexShrink: 0 }} />
+          />
+        );
       });
   }, [historyList, current, isDarkMode]);
 
@@ -206,6 +225,7 @@ export default function Slider(props: {
           }}
           index={1}
           showEdit={false}
+          icon=<Chat set="curved" size={16} style={{ flexShrink: 0 }} />
           onClick={() => {
             setId({ id: 1 });
             props.closeSlider?.();
@@ -218,6 +238,7 @@ export default function Slider(props: {
             top: false,
           }}
           index={1}
+          icon=<EditSquare set="curved" size={16} style={{ flexShrink: 0 }} />
           showEdit={false}
           onClick={() => {
             setId({ id: 2 });
@@ -309,6 +330,7 @@ function HistoryItemView(props: {
   onDelete: () => void;
   onRename: (name: string) => void;
   onTop: () => void;
+  icon?: React.ReactNode;
 }) {
   return (
     <Button
@@ -356,7 +378,7 @@ function HistoryItemView(props: {
           gap: 4,
         }}
       >
-        {/*<Chat set="curved" />*/}
+        {props.icon}
         <div
           style={{
             textOverflow: "ellipsis",
