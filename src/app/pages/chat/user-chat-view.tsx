@@ -3,11 +3,11 @@ import { ChatMessage } from "@/app/pages/chat/index";
 import MarkdownText, { copyToClipboard } from "@/app/pages/chat/markdown-text";
 import { util } from "@/app/utils/util";
 import Image from "next/image";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import UserImage from "../../images/av1.png";
 import styles from "./index.module.css";
 import { useMediaQuery } from "react-responsive";
-import { Dropdown } from "antd";
+import { Dropdown, MenuProps } from "antd";
 import toast from "react-hot-toast";
 //https://www.iconfont.cn/illustrations/detail?spm=a313x.7781069.1998910419.d9df05512&cid=43905 头像
 const UserItemView = (props: {
@@ -19,6 +19,45 @@ const UserItemView = (props: {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
+  const copyO = {
+    label: "复制",
+    key: "1",
+    onClick: () => copyToClipboard(props.children.data.content),
+  };
+
+  const deleteO = {
+    label: "删除",
+    key: "2",
+    onClick: () => props.deleteItem(),
+  };
+
+  const addNoteO = {
+    label: "保存到随便记记",
+    key: "3",
+    onClick: () => {
+      const temp: ChatMessage[] =
+        JSON.parse(localStorage.getItem("historyList" + 2) || "[]") || [];
+      temp.push(props.children);
+      localStorage.setItem("historyList" + 2, JSON.stringify(temp));
+      toast.success(" 已保存到随便记记");
+    },
+  };
+  const [operations, setOperations] = React.useState<MenuProps["items"]>([]);
+
+  useEffect(() => {
+    switch (props.id) {
+      case 1:
+        break;
+      case 2:
+        setOperations([copyO, deleteO]);
+        break;
+      default:
+        if (props.children.data.role === "user") {
+          setOperations([copyO, deleteO, { type: "divider" }, addNoteO]);
+        }
+        break;
+    }
+  }, [props.id]);
   return (
     <div
       className={styles["user-message"]}
@@ -107,6 +146,7 @@ const UserItemView = (props: {
           </div>
         )}
         <Dropdown
+          disabled={operations?.length === 0}
           overlayStyle={{
             border: isDarkMode
               ? "1px solid rgba(57, 58, 60, 1)"
@@ -114,34 +154,7 @@ const UserItemView = (props: {
             borderRadius: 12,
           }}
           menu={{
-            items: [
-              {
-                label: "复制",
-                key: "1",
-                onClick: () => copyToClipboard(props.children.data.content),
-              },
-              {
-                label: "删除",
-                key: "2",
-                onClick: () => props.deleteItem(),
-              },
-              {
-                type: "divider",
-              },
-              {
-                label: "保存到随便记记",
-                key: "3",
-                onClick: () => {
-                  const temp: ChatMessage[] =
-                    JSON.parse(
-                      localStorage.getItem("historyList" + 2) || "[]"
-                    ) || [];
-                  temp.push(props.children);
-                  localStorage.setItem("historyList" + 2, JSON.stringify(temp));
-                  toast.success(" 已保存到随便记记");
-                },
-              },
-            ],
+            items: operations,
           }}
           trigger={["contextMenu"]}
         >

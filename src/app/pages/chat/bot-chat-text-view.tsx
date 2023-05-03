@@ -1,5 +1,5 @@
 import styles from "./index.module.css";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Loading } from "@nextui-org/react";
 import AiLOGO from "../../icons/bot.svg";
 import AiLOGODark from "../../icons/bot_dark.svg";
@@ -21,6 +21,43 @@ const BotChatTextItemView = (props: {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
+  const copyO = {
+    label: "复制",
+    key: "1",
+    onClick: () => copyToClipboard(props.children.data.content),
+  };
+
+  const deleteO = {
+    label: "删除",
+    key: "2",
+    onClick: () => props.deleteItem(),
+  };
+
+  const addNoteO = {
+    label: "保存到随便记记",
+    key: "3",
+    onClick: () => {
+      const temp: ChatMessage[] =
+        JSON.parse(localStorage.getItem("historyList" + 2) || "[]") || [];
+      temp.push(props.children);
+      localStorage.setItem("historyList" + 2, JSON.stringify(temp));
+      toast.success(" 已保存到随便记记");
+    },
+  };
+  const [operations, setOperations] = React.useState<MenuProps["items"]>([]);
+
+  useEffect(() => {
+    switch (props.id) {
+      case 1:
+        break;
+      case 2:
+        setOperations([copyO, deleteO]);
+        break;
+      default:
+        setOperations([copyO, deleteO, { type: "divider" }, addNoteO]);
+        break;
+    }
+  }, [props.id]);
   return (
     <div
       className={styles.message}
@@ -110,6 +147,7 @@ const BotChatTextItemView = (props: {
           </div>
         )}
         <Dropdown
+          disabled={operations?.length === 0}
           overlayStyle={{
             border: isDarkMode
               ? "1px solid rgba(57, 58, 60, 1)"
@@ -117,34 +155,7 @@ const BotChatTextItemView = (props: {
             borderRadius: 12,
           }}
           menu={{
-            items: [
-              {
-                label: "复制",
-                key: "1",
-                onClick: () => copyToClipboard(props.children.data.content),
-              },
-              {
-                label: "删除",
-                key: "2",
-                onClick: () => props.deleteItem(),
-              },
-              {
-                type: "divider",
-              },
-              {
-                label: "保存到随便记记",
-                key: "3",
-                onClick: () => {
-                  const temp: ChatMessage[] =
-                    JSON.parse(
-                      localStorage.getItem("historyList" + 2) || "[]"
-                    ) || [];
-                  temp.push(props.children);
-                  localStorage.setItem("historyList" + 2, JSON.stringify(temp));
-                  toast.success(" 已保存到随便记记");
-                },
-              },
-            ],
+            items: operations,
           }}
           trigger={["contextMenu"]}
         >
