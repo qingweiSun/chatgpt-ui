@@ -109,9 +109,21 @@ export default function NoteView() {
           return value.data.role == "user" ? (
             <UserView
               key={index}
+              id={2}
               deleteItem={() => {
                 const newMessages = [...messages];
                 newMessages.splice(index, 1);
+                setMessages(newMessages);
+              }}
+              onCompleted={() => {
+                //获取 index 的位置对应的内容，用～～括起来
+                const newMessages = [...messages];
+                if (newMessages[index].data.content.startsWith("~~")) {
+                  toast.error("已经是完成状态了");
+                  return;
+                }
+                newMessages[index].data.content =
+                  "~~" + newMessages[index].data.content + "~~";
                 setMessages(newMessages);
               }}
             >
@@ -124,6 +136,17 @@ export default function NoteView() {
               deleteItem={() => {
                 const newMessages = [...messages];
                 newMessages.splice(index, 1);
+                setMessages(newMessages);
+              }}
+              onCompleted={() => {
+                //获取 index 的位置对应的内容，用～～括起来
+                const newMessages = [...messages];
+                if (newMessages[index].data.content.startsWith("~~")) {
+                  toast.error("已经是完成状态了");
+                  return;
+                }
+                newMessages[index].data.content =
+                  "~~" + newMessages[index].data.content + "~~";
                 setMessages(newMessages);
               }}
             >

@@ -140,6 +140,7 @@ export default function ChatView(props: { item: HistoryItem }) {
         >
           {message.data.role != "assistant" ? (
             <UserView
+              id={props.item.id}
               deleteItem={() => {
                 const newMessages = [...messages];
                 newMessages.splice(index, 1);

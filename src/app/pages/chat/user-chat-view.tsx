@@ -11,6 +11,8 @@ import { useMediaQuery } from "react-responsive";
 const UserItemView = (props: {
   deleteItem: () => void;
   children: ChatMessage;
+  id: number;
+  onCompleted?: () => void;
 }) => {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
@@ -91,6 +93,14 @@ const UserItemView = (props: {
               >
                 删除
               </div>
+              {props.id == 2 && (
+                <div
+                  className={styles["chat-message-top-action-item"]}
+                  onClick={props.onCompleted}
+                >
+                  已完成
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -105,9 +115,18 @@ const UserItemView = (props: {
 
 // eslint-disable-next-line react/display-name
 const UserView = React.memo(
-  (props: { deleteItem: () => void; children: ChatMessage }) => {
+  (props: {
+    deleteItem: () => void;
+    children: ChatMessage;
+    id: number;
+    onCompleted?: () => void;
+  }) => {
     return (
-      <UserItemView deleteItem={props.deleteItem}>
+      <UserItemView
+        deleteItem={props.deleteItem}
+        id={props.id}
+        onCompleted={props.onCompleted}
+      >
         {props.children}
       </UserItemView>
     );

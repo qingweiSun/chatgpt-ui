@@ -14,11 +14,11 @@ export const util = {
     if (year === nowYear && month === nowMonth && day === nowDay) {
       return `${this.addZero(hour)}:${this.addZero(minute)}`;
     } else if (year === nowYear) {
-      return `${this.addZero(month)}-${this.addZero(day)} ${this.addZero(
+      return `${this.addZero(month)}/${this.addZero(day)} ${this.addZero(
         hour
       )}:${this.addZero(minute)}`;
     } else {
-      return `${year}-${this.addZero(month)}-${this.addZero(
+      return `${year}/${this.addZero(month)}/${this.addZero(
         day
       )} ${this.addZero(hour)}:${this.addZero(minute)}`;
     }

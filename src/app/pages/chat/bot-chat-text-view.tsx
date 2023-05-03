@@ -13,6 +13,7 @@ import { toast } from "react-hot-toast";
 
 const BotChatTextItemView = (props: {
   deleteItem: () => void;
+  onCompleted?: () => void;
   children: ChatMessage;
   id: number;
 }) => {
@@ -96,6 +97,14 @@ const BotChatTextItemView = (props: {
                   保存到随便记记
                 </div>
               )}
+              {props.id == 2 && (
+                <div
+                  className={styles["chat-message-top-action-item"]}
+                  onClick={props.onCompleted}
+                >
+                  已完成
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -115,9 +124,18 @@ const BotChatTextItemView = (props: {
 
 // eslint-disable-next-line react/display-name
 const BotChatTextView = React.memo(
-  (props: { children: ChatMessage; deleteItem: () => void; id: number }) => {
+  (props: {
+    children: ChatMessage;
+    deleteItem: () => void;
+    id: number;
+    onCompleted?: () => void;
+  }) => {
     return (
-      <BotChatTextItemView deleteItem={props.deleteItem} id={props.id}>
+      <BotChatTextItemView
+        deleteItem={props.deleteItem}
+        id={props.id}
+        onCompleted={props.onCompleted}
+      >
         {props.children}
       </BotChatTextItemView>
     );
