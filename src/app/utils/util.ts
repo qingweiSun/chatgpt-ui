@@ -12,11 +12,19 @@ export const util = {
     let nowMonth = now.getMonth() + 1;
     let nowDay = now.getDate();
     if (year === nowYear && month === nowMonth && day === nowDay) {
-      return `${hour}:${minute}`;
+      return `${this.addZero(hour)}:${this.addZero(minute)}`;
     } else if (year === nowYear) {
-      return `${month}/${day} ${hour}:${minute}`;
+      return `${this.addZero(month)}-${this.addZero(day)} ${this.addZero(
+        hour
+      )}:${this.addZero(minute)}`;
     } else {
-      return `${year}/${month}/${day} ${hour}:${minute}`;
+      return `${year}-${this.addZero(month)}-${this.addZero(
+        day
+      )} ${this.addZero(hour)}:${this.addZero(minute)}`;
     }
+  },
+  //小于 10 的数字前面加 0
+  addZero(num: number): string {
+    return num < 10 ? `0${num}` : `${num}`;
   },
 };
