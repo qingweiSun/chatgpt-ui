@@ -55,8 +55,6 @@ const BotChatTextItemView = (props: {
 
   useEffect(() => {
     switch (props.id) {
-      case 1:
-        break;
       case 2:
         setOperations([copyO, deleteO, { type: "divider" }, completeO]);
         break;
@@ -154,7 +152,9 @@ const BotChatTextItemView = (props: {
           </div>
         )}
         <Dropdown
-          disabled={operations?.length === 0}
+          disabled={
+            operations?.length === 0 || props.children.time == undefined
+          }
           overlayStyle={{
             border: isDarkMode
               ? "1px solid rgba(57, 58, 60, 1)"

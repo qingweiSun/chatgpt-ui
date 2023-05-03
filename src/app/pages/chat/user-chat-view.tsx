@@ -52,8 +52,6 @@ const UserItemView = (props: {
 
   useEffect(() => {
     switch (props.id) {
-      case 1:
-        break;
       case 2:
         setOperations([copyO, deleteO, { type: "divider" }, completeO]);
         break;
