@@ -98,7 +98,13 @@ export default function NoteView() {
               image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
               imageStyle={{ height: 160 }}
               description={
-                <div style={{ color: isDarkMode ? "#999999" : "#b9b9b9" }}>
+                <div
+                  style={{
+                    color: isDarkMode ? "#999999" : "#b9b9b9",
+                    fontSize: 13,
+                    opacity: 0.8,
+                  }}
+                >
                   这里是您的临时笔记寄存处，记得要处理奥
                 </div>
               }

@@ -67,7 +67,7 @@ export default function Home() {
           )}
           <div className={styles.line} />
           {record && <ChatView key={record.id} item={record} />}
-          {!record && <NoteView />}
+          {!record && <NoteView key={2} />}
         </div>
       </div>
     </>

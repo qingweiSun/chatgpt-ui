@@ -33,19 +33,12 @@ export default function RewardView() {
       <Modal
         title="捐赠"
         open={rewardModalOpen}
-        // closeIcon={
-        //   <CloseSquare
-        //     set="curved"
-        //     primaryColor={isDarkMode ? "#bbbbbb" : undefined}
-        //   />
-        // }
-        // onOk={() => {
-        //   setRewardModalOpen(false);
-        // }}
+        css={{
+          backgroundColor: isDarkMode ? "#16181a" : "#f3f4f5",
+        }}
         onClose={() => {
           setRewardModalOpen(false);
         }}
-        // footer={[]}
       >
         <Modal.Header>
           <Text b size={16} color={isDarkMode ? "#888888" : undefined}>
