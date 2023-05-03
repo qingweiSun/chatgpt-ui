@@ -7,6 +7,8 @@ import React, { useContext } from "react";
 import UserImage from "../../images/av1.png";
 import styles from "./index.module.css";
 import { useMediaQuery } from "react-responsive";
+import { Dropdown } from "antd";
+import toast from "react-hot-toast";
 //https://www.iconfont.cn/illustrations/detail?spm=a313x.7781069.1998910419.d9df05512&cid=43905 头像
 const UserItemView = (props: {
   deleteItem: () => void;
@@ -80,7 +82,7 @@ const UserItemView = (props: {
             }}
           >
             {util.getDateFormat(props.children.time)}
-            <div style={{ display: "flex", flexDirection: "row-reverse" }}>
+            {/* <div style={{ display: "flex", flexDirection: "row-reverse" }}>
               <div
                 className={styles["chat-message-top-action-item"]}
                 onClick={() => copyToClipboard(props.children.data.content)}
@@ -101,12 +103,52 @@ const UserItemView = (props: {
                   已完成
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         )}
-        <div className={styles.user}>
-          <MarkdownText>{props.children.data.content}</MarkdownText>
-        </div>
+        <Dropdown
+          overlayStyle={{
+            border: isDarkMode
+              ? "1px solid rgba(57, 58, 60, 1)"
+              : "1px solid #eeeeee",
+            borderRadius: 12,
+          }}
+          menu={{
+            items: [
+              {
+                label: "复制",
+                key: "1",
+                onClick: () => copyToClipboard(props.children.data.content),
+              },
+              {
+                label: "删除",
+                key: "2",
+                onClick: () => props.deleteItem(),
+              },
+              {
+                type: "divider",
+              },
+              {
+                label: "保存到随便记记",
+                key: "3",
+                onClick: () => {
+                  const temp: ChatMessage[] =
+                    JSON.parse(
+                      localStorage.getItem("historyList" + 2) || "[]"
+                    ) || [];
+                  temp.push(props.children);
+                  localStorage.setItem("historyList" + 2, JSON.stringify(temp));
+                  toast.success(" 已保存到随便记记");
+                },
+              },
+            ],
+          }}
+          trigger={["contextMenu"]}
+        >
+          <div className={styles.user}>
+            <MarkdownText>{props.children.data.content}</MarkdownText>
+          </div>
+        </Dropdown>
       </div>
     </div>
   );

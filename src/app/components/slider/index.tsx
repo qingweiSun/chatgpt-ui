@@ -272,6 +272,7 @@ export default function Slider(props: {
                 }
               }}
               title="警告"
+              placement="top-right"
               description="清理后无法找回，数据无价，请注意保存！"
             />
             <div style={{ color: "transparent", height: 72 }}></div>

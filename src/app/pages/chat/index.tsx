@@ -21,7 +21,6 @@ import { Navbar, Tooltip } from "@nextui-org/react";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import {
-  Bookmark,
   Delete,
   Download,
   Edit,
@@ -30,11 +29,10 @@ import {
   MoreSquare,
   Unlock,
 } from "react-iconly";
+import { useMediaQuery } from "react-responsive";
 import styles from "./index.module.css";
 import InputView from "./view/input-view";
 import NavbarTItleView from "./view/name-view";
-import { useMediaQuery } from "react-responsive";
-import TemplateView from "@/app/components/template-view";
 
 export interface ChatMessage {
   data: GptMessage;

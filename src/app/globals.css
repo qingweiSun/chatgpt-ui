@@ -190,6 +190,16 @@ input, textarea {
     ::selection {  
         background: #38414e !important;  
     }  
+    .ant-dropdown-menu{
+        background: #16181a !important;  
+    }
+    .ant-dropdown-menu-title-content{
+        color: #cccccc !important;  
+    }
+    .ant-dropdown-menu-item-divider{
+        background-color: rgba(57, 58, 60, 0.7) !important;  
+    }
+    .ant-dropdown-menu-item:hover{
+        background-color: #2b2f31 !important;  
+    }
 }
-
-

@@ -190,7 +190,6 @@
 
 .chat-message-top-action-item {
     /*缩放*/
-    transform: scale(0.85);
     font-size: 11px;
     border: #cccccc 1px solid;
     border-radius: 12px;

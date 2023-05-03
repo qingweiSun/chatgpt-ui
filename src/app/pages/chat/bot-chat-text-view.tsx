@@ -10,6 +10,7 @@ import { context } from "@/app/hooks/context-mobile";
 import { util } from "@/app/utils/util";
 import { useMediaQuery } from "react-responsive";
 import { toast } from "react-hot-toast";
+import { Dropdown, MenuProps } from "antd";
 
 const BotChatTextItemView = (props: {
   deleteItem: () => void;
@@ -65,7 +66,7 @@ const BotChatTextItemView = (props: {
             }}
           >
             {util.getDateFormat(props.children.time)}
-            <div style={{ display: "flex" }}>
+            {/* <div style={{ display: "flex" }}>
               <div
                 className={styles["chat-message-top-action-item"]}
                 onClick={() => copyToClipboard(props.children.data.content)}
@@ -102,20 +103,60 @@ const BotChatTextItemView = (props: {
                   className={styles["chat-message-top-action-item"]}
                   onClick={props.onCompleted}
                 >
-                  已完成
+                  完成
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         )}
-        <div className={styles.bot}>
-          {props.children.data.content == "loading" && (
-            <Loading size={"xs"} type={"points"} />
-          )}
-          {props.children.data.content != "loading" && (
-            <MarkdownText>{props.children.data.content}</MarkdownText>
-          )}
-        </div>
+        <Dropdown
+          overlayStyle={{
+            border: isDarkMode
+              ? "1px solid rgba(57, 58, 60, 1)"
+              : "1px solid #eeeeee",
+            borderRadius: 12,
+          }}
+          menu={{
+            items: [
+              {
+                label: "复制",
+                key: "1",
+                onClick: () => copyToClipboard(props.children.data.content),
+              },
+              {
+                label: "删除",
+                key: "2",
+                onClick: () => props.deleteItem(),
+              },
+              {
+                type: "divider",
+              },
+              {
+                label: "保存到随便记记",
+                key: "3",
+                onClick: () => {
+                  const temp: ChatMessage[] =
+                    JSON.parse(
+                      localStorage.getItem("historyList" + 2) || "[]"
+                    ) || [];
+                  temp.push(props.children);
+                  localStorage.setItem("historyList" + 2, JSON.stringify(temp));
+                  toast.success(" 已保存到随便记记");
+                },
+              },
+            ],
+          }}
+          trigger={["contextMenu"]}
+        >
+          <div className={styles.bot}>
+            {props.children.data.content == "loading" && (
+              <Loading size={"xs"} type={"points"} />
+            )}
+            {props.children.data.content != "loading" && (
+              <MarkdownText>{props.children.data.content}</MarkdownText>
+            )}
+          </div>
+        </Dropdown>
       </div>
       {/*<div style={{ width: 90 }} />*/}
     </div>
