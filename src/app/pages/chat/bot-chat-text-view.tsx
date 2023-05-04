@@ -26,7 +26,7 @@ const BotChatTextItemView = (props: {
     key: "1",
     onClick: () => {
       var selection = window.getSelection()?.toString() ?? "";
-      if (selection != "") {
+      if (selection.trim().length > 0) {
         copyToClipboard(selection);
       } else {
         copyToClipboard(props.children.data.content);
