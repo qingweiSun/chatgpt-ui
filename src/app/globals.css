@@ -208,3 +208,7 @@ input, textarea {
     }
 }
 
+
+.ant-input{
+    border-color: #dddddd;
+}
