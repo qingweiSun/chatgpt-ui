@@ -57,14 +57,25 @@ const UserItemView = (props: {
   const completeO = {
     label: "完成",
     key: "4",
-    onClick: () => props.onCompleted && props.onCompleted(),
+    onClick: () => {
+      props.onCompleted && props.onCompleted();
+      refreshContextMenu();
+    },
   };
   const [operations, setOperations] = React.useState<MenuProps["items"]>([]);
 
-  useEffect(() => {
+  function refreshContextMenu() {
     switch (props.id) {
       case 2:
-        setOperations([copyO, deleteO, { type: "divider" }, completeO]);
+        const temp: MenuProps["items"] = [copyO, deleteO];
+        if (
+          !props.children.data.content.startsWith("~~") &&
+          !props.children.data.content.endsWith("~~")
+        ) {
+          temp.push({ type: "divider" });
+          temp.push(completeO);
+        }
+        setOperations(temp);
         break;
       default:
         if (props.children.data.role === "user") {
@@ -72,6 +83,9 @@ const UserItemView = (props: {
         }
         break;
     }
+  }
+  useEffect(() => {
+    refreshContextMenu();
   }, [props.id]);
   return (
     <div
