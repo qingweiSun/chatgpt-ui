@@ -4,15 +4,20 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import styles from "./index.module.css";
+
+import "katex/dist/katex.min.css"; // `rehype-katex` does not import the CSS for you
+
 import toast from "react-hot-toast";
 import { useMediaQuery } from "react-responsive";
-
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 export default function MarkdownText(props: { children: string }) {
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
   return (
     <ReactMarkdown
-      remarkPlugins={[RemarkGfm]}
+      remarkPlugins={[RemarkGfm, remarkMath]}
+      rehypePlugins={[rehypeKatex]}
       components={{
         code({ node, inline, className, children, ...prop }) {
           const match = /language-(\w+)/.exec(

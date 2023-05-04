@@ -128,8 +128,23 @@ export default function NoteView() {
                   toast.error("已经是完成状态了");
                   return;
                 }
-                newMessages[index].data.content =
-                  "~~" + newMessages[index].data.content + "~~";
+                newMessages[index].data.content = newMessages[
+                  index
+                ].data.content
+                  .split("\n")
+                  .map((item) => {
+                    console.log(item);
+                    if (
+                      item.trim().length > 0 &&
+                      !item.startsWith("~~") &&
+                      !item.startsWith("```")
+                    ) {
+                      return "~~" + item + "~~";
+                    } else {
+                      return item;
+                    }
+                  })
+                  .join("\n");
                 setMessages(newMessages);
               }}
             >
@@ -151,8 +166,23 @@ export default function NoteView() {
                   toast.error("已经是完成状态了");
                   return;
                 }
-                newMessages[index].data.content =
-                  "~~" + newMessages[index].data.content + "~~";
+                newMessages[index].data.content = newMessages[
+                  index
+                ].data.content
+                  .split("\n")
+                  .map((item) => {
+                    console.log(item);
+                    if (
+                      item.trim().length > 0 &&
+                      !item.startsWith("~~") &&
+                      !item.startsWith("```")
+                    ) {
+                      return "~~" + item + "~~";
+                    } else {
+                      return item;
+                    }
+                  })
+                  .join("\n");
                 setMessages(newMessages);
               }}
             >
@@ -181,7 +211,9 @@ export default function NoteView() {
           setMessages(newMessages);
           setQuestionText("");
         }}
-        onFocus={() => {}}
+        onFocus={() => {
+          canScroll.current = true;
+        }}
       />
     </div>
   );
