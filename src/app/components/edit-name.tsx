@@ -71,14 +71,13 @@ export default function EditName(props: {
               value={name}
               placeholder="请输入名称"
               size="large"
-              bordered={!isDarkMode}
               autoSize={{ minRows: 1, maxRows: 3 }}
               style={{
                 fontSize: 15,
                 borderRadius: 10,
                 borderWidth: 2,
                 width: "100%",
-                borderColor: isDarkMode ? "#333333" : undefined,
+                // borderColor: isDarkMode ? "#333333" : undefined,
                 backgroundColor: isDarkMode ? "#2b2f31" : undefined,
                 color: isDarkMode ? "#cccccc" : undefined,
               }}

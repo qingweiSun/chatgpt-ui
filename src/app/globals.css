@@ -202,5 +202,9 @@ input, textarea {
     .ant-dropdown-menu-item:hover{
         background-color: #2b2f31 !important;  
     }
+
+    .ant-input{
+        border-color: #0072F5;
+    }
 }
 

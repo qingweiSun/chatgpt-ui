@@ -59,10 +59,12 @@ export default function MarkdownText(props: { children: string }) {
   );
 }
 
-export async function copyToClipboard(text: string) {
+export async function copyToClipboard(text: string, isToast?: boolean) {
   try {
     await navigator.clipboard.writeText(text);
-    toast.success("复制成功");
+    if (isToast != false) {
+      toast.success("复制成功");
+    }
   } catch (error) {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -71,9 +73,13 @@ export async function copyToClipboard(text: string) {
     textArea.select();
     try {
       document.execCommand("copy");
-      toast.success("复制成功");
+      if (isToast != false) {
+        toast.success("复制成功");
+      }
     } catch (error) {
-      toast.error("复制失败");
+      if (isToast != false) {
+        toast.success("复制成功");
+      }
     }
     document.body.removeChild(textArea);
   }

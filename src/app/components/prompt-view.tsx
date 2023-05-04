@@ -401,7 +401,6 @@ export default function PromptView(props: {
                     className="custom-prompt"
                     placeholder="请输入自定义角色属性"
                     autoFocus
-                    bordered={!isDarkMode}
                     value={customPrompt}
                     onChange={(e) => {
                       setCustomPrompt(e.target.value);
@@ -411,7 +410,6 @@ export default function PromptView(props: {
                       width: isMobile ? "70vw" : 600,
                       borderWidth: 2,
                       fontSize: 15,
-                      borderColor: isDarkMode ? "#333333" : undefined,
                       backgroundColor: isDarkMode ? "#2b2f31" : undefined,
                       color: isDarkMode ? "#cccccc" : undefined,
                     }}

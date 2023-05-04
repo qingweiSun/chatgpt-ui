@@ -41,7 +41,11 @@ const BotChatTextItemView = (props: {
   };
 
   const addNoteO = {
-    label: "保存到随便记记",
+    label: (
+      <div style={{ color: "var(--nextui-colors-primary)" }}>
+        保存到随便记记
+      </div>
+    ),
     key: "3",
     onClick: () => {
       const temp: ChatMessage[] =
