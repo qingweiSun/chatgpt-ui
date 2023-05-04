@@ -84,6 +84,7 @@ export function SelectButtonView(props: {
           css={{
             color: "var(--nextui-colors-error)",
             borderWidth: 1,
+            opacity: 0.6,
             margin: "0 12px",
             fontWeight: 400,
             flex: "0 0 auto",
@@ -93,8 +94,7 @@ export function SelectButtonView(props: {
             borderStyle: "dashed",
             borderColor: "var(--nextui-colors-error)",
             "&:hover": {
-              borderColor: "var(--nextui-colors-primary)",
-              color: "var(--nextui-colors-primary)",
+              opacity: 1,
               fontWeight: 500,
             },
           }}
