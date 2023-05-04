@@ -148,7 +148,7 @@ export default function NoteView() {
                         !item.startsWith("~~") &&
                         !item.endsWith("~~")
                       ) {
-                        return "~~" + item + "~~";
+                        return "~~" + item.trim() + "~~";
                       } else {
                         return item;
                       }
@@ -171,7 +171,7 @@ export default function NoteView() {
                         !item.startsWith("~~") &&
                         !item.endsWith("~~")
                       ) {
-                        return "~~" + item + "~~";
+                        return "~~" + item.trim() + "~~";
                       } else {
                         return item;
                       }
@@ -218,7 +218,7 @@ export default function NoteView() {
                         !item.startsWith("~~") &&
                         !item.endsWith("~~")
                       ) {
-                        return "~~" + item + "~~";
+                        return "~~" + item.trim() + "~~";
                       } else {
                         return item;
                       }
@@ -241,7 +241,7 @@ export default function NoteView() {
                         !item.startsWith("~~") &&
                         !item.endsWith("~~")
                       ) {
-                        return "~~" + item + "~~";
+                        return "~~" + item.trim() + "~~";
                       } else {
                         return item;
                       }
