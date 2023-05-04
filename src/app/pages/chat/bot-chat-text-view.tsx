@@ -24,7 +24,14 @@ const BotChatTextItemView = (props: {
   const copyO = {
     label: "复制",
     key: "1",
-    onClick: () => copyToClipboard(props.children.data.content),
+    onClick: () => {
+      var selection = window.getSelection()?.toString() ?? "";
+      if (selection != "") {
+        copyToClipboard(selection);
+      } else {
+        copyToClipboard(props.children.data.content);
+      }
+    },
   };
 
   const deleteO = {

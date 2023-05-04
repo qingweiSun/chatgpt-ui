@@ -22,7 +22,14 @@ const UserItemView = (props: {
   const copyO = {
     label: "复制",
     key: "1",
-    onClick: () => copyToClipboard(props.children.data.content),
+    onClick: () => {
+      var selection = window.getSelection()?.toString() ?? "";
+      if (selection != "") {
+        copyToClipboard(selection);
+      } else {
+        copyToClipboard(props.children.data.content);
+      }
+    },
   };
 
   const deleteO = {
@@ -150,7 +157,9 @@ const UserItemView = (props: {
           </div>
         )}
         <Dropdown
-          disabled={operations?.length === 0}
+          disabled={
+            operations?.length === 0 || props.children.time == undefined
+          }
           overlayStyle={{
             border: isDarkMode
               ? "1px solid rgba(57, 58, 60, 1)"
