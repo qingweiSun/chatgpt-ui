@@ -165,6 +165,13 @@ input, textarea {
     -webkit-text-size-adjust: 100%;
     caret-color: #0072F5;
 }
+
+.ant-input{
+    border-color: #dddddd !important;
+}
+.ant-input:focus{
+    border-color: #0072F5 !important;
+}
 @media (prefers-color-scheme: dark) {
     .custom-prompt::placeholder {
         color: #999;
@@ -204,11 +211,7 @@ input, textarea {
     }
 
     .ant-input{
-        border-color: #0072F5;
+        border-color: #444444 !important;
     }
 }
 
-
-.ant-input{
-    border-color: #dddddd;
-}
