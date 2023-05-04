@@ -128,23 +128,56 @@ export default function NoteView() {
                   toast.error("已经是完成状态了");
                   return;
                 }
-                newMessages[index].data.content = newMessages[
-                  index
-                ].data.content
-                  .split("\n")
-                  .map((item) => {
-                    console.log(item);
-                    if (
-                      item.trim().length > 0 &&
-                      !item.startsWith("~~") &&
-                      !item.startsWith("```")
-                    ) {
-                      return "~~" + item + "~~";
-                    } else {
-                      return item;
-                    }
-                  })
-                  .join("\n");
+
+                let teampText = (newMessages[index].data.content =
+                  newMessages[index].data.content);
+                //teampText是一段 markdown,里面可能有代码块，获取teampText代码块的内容
+                const codeBlocks = teampText.match(/```[\s\S]*?```/g);
+                if (codeBlocks) {
+                  console.log(codeBlocks);
+                  //将代码块替换为占位符
+                  codeBlocks.forEach((item) => {
+                    teampText = teampText.replace(item, "~~code~~");
+                  });
+                  teampText = teampText
+                    .split("\n")
+                    .map((item) => {
+                      console.log(item);
+                      if (
+                        item.trim().length > 0 &&
+                        !item.startsWith("~~") &&
+                        !item.endsWith("~~")
+                      ) {
+                        return "~~" + item + "~~";
+                      } else {
+                        return item;
+                      }
+                    })
+                    .join("\n");
+                  //讲占位符替换为代码块
+                  codeBlocks.forEach((item) => {
+                    teampText = teampText.replace("~~code~~", item);
+                  });
+                  newMessages[index].data.content = teampText;
+                } else {
+                  newMessages[index].data.content = newMessages[
+                    index
+                  ].data.content
+                    .split("\n")
+                    .map((item) => {
+                      console.log(item);
+                      if (
+                        item.trim().length > 0 &&
+                        !item.startsWith("~~") &&
+                        !item.endsWith("~~")
+                      ) {
+                        return "~~" + item + "~~";
+                      } else {
+                        return item;
+                      }
+                    })
+                    .join("\n");
+                }
                 setMessages(newMessages);
               }}
             >
@@ -166,23 +199,55 @@ export default function NoteView() {
                   toast.error("已经是完成状态了");
                   return;
                 }
-                newMessages[index].data.content = newMessages[
-                  index
-                ].data.content
-                  .split("\n")
-                  .map((item) => {
-                    console.log(item);
-                    if (
-                      item.trim().length > 0 &&
-                      !item.startsWith("~~") &&
-                      !item.startsWith("```")
-                    ) {
-                      return "~~" + item + "~~";
-                    } else {
-                      return item;
-                    }
-                  })
-                  .join("\n");
+                let teampText = (newMessages[index].data.content =
+                  newMessages[index].data.content);
+                //teampText是一段 markdown,里面可能有代码块，获取teampText代码块的内容
+                const codeBlocks = teampText.match(/```[\s\S]*?```/g);
+                if (codeBlocks) {
+                  console.log(codeBlocks);
+                  //将代码块替换为占位符
+                  codeBlocks.forEach((item) => {
+                    teampText = teampText.replace(item, "~~code~~");
+                  });
+                  teampText = teampText
+                    .split("\n")
+                    .map((item) => {
+                      console.log(item);
+                      if (
+                        item.trim().length > 0 &&
+                        !item.startsWith("~~") &&
+                        !item.endsWith("~~")
+                      ) {
+                        return "~~" + item + "~~";
+                      } else {
+                        return item;
+                      }
+                    })
+                    .join("\n");
+                  //讲占位符替换为代码块
+                  codeBlocks.forEach((item) => {
+                    teampText = teampText.replace("~~code~~", item);
+                  });
+                  newMessages[index].data.content = teampText;
+                } else {
+                  newMessages[index].data.content = newMessages[
+                    index
+                  ].data.content
+                    .split("\n")
+                    .map((item) => {
+                      console.log(item);
+                      if (
+                        item.trim().length > 0 &&
+                        !item.startsWith("~~") &&
+                        !item.endsWith("~~")
+                      ) {
+                        return "~~" + item + "~~";
+                      } else {
+                        return item;
+                      }
+                    })
+                    .join("\n");
+                }
                 setMessages(newMessages);
               }}
             >
