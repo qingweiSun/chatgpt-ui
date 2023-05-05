@@ -1,13 +1,13 @@
 .slider {
     width: 300px;
-    position: absolute;
+    /* position: absolute;
     bottom: 0;
-    top: 0;
+    top: 0; */
     background: #e7f5ff;
     overflow-x: hidden;
-    overflow-y: scroll;
+    position: relative;
     -webkit-app-region: drag;
-
+    height: 100%;
 }
 
 .mobile {

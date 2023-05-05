@@ -28,6 +28,7 @@ export default function MobileSlider(props: {
       <Drawer
         placement="left"
         maskClosable
+        closable={false}
         onClose={() => {
           setVisible(false);
         }}

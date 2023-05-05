@@ -62,9 +62,9 @@ export default function Home() {
               <Slider />
             </div>
           )}
-          {!isMobile && (
+          {/* {!isMobile && (
             <div style={{ width: 300 }} className={styles.slider} />
-          )}
+          )} */}
           <div className={styles.line} />
           {record && <ChatView key={record.id} item={record} />}
           {!record && <NoteView key={2} />}

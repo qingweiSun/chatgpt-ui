@@ -1,8 +1,6 @@
 .container {
-    display: flex;
-    flex-direction: column;
     height: 100%;
-    overflow-y: scroll;
+    position: relative;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     background: linear-gradient(135deg, #f7f7f7, #f7f7f7);
@@ -107,9 +105,8 @@
 .bottom {
     position: absolute;
     bottom: 0;
+    left: 0;
     right: 0;
-    left: 300px;
-    z-index: 1;
     background: rgba(247, 247, 247, 0.7);
     backdrop-filter: blur(12px) saturate(180%) ;/* saturate(180%) blur(var(--nextui--navbarBlur)) */
     -webkit-backdrop-filter: blur(12px) saturate(180%);
