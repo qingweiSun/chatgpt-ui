@@ -84,7 +84,7 @@ export function SelectButtonView(props: {
           css={{
             color: "var(--nextui-colors-error)",
             borderWidth: 1,
-            opacity: 0.6,
+            opacity: isDarkMode ? 0.6 : 0.8,
             margin: "0 12px",
             fontWeight: 400,
             flex: "0 0 auto",

@@ -133,47 +133,6 @@ const BotChatTextItemView = (props: {
             }}
           >
             {util.getDateFormat(props.children.time)}
-            {/* <div style={{ display: "flex" }}>
-              <div
-                className={styles["chat-message-top-action-item"]}
-                onClick={() => copyToClipboard(props.children.data.content)}
-              >
-                复制
-              </div>
-              <div
-                className={styles["chat-message-top-action-item"]}
-                onClick={() => props.deleteItem()}
-              >
-                删除
-              </div>
-              {props.id != 2 && (
-                <div
-                  className={styles["chat-message-top-action-item"]}
-                  onClick={() => {
-                    const temp: ChatMessage[] =
-                      JSON.parse(
-                        localStorage.getItem("historyList" + 2) || "[]"
-                      ) || [];
-                    temp.push(props.children);
-                    localStorage.setItem(
-                      "historyList" + 2,
-                      JSON.stringify(temp)
-                    );
-                    toast.success(" 已保存到随便记记");
-                  }}
-                >
-                  保存到随便记记
-                </div>
-              )}
-              {props.id == 2 && (
-                <div
-                  className={styles["chat-message-top-action-item"]}
-                  onClick={props.onCompleted}
-                >
-                  完成
-                </div>
-              )}
-            </div> */}
           </div>
         )}
         <Dropdown

@@ -11,10 +11,10 @@ import {
 } from "@/app/db/db";
 import IdContext from "@/app/hooks/use-chat-id";
 import { Button } from "@nextui-org/react";
+import { Dropdown, MenuProps } from "antd";
 import { useLiveQuery } from "dexie-react-hooks";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { Fragment, useContext, useEffect, useMemo, useState } from "react";
+import { Fragment, useContext, useEffect, useMemo } from "react";
 import {
   ArrowDown,
   ArrowUp,
@@ -30,6 +30,7 @@ import ChatGptLogo from "../../icons/chatgpt.svg";
 import { MaxTokensLimitProps } from "../max-tokens-limit";
 import ThemeChangeView from "../theme-change";
 import styles from "./index.module.css";
+import { on } from "events";
 
 //https://react-iconly.jrgarciadev.com/ 图标
 //https://dexie.org/docs/Tutorial/React 数据库
@@ -49,9 +50,7 @@ export default function Slider(props: {
     db.sliders.where("id").notEqual(1).toArray()
   );
   const { current, setId } = useContext(IdContext);
-  const router = useRouter();
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
-  const [scrollTop, setScrollTop] = useState(0);
   // useEffect(() => {
   //   db.table("sliders").hook("deleting", function (primaryKey, obj) {
   //     toast("删除");
@@ -98,6 +97,7 @@ export default function Slider(props: {
             <div className={styles.label}>全部会话</div>
           )}
         <HistoryItemView
+          id={propsItem.item.id}
           isDarkMode={isDarkMode}
           showEdit={propsItem.showEdit}
           key={propsItem.index}
@@ -321,6 +321,35 @@ export default function Slider(props: {
   );
 }
 
+function getMenus(
+  id: number,
+  isTop: boolean,
+  onTop: () => void
+): MenuProps["items"] | undefined {
+  switch (id) {
+    case 1:
+      return [];
+    case 2:
+      return [];
+    default:
+      return isTop
+        ? [
+            {
+              label: " 取消置顶",
+              key: "3",
+              onClick: () => onTop(),
+            },
+          ]
+        : [
+            {
+              label: "置顶",
+              key: "4",
+              onClick: () => onTop(),
+            },
+          ];
+  }
+}
+
 function HistoryItemView(props: {
   title: string;
   current: boolean;
@@ -331,117 +360,133 @@ function HistoryItemView(props: {
   onDelete: () => void;
   onRename: (name: string) => void;
   onTop: () => void;
+  id: number;
   icon?: React.ReactNode;
 }) {
   return (
-    <Button
-      bordered
-      className={styles.historyItem}
-      color="primary"
-      css={{
-        color: props.current
-          ? props.isDarkMode
-            ? "#cccccc"
-            : undefined
-          : props.isDarkMode
-          ? "#999999"
-          : "#444444",
-        borderWidth: 1,
-        lineHeight: "unset !important",
-        margin: "0 12px",
-        fontWeight: props.current ? 500 : 400,
-        flex: "0 0 auto",
-        justifyContent: "start",
-        backdropFilter: "blur(4px)",
-        display: "unset",
-        background: props.current
-          ? props.isDarkMode
-            ? "rgba(15, 50, 107,0.6)"
-            : "rgba(255,255,255,0.4)"
-          : undefined,
-        borderStyle: props.current ? undefined : "dashed",
-        borderColor: props.current
-          ? undefined
-          : props.isDarkMode
-          ? "#444444"
-          : "#bfbfbf",
-        "&:hover": {
-          borderColor: "var(--nextui-colors-primary)",
-        },
+    <Dropdown
+      dropdownRender={(menu) => {
+        return props.id < 1000 ? <div /> : menu;
       }}
-      onPress={props.onClick}
+      overlayStyle={{
+        border: props.isDarkMode
+          ? "1px solid rgba(57, 58, 60, 1)"
+          : "1px solid #eeeeee",
+        borderRadius: 12,
+      }}
+      menu={{
+        items: getMenus(props.id, props.isTop, props.onTop),
+      }}
+      trigger={["contextMenu"]}
     >
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          gap: 4,
+      <Button
+        bordered
+        className={styles.historyItem}
+        color="primary"
+        css={{
+          color: props.current
+            ? props.isDarkMode
+              ? "#cccccc"
+              : undefined
+            : props.isDarkMode
+            ? "#999999"
+            : "#444444",
+          borderWidth: 1,
+          lineHeight: "unset !important",
+          margin: "0 12px",
+          fontWeight: props.current ? 500 : 400,
+          flex: "0 0 auto",
+          justifyContent: "start",
+          backdropFilter: "blur(4px)",
+          display: "unset",
+          background: props.current
+            ? props.isDarkMode
+              ? "rgba(15, 50, 107,0.6)"
+              : "rgba(255,255,255,0.4)"
+            : undefined,
+          borderStyle: props.current ? undefined : "dashed",
+          borderColor: props.current
+            ? undefined
+            : props.isDarkMode
+            ? "#444444"
+            : "#bfbfbf",
+          "&:hover": {
+            borderColor: "var(--nextui-colors-primary)",
+          },
         }}
+        onPress={props.onClick}
       >
-        {props.icon}
         <div
           style={{
-            textOverflow: "ellipsis",
-            overflow: "hidden",
             width: "100%",
-            textAlign: "left",
-            whiteSpace: "nowrap",
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
           }}
         >
-          {props.title}
-        </div>
-        {props.showEdit && (
+          {props.icon}
           <div
-            className={`${styles.operate} ${
-              !props.current ? styles.hide : undefined
-            }`}
+            style={{
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              width: "100%",
+              textAlign: "left",
+              whiteSpace: "nowrap",
+            }}
           >
-            <Button
-              light
-              auto
-              css={{
-                height: "auto",
-                padding: 0,
-                color: props.current
-                  ? props.isDarkMode
-                    ? "#cccccc"
-                    : "var(--nextui-colors-primary)"
-                  : props.isDarkMode
-                  ? "#999999"
-                  : "#696969",
-              }}
-              className={props.current ? styles.current : styles.delete}
-              onClick={() => {
-                props.onTop();
-              }}
-            >
-              {props.isTop ? (
-                <ArrowDown set="curved" size={18} />
-              ) : (
-                <ArrowUp set="curved" size={18} />
-              )}
-            </Button>
-            <EditName
-              setName={props.onRename}
-              name={props.title}
-              className={props.current ? styles.current : styles.delete}
-            >
-              <Edit set="curved" size={18} />
-            </EditName>
-            <SelectView
-              className={props.current ? styles.current : styles.delete}
-              placement={"bottom-right"}
-              onDelete={props.onDelete}
-              title={"提示"}
-              description={"确定要删除这个会话吗？"}
-            >
-              <Delete set="curved" size={18} />
-            </SelectView>
+            {props.title}
           </div>
-        )}
+          {props.showEdit && (
+            <div
+              className={`${styles.operate} ${
+                !props.current ? styles.hide : undefined
+              }`}
+            >
+              {/* <Button
+                light
+                auto
+                css={{
+                  height: "auto",
+                  padding: 0,
+                  color: props.current
+                    ? props.isDarkMode
+                      ? "#cccccc"
+                      : "var(--nextui-colors-primary)"
+                    : props.isDarkMode
+                    ? "#999999"
+                    : "#696969",
+                }}
+                className={props.current ? styles.current : styles.delete}
+                onClick={() => {
+                  props.onTop();
+                }}
+              >
+                {props.isTop ? (
+                  <ArrowDown set="curved" size={18} />
+                ) : (
+                  <ArrowUp set="curved" size={18} />
+                )}
+              </Button> */}
+              <EditName
+                setName={props.onRename}
+                name={props.title}
+                className={props.current ? styles.current : styles.delete}
+              >
+                <Edit set="curved" size={18} />
+              </EditName>
+              <SelectView
+                className={props.current ? styles.current : styles.delete}
+                placement={"bottom-right"}
+                onDelete={props.onDelete}
+                title={"提示"}
+                description={"确定要删除这个会话吗？"}
+              >
+                <Delete set="curved" size={18} />
+              </SelectView>
+            </div>
+          )}
 
-        {/* {props.isTop && (
+          {/* {props.isTop && (
           <div
             className={styles.top}
             style={{
@@ -451,7 +496,8 @@ function HistoryItemView(props: {
             }}
           />
         )} */}
-      </div>
-    </Button>
+        </div>
+      </Button>
+    </Dropdown>
   );
 }

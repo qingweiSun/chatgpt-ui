@@ -33,6 +33,7 @@ import { useMediaQuery } from "react-responsive";
 import styles from "./index.module.css";
 import InputView from "./view/input-view";
 import NavbarTItleView from "./view/name-view";
+import IdContext from "@/app/hooks/use-chat-id";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -59,6 +60,7 @@ export default function ChatView(props: { item: HistoryItem }) {
   const [loading, setLoading] = useStateSync(false);
   const [controller, setController] = useState<AbortController>(); //中断请求
   const [questionText, setQuestionText] = useStateSync("");
+
   useEffect(() => {
     localStorage.setItem(
       "historyList" + props.item.id,
