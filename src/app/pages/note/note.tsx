@@ -9,11 +9,12 @@ import { useScroll } from "@/app/hooks/use-scroll";
 import UserView from "../chat/user-chat-view";
 import { toast } from "react-hot-toast";
 import { exportMarkdown } from "@/app/components/setting";
-import { Bookmark, Delete, Download } from "react-iconly";
+import { Bookmark, Delete, Download, MoreSquare } from "react-iconly";
 import { SelectView } from "@/app/components/delete-view";
 import { ChatMessage } from "../chat";
 import { Empty } from "antd";
 import BotChatTextView from "../chat/bot-chat-text-view";
+import MobileSlider from "@/app/components/slider/mobile";
 export default function NoteView() {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
@@ -57,6 +58,17 @@ export default function NoteView() {
             <NavbarTItleView name={"随便记记"} count={messages.length} id={2} />
           </Navbar.Brand>
           <Navbar.Content>
+            {isMobile && (
+              <Navbar.Item>
+                <div className={styles.toggle} onClick={() => {}}>
+                  <MobileSlider>
+                    <div className={styles.link}>
+                      <MoreSquare set="curved" size={23} />
+                    </div>
+                  </MobileSlider>
+                </div>
+              </Navbar.Item>
+            )}
             <Navbar.Item>
               <SelectView
                 onDelete={() => {
