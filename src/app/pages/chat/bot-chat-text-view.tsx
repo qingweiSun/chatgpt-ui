@@ -151,7 +151,7 @@ const BotChatTextItemView = (props: {
           menu={{
             items: operations,
           }}
-          trigger={["contextMenu"]}
+          trigger={isMobile ? ["click"] : ["contextMenu"]}
         >
           <div className={styles.bot}>
             {props.children.data.content == "loading" && (

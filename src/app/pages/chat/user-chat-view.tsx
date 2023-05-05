@@ -167,7 +167,7 @@ const UserItemView = (props: {
           menu={{
             items: operations,
           }}
-          trigger={["contextMenu"]}
+          trigger={isMobile ? ["click"] : ["contextMenu"]}
         >
           <div className={styles.user}>
             <MarkdownText>{props.children.data.content}</MarkdownText>
