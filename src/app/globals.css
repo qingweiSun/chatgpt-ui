@@ -172,6 +172,9 @@ input, textarea {
 .ant-input:focus{
     border-color: #0072F5 !important;
 }
+.ant-dropdown-menu{
+    min-width: 100px;
+}
 @media (prefers-color-scheme: dark) {
     .custom-prompt::placeholder {
         color: #999;
