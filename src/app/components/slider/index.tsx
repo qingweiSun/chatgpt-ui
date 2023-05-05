@@ -80,6 +80,7 @@ export default function Slider(props: {
       <Fragment>
         {historyList &&
           propsItem.item.id != 1 &&
+          propsItem.item.id != 2 &&
           historyList[propsItem.index - 1]?.top &&
           !(historyList[propsItem.index]?.top ?? false) && (
             <div className={styles.label}>其他会话</div>
@@ -324,7 +325,8 @@ export default function Slider(props: {
 function getMenus(
   id: number,
   isTop: boolean,
-  onTop: () => void
+  onTop: () => void,
+  onDelete: () => void
 ): MenuProps["items"] | undefined {
   switch (id) {
     case 1:
@@ -332,21 +334,25 @@ function getMenus(
     case 2:
       return [];
     default:
-      return isTop
-        ? [
-            {
-              label: " 取消置顶",
-              key: "3",
-              onClick: () => onTop(),
-            },
-          ]
-        : [
-            {
-              label: "置顶",
-              key: "4",
-              onClick: () => onTop(),
-            },
-          ];
+      const unTop = {
+        label: " 取消置顶",
+        key: "3",
+        onClick: () => onTop(),
+      };
+
+      const top = {
+        label: "置顶",
+        key: "4",
+        onClick: () => onTop(),
+      };
+
+      const deleteItem = {
+        label: " 删除",
+        key: "5",
+        onClick: () => onDelete(),
+      };
+
+      return isTop ? [unTop, deleteItem] : [top, deleteItem];
   }
 }
 
@@ -375,7 +381,7 @@ function HistoryItemView(props: {
         borderRadius: 12,
       }}
       menu={{
-        items: getMenus(props.id, props.isTop, props.onTop),
+        items: getMenus(props.id, props.isTop, props.onTop, props.onDelete),
       }}
       trigger={["contextMenu"]}
     >
