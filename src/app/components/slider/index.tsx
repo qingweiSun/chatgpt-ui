@@ -349,27 +349,21 @@ function getMenus(
         onClick: () => onTop(),
       };
 
-      const copy = {
-        label: "复制",
-        key: "6",
-        children: [
-          {
-            label: "会话名称",
-            key: "7",
-            onClick: () => {
-              copyToClipboard(title);
-            },
-          },
-          {
-            label: "会话内容",
-            key: "8",
-            onClick: () => {
-              copyToClipboard(localStorage.getItem("historyList" + id) ?? "");
-            },
-          },
-        ],
-      };
+      // const copyName = {
+      //   label: "复制会话名称",
+      //   key: "7",
+      //   onClick: () => {
+      //     copyToClipboard(title);
+      //   },
+      // };
 
+      const copyContent = {
+        label: "复制会话内容",
+        key: "8",
+        onClick: () => {
+          copyToClipboard(localStorage.getItem("historyList" + id) ?? "");
+        },
+      };
       const deleteItem = {
         label: <div style={{ color: "var(--nextui-colors-error)" }}>删除</div>,
         key: "5",
@@ -377,8 +371,8 @@ function getMenus(
       };
 
       return isTop
-        ? [unTop, copy, { type: "divider" }, deleteItem]
-        : [top, copy, { type: "divider" }, deleteItem];
+        ? [unTop, copyContent, { type: "divider" }, deleteItem]
+        : [top, copyContent, { type: "divider" }, deleteItem];
   }
 }
 

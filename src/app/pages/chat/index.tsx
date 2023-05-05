@@ -323,20 +323,6 @@ export default function ChatView(props: { item: HistoryItem }) {
           )}
         </Navbar.Content>
       </Navbar>
-      {/* {!isMobile && (
-        <div
-          data-tauri-drag-region
-          style={{
-            zIndex: 10000,
-            height: 60,
-            width: "70%",
-            position: "absolute",
-            top: 0,
-            left: 0,
-          }}
-        />
-      )} */}
-
       <div
         style={{ display: "flex", flexDirection: "column", gap: 24 }}
         ref={scrollRef}

@@ -175,6 +175,12 @@ input, textarea {
 .ant-dropdown-menu{
     min-width: 100px;
 }
+.anticon-right{
+    width: 10px;
+}
+.ant-dropdown-menu-submenu-arrow-icon{
+    width: 10px;
+}
 @media (prefers-color-scheme: dark) {
     .custom-prompt::placeholder {
         color: #999;
@@ -216,10 +222,4 @@ input, textarea {
     .ant-input{
         border-color: #444444 !important;
     }
-}
-.anticon-right{
-    width: 10px;
-}
-.ant-dropdown-menu-submenu-arrow-icon{
-    width: 10px;
 }
