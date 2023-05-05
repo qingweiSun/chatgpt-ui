@@ -1,7 +1,7 @@
-import Slider from "@/app/components/slider";
+import Slider, { HistoryItem } from "@/app/components/slider";
 import styles from "./home.module.css";
 import ChatView from "@/app/pages/chat";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { context } from "@/app/hooks/context-mobile";
 import AppContext from "@/app/hooks/use-style";
 import IdContext from "@/app/hooks/use-chat-id";
@@ -29,9 +29,19 @@ export default function Home() {
     }
   };
 
-  const record = useLiveQuery(() => {
+  const recordTempDb = useLiveQuery(() => {
     return db.sliders.get(current.id);
   }, [current]);
+
+  const [recordUse, setRecordUse] = useState<HistoryItem>();
+
+  useEffect(() => {
+    if (recordTempDb) {
+      setRecordUse(recordTempDb);
+    } else if (current.id == 2) {
+      setRecordUse({ id: 2, title: "随便记记", top: true });
+    }
+  }, [recordTempDb]);
 
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
@@ -62,12 +72,20 @@ export default function Home() {
               <Slider />
             </div>
           )}
-          {/* {!isMobile && (
-            <div style={{ width: 300 }} className={styles.slider} />
-          )} */}
           <div className={styles.line} />
-          {record && <ChatView key={record.id} item={record} />}
-          {!record && <NoteView key={2} />}
+          {recordUse && current.id != 2 && (
+            <ChatView key={recordUse.id} item={recordUse} />
+          )}
+          {recordUse && current.id == 2 && <NoteView key={2} />}
+          {!recordUse && (
+            <div
+              style={{
+                background: "#f7f7f7",
+                height: "100%",
+                flex: 1,
+              }}
+            />
+          )}
         </div>
       </div>
     </>
