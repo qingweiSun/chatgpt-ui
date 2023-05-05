@@ -214,4 +214,9 @@ input, textarea {
         border-color: #444444 !important;
     }
 }
-
+.anticon-right{
+    width: 10px;
+}
+.ant-dropdown-menu-submenu-arrow-icon{
+    width: 10px;
+}
