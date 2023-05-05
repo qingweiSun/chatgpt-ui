@@ -142,8 +142,11 @@ const BotChatTextItemView = (props: {
           overlayStyle={{
             border: isDarkMode
               ? "1px solid rgba(57, 58, 60, 1)"
-              : "1px solid #eeeeee",
-            borderRadius: 12,
+              : "1px solid rgba(0, 0, 0, 0.15)",
+            borderRadius: 14,
+            overflow: "hidden",
+            boxShadow:
+              "0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05)",
           }}
           menu={{
             items: operations,
