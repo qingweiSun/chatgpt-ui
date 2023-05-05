@@ -2,15 +2,23 @@
 import Dexie, { Table } from "dexie";
 import { HistoryItem } from "../components/slider";
 import { MaxTokensLimitProps } from "../components/max-tokens-limit";
+import { ChatMessage } from "../pages/chat";
+
+export interface TemplateItem {
+  id?: number;
+  message: ChatMessage;
+}
 export class MyAiDexie extends Dexie {
   // 'friends' is added by dexie when declaring the stores()
   // We just tell the typing system this is the case
   sliders!: Table<HistoryItem>;
+  templates!: Table<TemplateItem>;
 
   constructor() {
     super("myDatabase");
-    this.version(1).stores({
+    this.version(2).stores({
       sliders: "++id,title,top,mode", // Primary key and indexed props
+      templates: "++id,message",
     });
   }
 }

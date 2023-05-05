@@ -80,6 +80,8 @@ const UserItemView = (props: {
       default:
         if (props.children.data.role === "user") {
           setOperations([copyO, deleteO, { type: "divider" }, addNoteO]);
+        } else {
+          setOperations([copyO, deleteO]);
         }
         break;
     }
@@ -150,34 +152,9 @@ const UserItemView = (props: {
             }}
           >
             {util.getDateFormat(props.children.time)}
-            {/* <div style={{ display: "flex", flexDirection: "row-reverse" }}>
-              <div
-                className={styles["chat-message-top-action-item"]}
-                onClick={() => copyToClipboard(props.children.data.content)}
-              >
-                复制
-              </div>
-              <div
-                className={styles["chat-message-top-action-item"]}
-                onClick={() => props.deleteItem()}
-              >
-                删除
-              </div>
-              {props.id == 2 && (
-                <div
-                  className={styles["chat-message-top-action-item"]}
-                  onClick={props.onCompleted}
-                >
-                  已完成
-                </div>
-              )}
-            </div> */}
           </div>
         )}
         <Dropdown
-          disabled={
-            operations?.length === 0 || props.children.time == undefined
-          }
           overlayStyle={{
             border: isDarkMode
               ? "1px solid rgba(57, 58, 60, 1)"

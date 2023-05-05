@@ -69,6 +69,9 @@ const BotChatTextItemView = (props: {
 
   function refreshContextMenu() {
     switch (props.id) {
+      case 1:
+        setOperations([copyO]);
+        break;
       case 2:
         const temp: MenuProps["items"] = [copyO, deleteO];
         if (
@@ -136,9 +139,6 @@ const BotChatTextItemView = (props: {
           </div>
         )}
         <Dropdown
-          disabled={
-            operations?.length === 0 || props.children.time == undefined
-          }
           overlayStyle={{
             border: isDarkMode
               ? "1px solid rgba(57, 58, 60, 1)"
