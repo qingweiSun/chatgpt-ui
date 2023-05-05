@@ -31,6 +31,8 @@ import { MaxTokensLimitProps } from "../max-tokens-limit";
 import ThemeChangeView from "../theme-change";
 import styles from "./index.module.css";
 import { on } from "events";
+import { copyToClipboard } from "@/app/pages/chat/markdown-text";
+import { toast } from "react-hot-toast";
 
 //https://react-iconly.jrgarciadev.com/ 图标
 //https://dexie.org/docs/Tutorial/React 数据库
@@ -326,7 +328,8 @@ function getMenus(
   id: number,
   isTop: boolean,
   onTop: () => void,
-  onDelete: () => void
+  onDelete: () => void,
+  title: string
 ): MenuProps["items"] | undefined {
   switch (id) {
     case 1:
@@ -346,13 +349,36 @@ function getMenus(
         onClick: () => onTop(),
       };
 
+      const copy = {
+        label: "复制",
+        key: "6",
+        children: [
+          {
+            label: "会话名称",
+            key: "7",
+            onClick: () => {
+              copyToClipboard(title);
+            },
+          },
+          {
+            label: "会话内容",
+            key: "8",
+            onClick: () => {
+              copyToClipboard(localStorage.getItem("historyList" + id) ?? "");
+            },
+          },
+        ],
+      };
+
       const deleteItem = {
-        label: " 删除",
+        label: <div style={{ color: "var(--nextui-colors-error)" }}>删除</div>,
         key: "5",
         onClick: () => onDelete(),
       };
 
-      return isTop ? [unTop, deleteItem] : [top, deleteItem];
+      return isTop
+        ? [unTop, copy, { type: "divider" }, deleteItem]
+        : [top, copy, { type: "divider" }, deleteItem];
   }
 }
 
@@ -381,7 +407,13 @@ function HistoryItemView(props: {
         borderRadius: 12,
       }}
       menu={{
-        items: getMenus(props.id, props.isTop, props.onTop, props.onDelete),
+        items: getMenus(
+          props.id,
+          props.isTop,
+          props.onTop,
+          props.onDelete,
+          props.title
+        ),
       }}
       trigger={["contextMenu"]}
     >
