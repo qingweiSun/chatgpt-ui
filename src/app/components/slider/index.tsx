@@ -33,6 +33,7 @@ import styles from "./index.module.css";
 import { on } from "events";
 import { copyToClipboard } from "@/app/pages/chat/markdown-text";
 import { toast } from "react-hot-toast";
+import { ChatMessage } from "@/app/pages/chat";
 
 //https://react-iconly.jrgarciadev.com/ 图标
 //https://dexie.org/docs/Tutorial/React 数据库
@@ -361,7 +362,18 @@ function getMenus(
         label: "复制会话内容",
         key: "8",
         onClick: () => {
-          copyToClipboard(localStorage.getItem("historyList" + id) ?? "");
+          copyToClipboard(
+            JSON.parse(localStorage.getItem("historyList" + id) ?? "[]")
+              .map(
+                (m: ChatMessage) =>
+                  `${
+                    m.data.role == "user"
+                      ? `## **${m.data.role}**: `
+                      : `**${m.data.role}**:`
+                  }${m.data.content}`
+              )
+              .join("\r\n\n")
+          );
         },
       };
       const deleteItem = {
