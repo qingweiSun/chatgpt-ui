@@ -7,7 +7,7 @@ import { Dropdown } from "@nextui-org/react";
 import { useMediaQuery } from "react-responsive";
 import ThemeIcon from "../icons/dark-mode-svgrepo-com.svg";
 import Image from "next/image";
-import { Category, Graph, TimeCircle } from "react-iconly";
+import { Category, Graph, TimeCircle, TimeSquare } from "react-iconly";
 export default function ThemeChangeView() {
   const [isElectron, setIsElectron] = useState(
     typeof navigator !== "undefined" &&
@@ -54,7 +54,7 @@ export default function ThemeChangeView() {
         }}
       >
         <Button className={styles.link} type={"link"} style={{ fontSize: 15 }}>
-          <TimeCircle set="two-tone" />
+          <TimeSquare set="two-tone" />
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Menu

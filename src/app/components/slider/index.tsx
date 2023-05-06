@@ -22,6 +22,8 @@ import {
   Delete,
   Edit,
   EditSquare,
+  Paper,
+  PaperPlus,
   Plus,
   Setting,
 } from "react-iconly";
@@ -173,7 +175,7 @@ export default function Slider(props: {
             index={index}
             key={item.id}
             showEdit
-            // icon=<Chat set="curved" size={16} style={{ flexShrink: 0 }} />
+            icon=<Paper set="curved" size={16} style={{ flexShrink: 0 }} />
           />
         );
       });
@@ -293,8 +295,14 @@ export default function Slider(props: {
         <Button
           auto
           bordered
+          light
           borderWeight={"light"}
+          color={"primary"}
           css={{
+            padding: "0 16px",
+            fontSize: 14,
+            fontWeight: 400,
+            height: 36,
             "&:hover": {
               background: isDarkMode
                 ? "rgba(15, 50, 107,0.4)"
@@ -317,7 +325,7 @@ export default function Slider(props: {
         >
           <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
             <div>新建会话</div>
-            <Plus set="curved" size={18} />
+            <PaperPlus set="curved" size={18} />
           </div>
         </Button>
       </div>
@@ -439,6 +447,7 @@ function HistoryItemView(props: {
             ? "#999999"
             : "#444444",
           borderWidth: 1,
+          paddingLeft: 8,
           lineHeight: "unset !important",
           margin: "0 12px",
           fontWeight: props.current ? 500 : 400,
