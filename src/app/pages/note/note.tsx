@@ -31,7 +31,7 @@ export default function NoteView() {
 
   return (
     <div className={styles.container}>
-      <div style={{ height: "100%", overflowY: "scroll" }}>
+      <div style={{ height: "100%", overflowY: "scroll", width: "100%" }}>
         <Navbar
           className={styles.navbar}
           variant="sticky"
