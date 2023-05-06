@@ -168,7 +168,14 @@ export default function ChatView(props: { item: HistoryItem }) {
 
   return (
     <div className={styles.container}>
-      <div style={{ height: "100%", overflowY: "scroll", width: "100%" }}>
+      <div
+        style={{
+          height: "100%",
+          overflowY: "scroll",
+          width: "100%",
+          overflowX: "hidden",
+        }}
+      >
         <Navbar
           className={styles.navbar}
           variant="sticky"

@@ -19,76 +19,75 @@ const UserItemView = (props: {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
-  const copyO = {
-    label: "复制",
-    key: "1",
-    onClick: () => {
-      var selection = window.getSelection()?.toString() ?? "";
-      if (selection.trim().length > 0) {
-        copyToClipboard(selection);
-      } else {
-        copyToClipboard(props.children.data.content);
-      }
-    },
-  };
+  function getOperations() {
+    const copyO = {
+      label: "复制",
+      key: "1",
+      onClick: () => {
+        var selection = window.getSelection()?.toString() ?? "";
+        if (selection.trim().length > 0) {
+          copyToClipboard(selection);
+        } else {
+          copyToClipboard(props.children.data.content);
+        }
+      },
+    };
 
-  const deleteO = {
-    label: "删除",
-    key: "2",
-    onClick: () => props.deleteItem(),
-  };
+    const deleteO = {
+      label: "删除",
+      key: "2",
+      onClick: () => props.deleteItem(),
+    };
 
-  const addNoteO = {
-    label: (
-      <div style={{ color: "var(--nextui-colors-primary)" }}>
-        保存到随便记记
-      </div>
-    ),
-    key: "3",
-    onClick: () => {
-      const temp: ChatMessage[] =
-        JSON.parse(localStorage.getItem("historyList" + 2) || "[]") || [];
-      temp.push(props.children);
-      localStorage.setItem("historyList" + 2, JSON.stringify(temp));
-      toast.success(" 已保存到随便记记");
-    },
-  };
-
-  const completeO = {
-    label: "完成",
-    key: "4",
-    onClick: () => {
-      props.onCompleted && props.onCompleted();
-      refreshContextMenu();
-    },
-  };
-  const [operations, setOperations] = React.useState<MenuProps["items"]>([]);
-
-  function refreshContextMenu() {
+    const addNoteO = {
+      label: (
+        <div style={{ color: "var(--nextui-colors-primary)" }}>
+          保存到随便记记
+        </div>
+      ),
+      key: "3",
+      onClick: () => {
+        const temp: ChatMessage[] =
+          JSON.parse(localStorage.getItem("historyList" + 2) || "[]") || [];
+        temp.push(props.children);
+        localStorage.setItem("historyList" + 2, JSON.stringify(temp));
+        toast.success(" 已保存到随便记记");
+      },
+    };
+    const completeO = {
+      label: "完成",
+      key: "4",
+      onClick: () => {
+        props.onCompleted && props.onCompleted();
+        //refreshContextMenu();
+      },
+    };
+    const operations: MenuProps["items"] = [];
     switch (props.id) {
+      case 1:
+        operations.push(copyO);
+        break;
       case 2:
-        const temp: MenuProps["items"] = [copyO, deleteO];
+        operations.push(copyO);
+        operations.push(deleteO);
         if (
           !props.children.data.content.startsWith("~~") &&
           !props.children.data.content.endsWith("~~")
         ) {
-          temp.push({ type: "divider" });
-          temp.push(completeO);
+          operations.push({ type: "divider" });
+          operations.push(completeO);
         }
-        setOperations(temp);
         break;
       default:
-        if (props.children.data.role === "user") {
-          setOperations([copyO, deleteO, { type: "divider" }, addNoteO]);
-        } else {
-          setOperations([copyO, deleteO]);
-        }
+        operations.push(copyO);
+        operations.push(deleteO);
+        operations.push({ type: "divider" });
+        operations.push(addNoteO);
         break;
     }
+    return operations;
   }
-  useEffect(() => {
-    refreshContextMenu();
-  }, [props.id]);
+
   return (
     <div
       className={styles["user-message"]}
@@ -165,7 +164,7 @@ const UserItemView = (props: {
               "0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05)",
           }}
           menu={{
-            items: operations,
+            items: getOperations(),
           }}
           trigger={isMobile ? ["click"] : ["contextMenu"]}
         >
