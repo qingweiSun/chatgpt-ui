@@ -81,8 +81,10 @@ const UserItemView = (props: {
       default:
         operations.push(copyO);
         operations.push(deleteO);
-        operations.push({ type: "divider" });
-        operations.push(addNoteO);
+        if (props.children.data.role === "user") {
+          operations.push({ type: "divider" });
+          operations.push(addNoteO);
+        }
         break;
     }
     return operations;
