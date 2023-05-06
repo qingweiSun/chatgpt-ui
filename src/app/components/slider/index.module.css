@@ -3,7 +3,7 @@
     /* position: absolute;
     bottom: 0;
     top: 0; */
-    background: #e7f5ff;
+    background: rgb(231, 245, 255);
     overflow-x: hidden;
     position: relative;
     -webkit-app-region: drag;

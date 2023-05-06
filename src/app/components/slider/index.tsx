@@ -175,7 +175,7 @@ export default function Slider(props: {
             index={index}
             key={item.id}
             showEdit
-            icon=<Paper set="curved" size={16} style={{ flexShrink: 0 }} />
+            icon=<Paper set="curved" size={18} style={{ flexShrink: 0 }} />
           />
         );
       });
@@ -231,7 +231,7 @@ export default function Slider(props: {
           }}
           index={1}
           showEdit={false}
-          icon=<Chat set="curved" size={16} style={{ flexShrink: 0 }} />
+          icon=<Chat set="curved" size={17} style={{ flexShrink: 0 }} />
           onClick={() => {
             setId({ id: 1 });
             props.closeSlider?.();
@@ -244,7 +244,7 @@ export default function Slider(props: {
             top: false,
           }}
           index={1}
-          icon=<EditSquare set="curved" size={16} style={{ flexShrink: 0 }} />
+          icon=<EditSquare set="curved" size={17} style={{ flexShrink: 0 }} />
           showEdit={false}
           onClick={() => {
             setId({ id: 2 });
