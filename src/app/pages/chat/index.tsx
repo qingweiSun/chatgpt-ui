@@ -6,6 +6,7 @@ import { exportMarkdown } from "@/app/components/setting";
 import { HistoryItem } from "@/app/components/slider";
 import MobileSlider from "@/app/components/slider/mobile";
 import {
+  db,
   updateSliderExplain,
   updateSliderMode,
   updateSliderTitle,
@@ -61,6 +62,14 @@ export default function ChatView(props: { item: HistoryItem }) {
   const [controller, setController] = useState<AbortController>(); //中断请求
   const [questionText, setQuestionText] = useStateSync("");
 
+  useEffect(() => {
+    db.table("sliders").hook("deleting", function (primaryKey, obj) {
+      //刷新messages
+      if (obj.id == props.item.id) {
+        setMessages([]);
+      }
+    });
+  }, []);
   useEffect(() => {
     localStorage.setItem(
       "historyList" + props.item.id,
