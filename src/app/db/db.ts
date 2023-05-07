@@ -50,19 +50,28 @@ export async function deleteSlider(id: number) {
 }
 
 export async function clearSlider() {
-  await db.sliders?.where("id").notEqual(1).delete();
+  //全部删除并插入默认数据
+  await db.transaction("rw", db.sliders, async () => {
+    await db.sliders?.where("id").notEqual(1).delete();
+    await db.sliders?.put({
+      title: "新的会话10000",
+      id: 10000,
+      top: false,
+      explain: (localStorage.getItem("defaultMode") ?? "default") == "default",
+    });
+  });
 }
 export async function getSliderMaxId() {
   const count = await db.sliders?.count();
   if (count > 0) {
     const maxList = await db.sliders.orderBy("id").reverse().limit(1).toArray();
     const maxId = maxList[0].id;
-    if (maxId < 1000) {
-      return 10000;
+    if (maxId < 9999) {
+      return 9999;
     } else {
       return maxId;
     }
   } else {
-    return 10000;
+    return 9999;
   }
 }

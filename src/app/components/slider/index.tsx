@@ -279,7 +279,7 @@ export default function Slider(props: {
                     localStorage.removeItem(keys[i]);
                   }
                 }
-                setId({ id: 1 });
+                setId({ id: 10000 });
               }}
               title="警告"
               placement="top-right"
