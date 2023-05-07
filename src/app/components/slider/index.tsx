@@ -292,9 +292,7 @@ export default function Slider(props: {
       </div>
       <div className={styles.bottom}>
         <div style={{ display: "flex", alignItems: "center" }}>
-          <SettingModal>
-            <Setting set="two-tone" size={22} />
-          </SettingModal>
+          <SettingModal />
           <ThemeChangeView />
         </div>
         <Button

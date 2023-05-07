@@ -78,7 +78,7 @@ export default function ApiKeyModal(props: {
           setApiKeyModalOpen(true);
         }}
       >
-        <Setting set="two-tone" />
+        <Setting set="curved" />
       </Button>
       <Modal
         title="设置"

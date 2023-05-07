@@ -5,10 +5,7 @@ import AppContext from "@/app/hooks/use-style";
 import { context } from "@/app/hooks/context-mobile";
 import ApiKeyModal from "@/app/components/api-key-modal";
 
-export default function SettingModal(props: {
-  className?: string;
-  children: React.ReactNode;
-}) {
+export default function SettingModal(props: {}) {
   return <ApiKeyModal showCostType={"tokens"} updateShowCostType={() => {}} />;
 }
 

@@ -8,6 +8,7 @@ import { useMediaQuery } from "react-responsive";
 import ThemeIcon from "../icons/dark-mode-svgrepo-com.svg";
 import Image from "next/image";
 import { Category, Graph, TimeCircle, TimeSquare } from "react-iconly";
+import { DarkIcon } from "../icons/theme-iocn";
 export default function ThemeChangeView() {
   const [isElectron, setIsElectron] = useState(
     typeof navigator !== "undefined" &&
@@ -41,7 +42,7 @@ export default function ThemeChangeView() {
       desc: " 跟随系统",
     },
   ];
-  return isElectron ? (
+  return !isElectron ? (
     <Dropdown placement="top-left" isBordered>
       <Dropdown.Trigger
         css={{
@@ -54,7 +55,17 @@ export default function ThemeChangeView() {
         }}
       >
         <Button className={styles.link} type={"link"} style={{ fontSize: 15 }}>
-          <TimeCircle set="two-tone" />
+          {/* <TimeCircle set="two-tone" /> */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginTop: 1,
+              justifyContent: "center",
+            }}
+          >
+            <DarkIcon />
+          </div>
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Menu
