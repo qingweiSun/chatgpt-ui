@@ -445,7 +445,7 @@ function HistoryItemView(props: {
         css={{
           color: props.current
             ? props.isDarkMode
-              ? "#cccccc"
+              ? "#bfbfbf"
               : undefined
             : props.isDarkMode
             ? "#999999"
