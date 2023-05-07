@@ -63,12 +63,15 @@ export default function ChatView(props: { item: HistoryItem }) {
   const [questionText, setQuestionText] = useStateSync("");
 
   useEffect(() => {
-    db.table("sliders").hook("deleting", function (primaryKey, obj) {
-      //刷新messages
-      if (obj.id == props.item.id) {
-        setMessages([]);
+    db.table("sliders").hook(
+      "deleting",
+      function (primaryKey, obj: HistoryItem) {
+        //刷新messages
+        if (obj.id == props.item.id) {
+          setMessages([]);
+        }
       }
-    });
+    );
   }, []);
   useEffect(() => {
     localStorage.setItem(

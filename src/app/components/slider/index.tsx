@@ -10,21 +10,20 @@ import {
   updateSlider,
 } from "@/app/db/db";
 import IdContext from "@/app/hooks/use-chat-id";
+import { ChatMessage } from "@/app/pages/chat";
+import { copyToClipboard } from "@/app/pages/chat/markdown-text";
 import { Button } from "@nextui-org/react";
 import { Dropdown, MenuProps } from "antd";
 import { useLiveQuery } from "dexie-react-hooks";
 import Image from "next/image";
 import { Fragment, useContext, useEffect, useMemo } from "react";
 import {
-  ArrowDown,
-  ArrowUp,
   Chat,
   Delete,
   Edit,
   EditSquare,
   Paper,
   PaperPlus,
-  Plus,
   Setting,
 } from "react-iconly";
 import { useMediaQuery } from "react-responsive";
@@ -32,10 +31,6 @@ import ChatGptLogo from "../../icons/chatgpt.svg";
 import { MaxTokensLimitProps } from "../max-tokens-limit";
 import ThemeChangeView from "../theme-change";
 import styles from "./index.module.css";
-import { on } from "events";
-import { copyToClipboard } from "@/app/pages/chat/markdown-text";
-import { toast } from "react-hot-toast";
-import { ChatMessage } from "@/app/pages/chat";
 
 //https://react-iconly.jrgarciadev.com/ 图标
 //https://dexie.org/docs/Tutorial/React 数据库
@@ -61,18 +56,18 @@ export default function Slider(props: {
   //     toast("删除");
   //   });
   // }, []);
-  useEffect(() => {
-    if (historyList) {
-      if (historyList.length == 0) {
-        insertSlider({
-          id: 1000,
-          title: "新的会话1000",
-          top: false,
-        });
-        setId({ id: 1000 });
-      }
-    }
-  }, [historyList]);
+  // useEffect(() => {
+  //   if (historyList) {
+  //     if (historyList.length == 0) {
+  //       insertSlider({
+  //         id: 1000,
+  //         title: "新的会话1000",
+  //         top: false,
+  //       });
+  //       setId({ id: 1000 });
+  //     }
+  //   }
+  // }, [historyList]);
 
   function ItemView(propsItem: {
     item: HistoryItem;
@@ -144,7 +139,15 @@ export default function Slider(props: {
                     id: tempList[tempList.length - 1].id,
                   });
                 }
+              } else {
+                setId({
+                  id: 1,
+                });
               }
+            } else {
+              setId({
+                id: 1,
+              });
             }
           }}
           isTop={propsItem.item.top}

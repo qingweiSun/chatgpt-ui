@@ -56,8 +56,13 @@ export async function getSliderMaxId() {
   const count = await db.sliders?.count();
   if (count > 0) {
     const maxList = await db.sliders.orderBy("id").reverse().limit(1).toArray();
-    return maxList[0].id;
+    const maxId = maxList[0].id;
+    if (maxId < 1000) {
+      return 10000;
+    } else {
+      return maxId;
+    }
   } else {
-    return 0;
+    return 10000;
   }
 }
