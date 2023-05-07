@@ -279,6 +279,7 @@ export default function Slider(props: {
                     localStorage.removeItem(keys[i]);
                   }
                 }
+                setId({ id: 1 });
               }}
               title="警告"
               placement="top-right"
