@@ -80,7 +80,7 @@ export default function Home() {
           {!recordUse && (
             <div
               style={{
-                background: "#f7f7f7",
+                background: isDarkMode ? "#111111" : "#f7f7f7",
                 height: "100%",
                 flex: 1,
               }}

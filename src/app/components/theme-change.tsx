@@ -42,7 +42,7 @@ export default function ThemeChangeView() {
       desc: " 跟随系统",
     },
   ];
-  return !isElectron ? (
+  return isElectron ? (
     <Dropdown placement="top-left" isBordered>
       <Dropdown.Trigger
         css={{
