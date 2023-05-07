@@ -270,11 +270,11 @@
     }
     .bot {
         color: #bcbcbc;
-        background: #1b1b1b;
-        border: 1px solid #1b1b1b;
+        background: #16181a;
+        border: 1px solid #16181a;
     }
     .bot:hover{
-        border: 1px solid #252525;
+        border: 1px solid #111111;
     }
     .chat-md-top-action{
         background: #111111;

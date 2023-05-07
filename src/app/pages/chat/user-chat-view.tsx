@@ -113,7 +113,7 @@ const UserItemView = (props: {
             overflow: "hidden",
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: isDarkMode ? "#1b1b1b" : "#ffffff",
+            backgroundColor: isDarkMode ? "#16181a" : "#ffffff",
             borderRadius: 14,
             boxShadow: "0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%)",
           }}
