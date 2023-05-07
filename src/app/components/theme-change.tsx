@@ -54,7 +54,7 @@ export default function ThemeChangeView() {
         }}
       >
         <Button className={styles.link} type={"link"} style={{ fontSize: 15 }}>
-          <TimeSquare set="two-tone" />
+          <TimeCircle set="two-tone" />
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Menu

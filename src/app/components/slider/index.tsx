@@ -22,6 +22,7 @@ import {
   Delete,
   Edit,
   EditSquare,
+  Message,
   Paper,
   PaperPlus,
   Setting,
@@ -234,7 +235,7 @@ export default function Slider(props: {
           }}
           index={1}
           showEdit={false}
-          icon=<Chat set="curved" size={17} style={{ flexShrink: 0 }} />
+          icon=<Message set="curved" size={17} style={{ flexShrink: 0 }} />
           onClick={() => {
             setId({ id: 1 });
             props.closeSlider?.();
