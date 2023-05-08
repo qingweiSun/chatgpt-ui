@@ -130,7 +130,6 @@ export async function generateMessage(
         role: "user",
         content:
           `Using the provided web search results, write a comprehensive reply to the given query.
-Make sure to cite results using \`[[number](URL)]\` notation after the reference.
 
 Web search json results:` +
           searchResult +
