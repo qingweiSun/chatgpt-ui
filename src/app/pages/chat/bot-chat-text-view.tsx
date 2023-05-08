@@ -10,7 +10,7 @@ import { context } from "@/app/hooks/context-mobile";
 import { util } from "@/app/utils/util";
 import { useMediaQuery } from "react-responsive";
 import { toast } from "react-hot-toast";
-import { Dropdown, MenuProps } from "antd";
+import { Dropdown, MenuProps, Tag } from "antd";
 import {
   AddDrawerView,
   EditDrawerView,
@@ -212,27 +212,33 @@ const BotChatTextItemView = (props: {
               {props.children.network && (
                 <div
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
                     fontSize: 13,
                     gap: 4,
-                    paddingTop: 8,
                   }}
                 >
-                  <div style={{ fontWeight: 500 }}>参考链接：</div>
+                  <div style={{ fontWeight: 500, marginTop: 8 }}>
+                    参考链接：
+                  </div>
                   {JSON.parse(props.children.network).map((item: any) => {
                     return (
-                      <a
+                      <Tag
                         key={item.href}
                         onClick={() => {
                           //打开新窗口
                           window.open(item.href);
                         }}
-                        target="_blank"
-                        style={{ color: "var(--nextui-colors-primary)" }}
+                        style={{
+                          color: "var(--nextui-colors-primary)",
+                          marginLeft: 4,
+                          cursor: "pointer",
+                          marginTop: 4,
+                          maxWidth: 200,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
                       >
                         {item.title}
-                      </a>
+                      </Tag>
                     );
                   })}
                 </div>

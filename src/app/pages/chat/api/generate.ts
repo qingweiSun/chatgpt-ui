@@ -1,5 +1,6 @@
 import { searchValue } from "@/app/components/wifi";
 import { ChatMessage, GptMessage } from "@/app/pages/chat";
+import { message } from "antd";
 
 let tempStatus = "";
 
@@ -118,14 +119,29 @@ export async function generateMessage(
   //获取最后一条消息
   let searchResult: string | undefined = undefined;
   if (openNetwork) {
-    const lastMessage = messagesValue[messagesValue.length - 1];
-    searchResult = await searchValue(lastMessage.content);
+    const temp = [...messagesValue];
+    temp.push({
+      role: "user",
+      content: "请根据以上内容返回一个搜索语句",
+    });
+    searchResult = await searchValue(temp);
+    message.success(searchResult);
     if (searchResult && searchResult.length > 0) {
       messagesValue.push({
         role: "user",
         content:
-          "我会给你一段网络上搜到结果，请你分析后直接回答上面的问题：" +
-          searchResult,
+          `Using the provided web search results, write a comprehensive reply to the given query.
+If the provided search results refer to multiple subjects with the same name, write separate answers for each subject.
+Make sure to cite results using \`[[number](URL)]\` notation after the reference.
+
+Web search json results:` +
+          searchResult +
+          `"""
+
+Current date:
+"""
+${new Date().toISOString()}
+"""`,
       });
     }
   }

@@ -3,6 +3,7 @@ import { Swap } from "react-iconly";
 import { HistoryItem } from "./slider";
 import toast from "react-hot-toast";
 import { updateSliderOpenNetwork } from "../db/db";
+import { ChatMessage, GptMessage } from "../pages/chat";
 
 export default function WifiView(props: {
   className: string;
@@ -64,7 +65,8 @@ export default function WifiView(props: {
   );
 }
 
-export async function searchValue(text: string) {
+export async function searchValue(messagesValue: GptMessage[]) {
+  const text = await getSearchKeywoard(messagesValue);
   const response = await fetch(`/api/wifi?query=${text}`, {
     method: "GET",
   });
@@ -72,6 +74,26 @@ export async function searchValue(text: string) {
     const data = await response.json();
     return JSON.stringify(data);
   } else {
+    return "";
+  }
+}
+
+export async function getSearchKeywoard(messagesValue: GptMessage[]) {
+  try {
+    const response = await fetch(`/api/gpt`, {
+      method: "POST",
+      body: JSON.stringify({
+        messages: messagesValue,
+      }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      const text = data.delta.content;
+      return text;
+    } else {
+      return "";
+    }
+  } catch (e) {
     return "";
   }
 }
