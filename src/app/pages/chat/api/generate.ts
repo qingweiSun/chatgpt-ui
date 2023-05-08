@@ -129,7 +129,7 @@ export async function generateMessage(
       messagesValue.push({
         role: "user",
         content:
-          `请总结下面的搜索结果内容，用以回复上面的问题，回答需要简洁明了.
+          `请总结下面的搜索结果内容，用以回复上面的问题.
 
 搜索结果为:` +
           searchResult +
