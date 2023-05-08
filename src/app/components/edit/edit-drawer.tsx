@@ -1,76 +1,69 @@
-import { Drawer, Dropdown, Input, Space } from "antd";
-import { useState } from "react";
-import EditName from "../edit-name";
-import { ChevronDown, Edit } from "react-iconly";
 import { ChatMessage } from "@/app/pages/chat";
 import { Button } from "@nextui-org/react";
+import { Input, Modal, Space } from "antd";
+import TextArea from "antd/es/input/TextArea";
+import { use, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
 export function EditDrawerView(props: {
   open: boolean;
   title: string;
+  content: string;
   setOpen: (open: boolean) => void;
+  setContent: (content: string) => void;
 }) {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [value, setValue] = useState(props.content);
+
+  useEffect(() => {
+    setValue(props.content);
+  }, [props.open]);
   return (
-    <Drawer
+    <Modal
       title={props.title}
-      placement={"right"}
-      width={"calc(100% - 300px)"}
       closable={false}
-      onClose={() => {
-        props.setOpen(false);
-      }}
+      width={800}
       style={{
         background: "#7f7f7",
       }}
+      onCancel={() => props.setOpen(false)}
       open={props.open}
       getContainer={false}
       key={"EditDrawerView"}
-    >
-      <Space direction="vertical" style={{ width: "100%" }}>
-        <div>添加前置消息</div>
-        <div style={{ width: "100%", display: "flex", gap: 12 }}>
-          <Dropdown
-            trigger={["click"]}
-            menu={{
-              items: [
-                {
-                  label: "system",
-                  key: "system",
-                },
-                {
-                  label: "user",
-                  key: "user",
-                },
-                {
-                  key: "assistant",
-                  label: "assistant",
-                },
-              ],
+      destroyOnClose
+      footer={[
+        <Space key={"footer"}>
+          <Button auto light onClick={() => props.setOpen(false)}>
+            取消
+          </Button>
+          <Button
+            auto
+            onClick={() => {
+              if (value.trim().length === 0) {
+                toast.error("请输入内容");
+              }
+              props.setContent(value);
+              props.setOpen(false);
             }}
           >
-            <Button
-              auto
-              color={"primary"}
-              icon=<ChevronDown size={18} set="curved" />
-              onClick={() => {}}
-              light
-              bordered
-            >
-              选择角色
-            </Button>
-          </Dropdown>
-          <Input
-            size="large"
-            style={{ flex: 1, borderWidth: 2, fontSize: 15 }}
-            placeholder="请输入内容"
-          ></Input>
-        </div>
-      </Space>
-    </Drawer>
+            保存
+          </Button>
+        </Space>,
+      ]}
+    >
+      <div style={{ height: 4 }} />
+      <div style={{ width: "100%", display: "flex", gap: 12 }}>
+        <TextArea
+          size="large"
+          value={value}
+          defaultValue={props.content}
+          autoSize={{ minRows: 1, maxRows: 24 }}
+          style={{ flex: 1, borderWidth: 2, fontSize: 15 }}
+          placeholder="请输入内容"
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+        ></TextArea>
+      </div>
+    </Modal>
   );
 }
-
-/* 
-            
- */

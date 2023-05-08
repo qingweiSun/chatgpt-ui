@@ -200,6 +200,12 @@ export default function NoteView() {
                   }
                   setMessages(newMessages);
                 }}
+                updateItemContent={(content) => {
+                  const newMessages = [...messages];
+                  newMessages[index].data.content = content;
+                  newMessages[index].time = new Date().toLocaleString();
+                  setMessages(newMessages);
+                }}
               >
                 {value}
               </UserView>
@@ -268,6 +274,12 @@ export default function NoteView() {
                       })
                       .join("\n");
                   }
+                  setMessages(newMessages);
+                }}
+                updateItemContent={(content) => {
+                  const newMessages = [...messages];
+                  newMessages[index].data.content = content;
+                  newMessages[index].time = new Date().toLocaleString();
                   setMessages(newMessages);
                 }}
               >

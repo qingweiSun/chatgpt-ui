@@ -11,16 +11,18 @@ import { util } from "@/app/utils/util";
 import { useMediaQuery } from "react-responsive";
 import { toast } from "react-hot-toast";
 import { Dropdown, MenuProps } from "antd";
+import { EditDrawerView } from "@/app/components/edit/edit-drawer";
 
 const BotChatTextItemView = (props: {
   deleteItem: () => void;
   onCompleted?: () => void;
   children: ChatMessage;
   id: number;
+  updateItemContent?: (content: string) => void;
 }) => {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
-
+  const [open, setOpen] = React.useState(false);
   function getOperations() {
     const copyO = {
       label: "复制",
@@ -36,11 +38,17 @@ const BotChatTextItemView = (props: {
     };
 
     const deleteO = {
-      label: "删除",
+      label: <div style={{ color: "var(--nextui-colors-error)" }}>删除</div>,
       key: "2",
       onClick: () => props.deleteItem(),
     };
-
+    const editO = {
+      label: "编辑",
+      key: "5",
+      onClick: () => {
+        setOpen(true);
+      },
+    };
     const addNoteO = {
       label: (
         <div style={{ color: "var(--nextui-colors-primary)" }}>
@@ -68,9 +76,11 @@ const BotChatTextItemView = (props: {
     switch (props.id) {
       case 1:
         operations.push(copyO);
+        operations.push(editO);
         break;
       case 2:
         operations.push(copyO);
+        operations.push(editO);
         operations.push(deleteO);
         if (
           !props.children.data.content.startsWith("~~") &&
@@ -82,6 +92,7 @@ const BotChatTextItemView = (props: {
         break;
       default:
         operations.push(copyO);
+        operations.push(editO);
         operations.push(deleteO);
         operations.push({ type: "divider" });
         operations.push(addNoteO);
@@ -90,79 +101,92 @@ const BotChatTextItemView = (props: {
     return operations;
   }
   return (
-    <div
-      className={styles.message}
-      style={{
-        gap: 8,
-        paddingLeft: isMobile ? 12 : 24,
-        width: "100%",
-        display: "flex",
-        flexDirection: "row",
-      }}
-    >
-      <Image
-        className={styles.avatar}
-        src={isDarkMode ? AiLOGODark : AiLOGO}
-        style={{
-          width: 36,
-          height: 36,
-          position: "sticky",
-          borderRadius: 14,
-          boxShadow: "0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%)",
-          top: 92,
-        }}
-        alt={"chatgpt"}
-      />
-
+    <>
       <div
+        className={styles.message}
         style={{
-          display: "flex",
-          flexDirection: "column",
+          gap: 8,
+          paddingLeft: isMobile ? 12 : 24,
           width: "100%",
-          gap: 4,
-          alignItems: "start",
+          display: "flex",
+          flexDirection: "row",
         }}
       >
-        {props.children.time && (
-          <div
-            style={{
-              color: "#a0a0a0",
-              fontSize: 12,
-              gap: 8,
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            {util.getDateFormat(props.children.time)}
-          </div>
-        )}
-        <Dropdown
-          overlayStyle={{
-            border: isDarkMode
-              ? "1px solid rgba(57, 58, 60, 1)"
-              : "1px solid rgba(0, 0, 0, 0.15)",
+        <Image
+          className={styles.avatar}
+          src={isDarkMode ? AiLOGODark : AiLOGO}
+          style={{
+            width: 36,
+            height: 36,
+            position: "sticky",
             borderRadius: 14,
-            overflow: "hidden",
-            boxShadow:
-              "0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05)",
+            boxShadow: "0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%)",
+            top: 92,
           }}
-          menu={{
-            items: getOperations(),
+          alt={"chatgpt"}
+        />
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            gap: 4,
+            alignItems: "start",
           }}
-          trigger={isMobile ? ["click"] : ["contextMenu"]}
         >
-          <div className={styles.bot}>
-            {props.children.data.content == "loading" && (
-              <Loading size={"xs"} type={"points"} />
-            )}
-            {props.children.data.content != "loading" && (
-              <MarkdownText>{props.children.data.content}</MarkdownText>
-            )}
-          </div>
-        </Dropdown>
+          {props.children.time && (
+            <div
+              style={{
+                color: "#a0a0a0",
+                fontSize: 12,
+                gap: 8,
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {util.getDateFormat(props.children.time)}
+            </div>
+          )}
+          <Dropdown
+            overlayStyle={{
+              border: isDarkMode
+                ? "1px solid rgba(57, 58, 60, 1)"
+                : "1px solid rgba(0, 0, 0, 0.15)",
+              borderRadius: 14,
+              overflow: "hidden",
+              boxShadow:
+                "0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05)",
+            }}
+            menu={{
+              items: getOperations(),
+            }}
+            trigger={isMobile ? ["click"] : ["contextMenu"]}
+          >
+            <div className={styles.bot}>
+              {props.children.data.content == "loading" && (
+                <Loading size={"xs"} type={"points"} />
+              )}
+              {props.children.data.content != "loading" && (
+                <MarkdownText>{props.children.data.content}</MarkdownText>
+              )}
+            </div>
+          </Dropdown>
+        </div>
+        {/*<div style={{ width: 90 }} />*/}
       </div>
-      {/*<div style={{ width: 90 }} />*/}
-    </div>
+      <EditDrawerView
+        content={props.children.data.content}
+        setContent={(content) =>
+          props.updateItemContent && props.updateItemContent(content)
+        }
+        open={open}
+        title="编辑"
+        setOpen={() => {
+          setOpen(false);
+        }}
+      />
+    </>
   );
 };
 
@@ -173,12 +197,14 @@ const BotChatTextView = React.memo(
     deleteItem: () => void;
     id: number;
     onCompleted?: () => void;
+    updateItemContent?: (content: string) => void;
   }) => {
     return (
       <BotChatTextItemView
         deleteItem={props.deleteItem}
         id={props.id}
         onCompleted={props.onCompleted}
+        updateItemContent={props.updateItemContent}
       >
         {props.children}
       </BotChatTextItemView>

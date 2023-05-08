@@ -1,14 +1,11 @@
+import { Dropdown } from "@nextui-org/react";
+import { Button } from "antd";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import RewardView from "./Reward";
-import { Button } from "antd";
-import styles from "./delete.module.css";
-import { Dropdown } from "@nextui-org/react";
 import { useMediaQuery } from "react-responsive";
-import ThemeIcon from "../icons/dark-mode-svgrepo-com.svg";
-import Image from "next/image";
-import { Category, Graph, TimeCircle, TimeSquare } from "react-iconly";
 import { DarkIcon } from "../icons/theme-iocn";
+import RewardView from "./Reward";
+import styles from "./delete.module.css";
 export default function ThemeChangeView() {
   const [isElectron, setIsElectron] = useState(
     typeof navigator !== "undefined" &&

@@ -158,6 +158,12 @@ export default function ChatView(props: { item: HistoryItem }) {
                 newMessages.splice(index, 1);
                 setMessages(newMessages);
               }}
+              updateItemContent={(content) => {
+                const newMessages = [...messages];
+                newMessages[index].data.content = content;
+                newMessages[index].time = new Date().toLocaleString();
+                setMessages(newMessages);
+              }}
             >
               {message}
             </UserView>
@@ -167,6 +173,12 @@ export default function ChatView(props: { item: HistoryItem }) {
               deleteItem={() => {
                 const newMessages = [...messages];
                 newMessages.splice(index, 1);
+                setMessages(newMessages);
+              }}
+              updateItemContent={(content) => {
+                const newMessages = [...messages];
+                newMessages[index].data.content = content;
+                newMessages[index].time = new Date().toLocaleString();
                 setMessages(newMessages);
               }}
             >

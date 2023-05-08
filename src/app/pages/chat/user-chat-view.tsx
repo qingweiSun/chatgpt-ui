@@ -9,16 +9,18 @@ import styles from "./index.module.css";
 import { useMediaQuery } from "react-responsive";
 import { Dropdown, MenuProps } from "antd";
 import toast from "react-hot-toast";
+import { EditDrawerView } from "@/app/components/edit/edit-drawer";
 //https://www.iconfont.cn/illustrations/detail?spm=a313x.7781069.1998910419.d9df05512&cid=43905 头像
 const UserItemView = (props: {
   deleteItem: () => void;
   children: ChatMessage;
   id: number;
   onCompleted?: () => void;
+  updateItemContent?: (content: string) => void;
 }) => {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
-
+  const [open, setOpen] = React.useState(false);
   function getOperations() {
     const copyO = {
       label: "复制",
@@ -34,7 +36,7 @@ const UserItemView = (props: {
     };
 
     const deleteO = {
-      label: "删除",
+      label: <div style={{ color: "var(--nextui-colors-error)" }}>删除</div>,
       key: "2",
       onClick: () => props.deleteItem(),
     };
@@ -59,16 +61,25 @@ const UserItemView = (props: {
       key: "4",
       onClick: () => {
         props.onCompleted && props.onCompleted();
-        //refreshContextMenu();
+      },
+    };
+
+    const editO = {
+      label: "编辑",
+      key: "5",
+      onClick: () => {
+        setOpen(true);
       },
     };
     const operations: MenuProps["items"] = [];
     switch (props.id) {
       case 1:
         operations.push(copyO);
+        operations.push(editO);
         break;
       case 2:
         operations.push(copyO);
+        operations.push(editO);
         operations.push(deleteO);
         if (
           !props.children.data.content.startsWith("~~") &&
@@ -80,6 +91,7 @@ const UserItemView = (props: {
         break;
       default:
         operations.push(copyO);
+        operations.push(editO);
         operations.push(deleteO);
         if (props.children.data.role === "user") {
           operations.push({ type: "divider" });
@@ -91,91 +103,104 @@ const UserItemView = (props: {
   }
 
   return (
-    <div
-      className={styles["user-message"]}
-      style={{
-        paddingRight: isMobile ? 12 : 24,
-        gap: 8,
-        width: "100%",
-        display: "flex",
-        flexDirection: "row-reverse",
-      }}
-    >
-      <div className={styles.avatar}>
-        <div
-          style={{
-            zIndex: 0,
-            position: "sticky",
-            top: 92,
-            width: 36,
-            height: 36,
-            display: "flex",
-            overflow: "hidden",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: isDarkMode ? "#1b1b1b" : "#ffffff",
-            borderRadius: 14,
-            boxShadow: "0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%)",
-          }}
-        >
-          {
-            <Image
-              alt={"用户"}
-              src={UserImage}
-              objectFit={"cover"}
-              style={{
-                width: 36,
-                height: 36,
-                padding: 4,
-              }}
-            />
-          }
-        </div>
-      </div>
+    <>
       <div
+        className={styles["user-message"]}
         style={{
-          display: "flex",
-          flexDirection: "column",
+          paddingRight: isMobile ? 12 : 24,
+          gap: 8,
           width: "100%",
-          gap: 4,
-          alignItems: "end",
+          display: "flex",
+          flexDirection: "row-reverse",
         }}
       >
-        {props.children.time && (
+        <div className={styles.avatar}>
           <div
             style={{
-              color: "#a0a0a0",
-              fontSize: 12,
-              gap: 8,
+              zIndex: 0,
+              position: "sticky",
+              top: 92,
+              width: 36,
+              height: 36,
               display: "flex",
-              flexDirection: "row-reverse",
+              overflow: "hidden",
+              justifyContent: "center",
               alignItems: "center",
+              backgroundColor: isDarkMode ? "#1b1b1b" : "#ffffff",
+              borderRadius: 14,
+              boxShadow: "0 2px 4px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 2%)",
             }}
           >
-            {util.getDateFormat(props.children.time)}
+            {
+              <Image
+                alt={"用户"}
+                src={UserImage}
+                objectFit={"cover"}
+                style={{
+                  width: 36,
+                  height: 36,
+                  padding: 4,
+                }}
+              />
+            }
           </div>
-        )}
-        <Dropdown
-          overlayStyle={{
-            border: isDarkMode
-              ? "1px solid rgba(57, 58, 60, 1)"
-              : "1px solid rgba(0, 0, 0, 0.15)",
-            borderRadius: 14,
-            overflow: "hidden",
-            boxShadow:
-              "0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05)",
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            gap: 4,
+            alignItems: "end",
           }}
-          menu={{
-            items: getOperations(),
-          }}
-          trigger={isMobile ? ["click"] : ["contextMenu"]}
         >
-          <div className={styles.user}>
-            <MarkdownText>{props.children.data.content}</MarkdownText>
-          </div>
-        </Dropdown>
+          {props.children.time && (
+            <div
+              style={{
+                color: "#a0a0a0",
+                fontSize: 12,
+                gap: 8,
+                display: "flex",
+                flexDirection: "row-reverse",
+                alignItems: "center",
+              }}
+            >
+              {util.getDateFormat(props.children.time)}
+            </div>
+          )}
+          <Dropdown
+            overlayStyle={{
+              border: isDarkMode
+                ? "1px solid rgba(57, 58, 60, 1)"
+                : "1px solid rgba(0, 0, 0, 0.15)",
+              borderRadius: 14,
+              overflow: "hidden",
+              boxShadow:
+                "0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05)",
+            }}
+            menu={{
+              items: getOperations(),
+            }}
+            trigger={isMobile ? ["click"] : ["contextMenu"]}
+          >
+            <div className={styles.user}>
+              <MarkdownText>{props.children.data.content}</MarkdownText>
+            </div>
+          </Dropdown>
+        </div>
       </div>
-    </div>
+      <EditDrawerView
+        content={props.children.data.content}
+        setContent={(content) =>
+          props.updateItemContent && props.updateItemContent(content)
+        }
+        open={open}
+        title="编辑"
+        setOpen={() => {
+          setOpen(false);
+        }}
+      />
+    </>
   );
 };
 //export default UserView;
@@ -187,12 +212,14 @@ const UserView = React.memo(
     children: ChatMessage;
     id: number;
     onCompleted?: () => void;
+    updateItemContent?: (content: string) => void;
   }) => {
     return (
       <UserItemView
         deleteItem={props.deleteItem}
         id={props.id}
         onCompleted={props.onCompleted}
+        updateItemContent={props.updateItemContent}
       >
         {props.children}
       </UserItemView>
