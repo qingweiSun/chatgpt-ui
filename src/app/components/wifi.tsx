@@ -88,7 +88,7 @@ export async function getSearchKeywoard(messagesValue: GptMessage[]) {
     });
     if (response.ok) {
       const data = await response.json();
-      const text = data.delta.content;
+      const text = data.choices[0].message.content;
       return text;
     } else {
       return "";
