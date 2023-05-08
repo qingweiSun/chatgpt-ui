@@ -214,33 +214,34 @@ const BotChatTextItemView = (props: {
                   style={{
                     fontSize: 13,
                     gap: 4,
+                    display: "flex",
+                    flexDirection: "column",
                   }}
                 >
                   <div style={{ fontWeight: 500, marginTop: 8 }}>
                     参考链接：
                   </div>
-                  {JSON.parse(props.children.network).map((item: any) => {
-                    return (
-                      <Tag
-                        key={item.href}
-                        onClick={() => {
-                          //打开新窗口
-                          window.open(item.href);
-                        }}
-                        style={{
-                          color: "var(--nextui-colors-primary)",
-                          marginLeft: 4,
-                          cursor: "pointer",
-                          marginTop: 4,
-                          maxWidth: 200,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                      >
-                        {item.title}
-                      </Tag>
-                    );
-                  })}
+                  {JSON.parse(props.children.network).map(
+                    (item: any, index: number) => {
+                      return (
+                        <div
+                          key={item.href}
+                          style={{
+                            textDecoration: "underline",
+                          }}
+                        >
+                          {item.title}
+                          <a
+                            onClick={() => {
+                              window.open(item.href);
+                            }}
+                          >
+                            [{index + 1}]
+                          </a>
+                        </div>
+                      );
+                    }
+                  )}
                 </div>
               )}
             </div>
