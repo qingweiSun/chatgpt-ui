@@ -32,7 +32,13 @@ export function EditDrawerView(props: {
       destroyOnClose
       footer={[
         <Space key={"footer"}>
-          <Button auto light onClick={() => props.setOpen(false)}>
+          <Button
+            auto
+            light
+            bordered
+            color={"default"}
+            onClick={() => props.setOpen(false)}
+          >
             取消
           </Button>
           <Button
@@ -56,7 +62,7 @@ export function EditDrawerView(props: {
           size="large"
           value={value}
           defaultValue={props.content}
-          autoSize={{ minRows: 1, maxRows: 24 }}
+          autoSize={{ minRows: 3, maxRows: 20 }}
           style={{ flex: 1, borderWidth: 2, fontSize: 15 }}
           placeholder="请输入内容"
           onChange={(e) => {

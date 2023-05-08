@@ -262,12 +262,6 @@
         background: rgba(17, 17, 17,0.8) ;
         border-top: 1px solid #1a1a1a;
     }
-    .question{
-        color: #bcbcbc;
-    }
-    .question::placeholder {
-        color: #999;
-    }
     .bot {
         color: #bcbcbc;
         background: #1b1b1b;

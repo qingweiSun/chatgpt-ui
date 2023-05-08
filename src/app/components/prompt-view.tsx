@@ -11,6 +11,7 @@ import { Edit } from "react-iconly";
 import { useMediaQuery } from "react-responsive";
 import { context } from "../hooks/context-mobile";
 import UserImage from "../images/av1.png";
+import { EditDrawerView } from "./edit/edit-drawer";
 export default function PromptView(props: {
   setPrompt: (text: string) => void;
 }) {
@@ -365,101 +366,34 @@ export default function PromptView(props: {
             }}
             onClick={() => {}}
           >
-            <Popover isBordered placement="top-right" offset={20}>
-              <Popover.Trigger>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 4,
-                  }}
-                  className={styles.prompt}
-                  onClick={() => {
-                    setShowCustomPrompt(true);
-                  }}
-                >
-                  自定义角色属性
-                  <Edit set="curved" size={18} />
-                </div>
-              </Popover.Trigger>
-              <Popover.Content
-                css={{
-                  backgroundColor: isDarkMode ? "#1f1f1f" : undefined,
-                }}
-              >
-                <div style={{ padding: 16, textAlign: "center" }}>
-                  <div
-                    style={{
-                      fontWeight: 500,
-                      color: isDarkMode ? "#cccccc" : undefined,
-                    }}
-                  >
-                    自定义角色属性
-                  </div>
-                  <div style={{ height: 16 }} />
-                  <TextArea
-                    className="custom-prompt"
-                    placeholder="请输入自定义角色属性"
-                    autoFocus
-                    value={customPrompt}
-                    onChange={(e) => {
-                      setCustomPrompt(e.target.value);
-                    }}
-                    size="large"
-                    style={{
-                      width: isMobile ? "70vw" : 600,
-                      borderWidth: 2,
-                      fontSize: 15,
-                      backgroundColor: isDarkMode ? "#2b2f31" : undefined,
-                      color: isDarkMode ? "#cccccc" : undefined,
-                    }}
-                    autoSize={{ minRows: 4, maxRows: 10 }}
-                  />
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: 0,
-                      right: 0,
-                      padding: 16,
-                    }}
-                  >
-                    <Button
-                      auto
-                      light
-                      onPress={() => {
-                        if (customPrompt === "") {
-                          toast.error("请输入自定义角色属性");
-                          return;
-                        }
-                        setShowCustomPrompt(false);
-                        props.setPrompt(customPrompt);
-                      }}
-                      color={"primary"}
-                      css={{
-                        borderBottomRightRadius: 14,
-                        borderBottomLeftRadius: 8,
-                        borderTopLeftRadius: 8,
-                        borderTopRightRadius: 8,
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          gap: 4,
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        确定
-                      </div>
-                    </Button>
-                  </div>
-                </div>
-              </Popover.Content>
-            </Popover>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 4,
+              }}
+              className={styles.prompt}
+              onClick={() => {
+                setShowCustomPrompt(true);
+              }}
+            >
+              自定义角色属性
+              <Edit set="curved" size={18} />
+            </div>
           </div>
         </div>
       </div>
+      <EditDrawerView
+        title="自定义角色属性"
+        content=""
+        setContent={(text) => {
+          props.setPrompt(text);
+        }}
+        setOpen={() => {
+          setShowCustomPrompt(false);
+        }}
+        open={showCustomPrompt}
+      />
     </>
   );
 }
