@@ -164,6 +164,14 @@ export default function ChatView(props: { item: HistoryItem }) {
                 newMessages[index].time = new Date().toLocaleString();
                 setMessages(newMessages);
               }}
+              addItem={(content, isAfter, role) => {
+                const newMessages = [...messages];
+                newMessages.splice(index + (isAfter ? 1 : 0), 0, {
+                  data: { role: role, content: content },
+                  time: new Date().toLocaleString(),
+                });
+                setMessages(newMessages);
+              }}
             >
               {message}
             </UserView>
@@ -179,6 +187,14 @@ export default function ChatView(props: { item: HistoryItem }) {
                 const newMessages = [...messages];
                 newMessages[index].data.content = content;
                 newMessages[index].time = new Date().toLocaleString();
+                setMessages(newMessages);
+              }}
+              addItem={(content, isAfter, role) => {
+                const newMessages = [...messages];
+                newMessages.splice(index + (isAfter ? 1 : 0), 0, {
+                  data: { role: role, content: content },
+                  time: new Date().toLocaleString(),
+                });
                 setMessages(newMessages);
               }}
             >

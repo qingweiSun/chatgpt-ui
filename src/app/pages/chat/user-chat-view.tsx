@@ -9,7 +9,10 @@ import styles from "./index.module.css";
 import { useMediaQuery } from "react-responsive";
 import { Dropdown, MenuProps } from "antd";
 import toast from "react-hot-toast";
-import { EditDrawerView } from "@/app/components/edit/edit-drawer";
+import {
+  AddDrawerView,
+  EditDrawerView,
+} from "@/app/components/edit/edit-drawer";
 //https://www.iconfont.cn/illustrations/detail?spm=a313x.7781069.1998910419.d9df05512&cid=43905 头像
 const UserItemView = (props: {
   deleteItem: () => void;
@@ -17,10 +20,17 @@ const UserItemView = (props: {
   id: number;
   onCompleted?: () => void;
   updateItemContent?: (content: string) => void;
+  addItem?: (
+    content: string,
+    isAfter: boolean,
+    role: "system" | "user" | "assistant"
+  ) => void;
 }) => {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
   const [open, setOpen] = React.useState(false);
+  const [openAddAfter, setOpenAddAfter] = React.useState(false);
+  const [openAddBefore, setOpenAddBefore] = React.useState(false);
   function getOperations() {
     const copyO = {
       label: "复制",
@@ -57,7 +67,7 @@ const UserItemView = (props: {
       },
     };
     const completeO = {
-      label: "完成",
+      label: <div style={{ color: "var(--nextui-colors-primary)" }}>完成</div>,
       key: "4",
       onClick: () => {
         props.onCompleted && props.onCompleted();
@@ -71,30 +81,51 @@ const UserItemView = (props: {
         setOpen(true);
       },
     };
+
+    const addAfterO = {
+      label: "在后面添加一条",
+      key: "6",
+      onClick: () => {
+        setOpenAddAfter(true);
+      },
+    };
+    const addBeforeO = {
+      label: "在前面添加一条",
+      key: "7",
+      onClick: () => {
+        setOpenAddBefore(true);
+      },
+    };
     const operations: MenuProps["items"] = [];
     switch (props.id) {
       case 1:
         operations.push(copyO);
         operations.push(editO);
+        operations.push({ type: "divider" });
+        operations.push(addBeforeO);
+        operations.push(addAfterO);
         break;
       case 2:
         operations.push(copyO);
         operations.push(editO);
+        operations.push({ type: "divider" });
         operations.push(deleteO);
         if (
           !props.children.data.content.startsWith("~~") &&
           !props.children.data.content.endsWith("~~")
         ) {
-          operations.push({ type: "divider" });
           operations.push(completeO);
         }
         break;
       default:
         operations.push(copyO);
         operations.push(editO);
+        operations.push({ type: "divider" });
+        operations.push(addBeforeO);
+        operations.push(addAfterO);
+        operations.push({ type: "divider" });
         operations.push(deleteO);
         if (props.children.data.role === "user") {
-          operations.push({ type: "divider" });
           operations.push(addNoteO);
         }
         break;
@@ -200,6 +231,26 @@ const UserItemView = (props: {
           setOpen(false);
         }}
       />
+      <AddDrawerView
+        content={""}
+        setContent={(content, role) =>
+          props.addItem && props.addItem(content, true, role)
+        }
+        open={openAddAfter}
+        setOpen={() => {
+          setOpenAddAfter(false);
+        }}
+      />
+      <AddDrawerView
+        content={""}
+        setContent={(content, role) =>
+          props.addItem && props.addItem(content, false, role)
+        }
+        open={openAddBefore}
+        setOpen={() => {
+          setOpenAddBefore(false);
+        }}
+      />
     </>
   );
 };
@@ -213,6 +264,11 @@ const UserView = React.memo(
     id: number;
     onCompleted?: () => void;
     updateItemContent?: (content: string) => void;
+    addItem?: (
+      content: string,
+      isAfter: boolean,
+      role: "system" | "user" | "assistant"
+    ) => void;
   }) => {
     return (
       <UserItemView
@@ -220,6 +276,7 @@ const UserView = React.memo(
         id={props.id}
         onCompleted={props.onCompleted}
         updateItemContent={props.updateItemContent}
+        addItem={props.addItem}
       >
         {props.children}
       </UserItemView>

@@ -11,7 +11,10 @@ import { util } from "@/app/utils/util";
 import { useMediaQuery } from "react-responsive";
 import { toast } from "react-hot-toast";
 import { Dropdown, MenuProps } from "antd";
-import { EditDrawerView } from "@/app/components/edit/edit-drawer";
+import {
+  AddDrawerView,
+  EditDrawerView,
+} from "@/app/components/edit/edit-drawer";
 
 const BotChatTextItemView = (props: {
   deleteItem: () => void;
@@ -19,10 +22,17 @@ const BotChatTextItemView = (props: {
   children: ChatMessage;
   id: number;
   updateItemContent?: (content: string) => void;
+  addItem?: (
+    content: string,
+    isAfter: boolean,
+    role: "system" | "user" | "assistant"
+  ) => void;
 }) => {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
   const [open, setOpen] = React.useState(false);
+  const [openAddAfter, setOpenAddAfter] = React.useState(false);
+  const [openAddBefore, setOpenAddBefore] = React.useState(false);
   function getOperations() {
     const copyO = {
       label: "复制",
@@ -65,11 +75,25 @@ const BotChatTextItemView = (props: {
       },
     };
     const completeO = {
-      label: "完成",
+      label: <div style={{ color: "var(--nextui-colors-primary)" }}>完成</div>,
       key: "4",
       onClick: () => {
         props.onCompleted && props.onCompleted();
         //refreshContextMenu();
+      },
+    };
+    const addAfterO = {
+      label: "在后面添加一条",
+      key: "6",
+      onClick: () => {
+        setOpenAddAfter(true);
+      },
+    };
+    const addBeforeO = {
+      label: "在前面添加一条",
+      key: "7",
+      onClick: () => {
+        setOpenAddBefore(true);
       },
     };
     const operations: MenuProps["items"] = [];
@@ -77,24 +101,30 @@ const BotChatTextItemView = (props: {
       case 1:
         operations.push(copyO);
         operations.push(editO);
+        operations.push({ type: "divider" });
+        operations.push(addBeforeO);
+        operations.push(addAfterO);
         break;
       case 2:
         operations.push(copyO);
         operations.push(editO);
+        operations.push({ type: "divider" });
         operations.push(deleteO);
         if (
           !props.children.data.content.startsWith("~~") &&
           !props.children.data.content.endsWith("~~")
         ) {
-          operations.push({ type: "divider" });
           operations.push(completeO);
         }
         break;
       default:
         operations.push(copyO);
         operations.push(editO);
-        operations.push(deleteO);
         operations.push({ type: "divider" });
+        operations.push(addBeforeO);
+        operations.push(addAfterO);
+        operations.push({ type: "divider" });
+        operations.push(deleteO);
         operations.push(addNoteO);
         break;
     }
@@ -186,6 +216,28 @@ const BotChatTextItemView = (props: {
           setOpen(false);
         }}
       />
+      <AddDrawerView
+        content={""}
+        role="assistant"
+        setContent={(content, role) =>
+          props.addItem && props.addItem(content, true, role)
+        }
+        open={openAddAfter}
+        setOpen={() => {
+          setOpenAddAfter(false);
+        }}
+      />
+      <AddDrawerView
+        content={""}
+        role="assistant"
+        setContent={(content, role) =>
+          props.addItem && props.addItem(content, false, role)
+        }
+        open={openAddBefore}
+        setOpen={() => {
+          setOpenAddBefore(false);
+        }}
+      />
     </>
   );
 };
@@ -198,6 +250,11 @@ const BotChatTextView = React.memo(
     id: number;
     onCompleted?: () => void;
     updateItemContent?: (content: string) => void;
+    addItem?: (
+      content: string,
+      isAfter: boolean,
+      role: "system" | "user" | "assistant"
+    ) => void;
   }) => {
     return (
       <BotChatTextItemView
@@ -205,6 +262,7 @@ const BotChatTextView = React.memo(
         id={props.id}
         onCompleted={props.onCompleted}
         updateItemContent={props.updateItemContent}
+        addItem={props.addItem}
       >
         {props.children}
       </BotChatTextItemView>
