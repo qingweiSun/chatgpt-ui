@@ -129,17 +129,16 @@ export async function generateMessage(
       messagesValue.push({
         role: "user",
         content:
-          `Using the provided web search results, write a comprehensive reply to the given query.
+          `请总结下面的内容，用以回复上面的问题.
 
-Web search json results:` +
+搜索结果的 json:` +
           searchResult +
           `"""
 
-Current date:
+今天的真实日期为:
 """
 ${new Date().toISOString()}
-""" 
-Reply in Chinese and markdown.`,
+""" `,
       });
     }
   }
