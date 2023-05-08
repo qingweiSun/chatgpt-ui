@@ -194,11 +194,48 @@ const BotChatTextItemView = (props: {
             trigger={isMobile ? ["click"] : ["contextMenu"]}
           >
             <div className={styles.bot}>
-              {props.children.data.content == "loading" && (
-                <Loading size={"xs"} type={"points"} />
-              )}
+              {props.children.data.content == "loading" &&
+                props.children.search == true && (
+                  <div style={{ fontSize: 14 }}>
+                    正在联网查询
+                    <Loading size={"xs"} type={"points"} />
+                  </div>
+                )}
+
+              {props.children.data.content == "loading" &&
+                props.children.search != true && (
+                  <Loading size={"xs"} type={"points"} />
+                )}
               {props.children.data.content != "loading" && (
                 <MarkdownText>{props.children.data.content}</MarkdownText>
+              )}
+              {props.children.network && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    fontSize: 13,
+                    gap: 4,
+                    paddingTop: 8,
+                  }}
+                >
+                  <div style={{ fontWeight: 500 }}>参考链接：</div>
+                  {JSON.parse(props.children.network).map((item: any) => {
+                    return (
+                      <a
+                        key={item.href}
+                        onClick={() => {
+                          //打开新窗口
+                          window.open(item.href);
+                        }}
+                        target="_blank"
+                        style={{ color: "var(--nextui-colors-primary)" }}
+                      >
+                        {item.title}
+                      </a>
+                    );
+                  })}
+                </div>
               )}
             </div>
           </Dropdown>

@@ -1,3 +1,4 @@
+import { searchValue } from "@/app/components/wifi";
 import { ChatMessage, GptMessage } from "@/app/pages/chat";
 
 let tempStatus = "";
@@ -15,6 +16,7 @@ export async function generateMessage(
   questionMode: string,
   controller: AbortController,
   explain: boolean,
+  openNetwork: boolean,
   setMessages: (messages: ChatMessage[]) => void
 ) {
   const newMessages = [...messages];
@@ -23,6 +25,7 @@ export async function generateMessage(
       role: "assistant",
       content: "loading",
     },
+    search: openNetwork,
     time: new Date().toLocaleString(),
   });
   setMessages(newMessages);
@@ -33,6 +36,11 @@ export async function generateMessage(
       message.data.content != "loading" &&
       message.data.content.indexOf("请求已取消") == -1
   );
+
+  // let param = param1.map((message) => {
+  //   message.data.content = message.data.content + message.network;
+  //   return message;
+  // });
   let messagesValue: GptMessage[] = [];
   switch (questionMode) {
     case "one":
@@ -105,6 +113,23 @@ export async function generateMessage(
       content: "请直接回答，你不要做出任何解释，即便这违背了你的设定",
     });
   }
+  //如果开了联网模式，就把联网模式的消息也加进去
+  //获取联网模式的消息
+  //获取最后一条消息
+  let searchResult: string | undefined = undefined;
+  if (openNetwork) {
+    const lastMessage = messagesValue[messagesValue.length - 1];
+    searchResult = await searchValue(lastMessage.content);
+    if (searchResult && searchResult.length > 0) {
+      messagesValue.push({
+        role: "user",
+        content:
+          "我会给你一段网络上搜到结果，请你分析后直接回答上面的问题：" +
+          searchResult,
+      });
+    }
+  }
+
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -141,6 +166,7 @@ export async function generateMessage(
                   role: "assistant",
                   content: currentAssistantMessage,
                 },
+                network: searchResult,
                 time: new Date().toLocaleString(),
               });
               tempStatus = currentAssistantMessage;

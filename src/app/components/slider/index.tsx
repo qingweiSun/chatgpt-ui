@@ -41,6 +41,7 @@ export interface HistoryItem {
   top: boolean;
   mode?: MaxTokensLimitProps;
   explain?: boolean;
+  openNetwork?: boolean;
 }
 
 export default function Slider(props: {

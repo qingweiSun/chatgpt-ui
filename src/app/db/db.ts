@@ -16,8 +16,8 @@ export class MyAiDexie extends Dexie {
 
   constructor() {
     super("myDatabase");
-    this.version(2).stores({
-      sliders: "++id,title,top,mode", // Primary key and indexed props
+    this.version(3).stores({
+      sliders: "++id,title,top,mode,openNetwork", // Primary key and indexed props
       templates: "++id,message",
     });
   }
@@ -40,6 +40,13 @@ export async function updateSliderMode(id: number, mode: MaxTokensLimitProps) {
 //根据 id更新 title
 export async function updateSliderTitle(id: number, title: string) {
   await db.sliders?.update(id, { title: title });
+}
+//根据 id 更新openNetwork
+export async function updateSliderOpenNetwork(
+  id: number,
+  openNetwork: boolean
+) {
+  await db.sliders?.update(id, { openNetwork: openNetwork });
 }
 
 export async function updateSliderExplain(id: number, explain: boolean) {

@@ -5,6 +5,7 @@ import PromptView from "@/app/components/prompt-view";
 import { exportMarkdown } from "@/app/components/setting";
 import { HistoryItem } from "@/app/components/slider";
 import MobileSlider from "@/app/components/slider/mobile";
+import WifiView, { searchValue } from "@/app/components/wifi";
 import {
   db,
   updateSliderExplain,
@@ -34,10 +35,11 @@ import { useMediaQuery } from "react-responsive";
 import styles from "./index.module.css";
 import InputView from "./view/input-view";
 import NavbarTItleView from "./view/name-view";
-import IdContext from "@/app/hooks/use-chat-id";
 
 export interface ChatMessage {
   data: GptMessage;
+  network?: string;
+  search?: boolean;
   time?: string;
 }
 
@@ -111,6 +113,7 @@ export default function ChatView(props: { item: HistoryItem }) {
       toast.error("请输入内容");
       return;
     }
+
     setLoading(true);
     canScroll.current = true;
     const newMessage: ChatMessage[] = [
@@ -120,6 +123,7 @@ export default function ChatView(props: { item: HistoryItem }) {
         time: new Date().toLocaleString(),
       },
     ];
+
     await setMessages(newMessage, async (newState) => {
       const controllerValue = new AbortController();
       setController(controllerValue);
@@ -130,6 +134,7 @@ export default function ChatView(props: { item: HistoryItem }) {
         props.item?.mode?.value || "one",
         controllerValue,
         props.item.explain ?? true,
+        props.item.openNetwork == true,
         (newMessages) => {
           setMessages(newMessages);
         }
@@ -286,6 +291,7 @@ export default function ChatView(props: { item: HistoryItem }) {
                 <Filter set="curved" size={23} />
               </MaxTokensLimit>
             </Navbar.Item>
+            <WifiView className={styles.link} item={props.item} />
             <Tooltip
               content={
                 <div
