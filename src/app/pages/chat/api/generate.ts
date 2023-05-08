@@ -125,13 +125,11 @@ export async function generateMessage(
       content: "请根据以上内容返回一个搜索语句",
     });
     searchResult = await searchValue(temp);
-    message.success(searchResult);
     if (searchResult && searchResult.length > 0) {
       messagesValue.push({
         role: "user",
         content:
           `Using the provided web search results, write a comprehensive reply to the given query.
-If the provided search results refer to multiple subjects with the same name, write separate answers for each subject.
 Make sure to cite results using \`[[number](URL)]\` notation after the reference.
 
 Web search json results:` +
