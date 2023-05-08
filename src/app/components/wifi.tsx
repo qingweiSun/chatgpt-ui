@@ -45,7 +45,7 @@ export default function WifiView(props: {
             }
             updateSliderOpenNetwork(
               props.item.id,
-              !(props.item.openNetwork ?? true)
+              !(props.item.openNetwork ?? false)
             );
           }}
         >
