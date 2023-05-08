@@ -139,7 +139,8 @@ Web search json results:` +
 Current date:
 """
 ${new Date().toISOString()}
-"""`,
+""" 
+Reply in Chinese and markdown.`,
       });
     }
   }
