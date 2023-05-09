@@ -259,12 +259,10 @@
         color: #bcbcbc;
     }
     .bottom{
-        background: rgba(17, 17, 17,0.8) ;
+        background: rgba(17, 17, 17,0.8);
         border-top: 1px solid #1a1a1a;
     }
-    .question{
-        background: transparent !important;
-    }
+
     .bot {
         color: #bcbcbc;
         background: #1b1b1b;

@@ -14,6 +14,7 @@ export function EditDrawerView(props: {
   setContent: (content: string) => void;
 }) {
   const [value, setValue] = useState(props.content);
+  const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
   useEffect(() => {
     setValue(props.content);
@@ -65,7 +66,12 @@ export function EditDrawerView(props: {
           value={value}
           defaultValue={props.content}
           autoSize={{ minRows: 3, maxRows: 20 }}
-          style={{ flex: 1, borderWidth: 2, fontSize: 15 }}
+          style={{
+            flex: 1,
+            borderWidth: 2,
+            fontSize: 15,
+            background: isDarkMode ? "#111111" : undefined,
+          }}
           placeholder="请输入内容"
           onChange={(e) => {
             setValue(e.target.value);
@@ -180,7 +186,12 @@ export function AddDrawerView(props: {
           value={value}
           defaultValue={props.content}
           autoSize={{ minRows: 3, maxRows: 20 }}
-          style={{ flex: 1, borderWidth: 2, fontSize: 15 }}
+          style={{
+            flex: 1,
+            borderWidth: 2,
+            fontSize: 15,
+            background: isDarkMode ? "#111111" : undefined,
+          }}
           placeholder="请输入内容"
           onChange={(e) => {
             setValue(e.target.value);

@@ -135,6 +135,9 @@ export default function InputView(props: {
         <TextArea
           value={props.questionText}
           className={styles.question}
+          style={{
+            background: "transparent !important",
+          }}
           bordered={false}
           autoFocus
           onFocus={props.onFocus}
