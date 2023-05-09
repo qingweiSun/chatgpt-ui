@@ -140,10 +140,10 @@ ${new Date().toISOString()}
           searchResult +
           `"""
 
-我提问的具体时间为:
+当前真实的日期为:
 """
 ${new Date().toISOString()}
-"""，无论你做什么都请认准这个时间 `,
+"""`,
       });
     }
   }
