@@ -5,7 +5,7 @@ async function makeRequest(req: NextRequest) {
     const content = req.nextUrl.searchParams.get("query");
     const query = encodeURIComponent(content!);
     const api = await fetch(
-      `${"http://api.qingwei.icu"}/search?q=${query}&max_results=3`
+      `http://api.qingwei.icu/search?q=${query}&max_results=3`
     );
     const res = new NextResponse(api.body);
     res.headers.set("Content-Type", "application/json");

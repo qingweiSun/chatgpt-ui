@@ -1,9 +1,9 @@
 import { Navbar, Tooltip } from "@nextui-org/react";
-import { Swap } from "react-iconly";
-import { HistoryItem } from "./slider";
 import toast from "react-hot-toast";
+import { Swap } from "react-iconly";
 import { updateSliderOpenNetwork } from "../db/db";
-import { ChatMessage, GptMessage } from "../pages/chat";
+import { GptMessage } from "../pages/chat";
+import { HistoryItem } from "./slider";
 
 export default function WifiView(props: {
   className: string;
@@ -68,7 +68,7 @@ export default function WifiView(props: {
 export async function searchValue(messagesValue: GptMessage[]) {
   const text = await getSearchKeywoard(messagesValue);
   const response = await fetch(`/api/wifi?query=${text}`, {
-    method: "POST",
+    method: "GET",
   });
   if (response.ok) {
     const data = await response.json();
