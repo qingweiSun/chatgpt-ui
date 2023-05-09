@@ -460,7 +460,7 @@ export default function ApiKeyModal(props: {
                 <Space direction={"vertical"}>
                   <Space direction={"vertical"}>
                     {/* <div>总额度：{balance.total_granted}注意：Budai</div> */}
-                    <div>已使用额度：{balance.total_used}</div>
+                    <div>已消费额度：{balance.total_used}</div>
                     <div>剩余可用额度：{balance.total_available}</div>
                   </Space>
                 </Space>
