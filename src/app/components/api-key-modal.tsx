@@ -17,6 +17,7 @@ import styles from "./delete.module.css";
 import GptContext from "../hooks/use-gpt";
 import { useTheme } from "@nextui-org/react";
 import { useMediaQuery } from "react-responsive";
+import { toast } from "react-hot-toast";
 
 const { TextArea } = Input;
 
@@ -26,15 +27,13 @@ export default function ApiKeyModal(props: {
 }) {
   const [apiKeyModalOpen, setApiKeyModalOpen] = useState<boolean>(false);
 
-  const [balance, setBalance] = useState<
-    {
-      status: string;
-      total_granted: any;
-      message: "查询成功";
-      total_used: any;
-      total_available: any;
-    }[]
-  >([]);
+  const [balance, setBalance] = useState<{
+    status: string;
+    total_granted: any;
+    message: "查询成功";
+    total_used: any;
+    total_available: any;
+  }>();
   const [loading, setLoading] = useState<boolean>(false);
   const [showCostType, setShowCostType] = useState<"tokens" | "$" | "none">(
     props.showCostType
@@ -167,7 +166,7 @@ export default function ApiKeyModal(props: {
               bordered={!isDarkMode}
               size={"large"}
               style={{
-                fontSize: 14,
+                fontSize: 13,
                 width: "100%",
                 background: isDarkMode ? "#2b2f31" : undefined,
                 color: isDarkMode ? "#cccccc" : undefined,
@@ -256,7 +255,7 @@ export default function ApiKeyModal(props: {
                 className="custom-prompt"
                 style={{
                   width: "100%",
-                  fontSize: 14,
+                  fontSize: 13,
                   background: isDarkMode ? "#2b2f31" : undefined,
                   color: isDarkMode ? "#cccccc" : undefined,
                 }}
@@ -424,25 +423,59 @@ export default function ApiKeyModal(props: {
               简洁模式使得答案会更简练并且节省tokens，但是可能会导致答案不够优质，如果您需要更好的的答案，请点击恢复系统设定。
             </div>
           </Space>
-          {balance.length > 0 && (
-            <Card bordered={false} style={{ marginTop: 4 }}>
-              <Space direction={"vertical"}>
-                {balance.map((item, index) => {
-                  return item.status == "success" ? (
-                    <Space key={index} direction={"vertical"}>
-                      <div>总额度：{item.total_granted}</div>
-                      <div>已使用额度：{item.total_used}</div>
-                      <div>剩余可用额度：{item.total_available}</div>
-                    </Space>
-                  ) : (
-                    <div key={index}>{item.message}</div>
-                  );
-                })}
-              </Space>
-            </Card>
+          <Button
+            loading={loading}
+            style={{
+              background: isDarkMode ? "#2b2f31" : undefined,
+              color: isDarkMode ? "#cccccc" : undefined,
+              borderColor: isDarkMode ? "#2b2f31" : undefined,
+            }}
+            onClick={async () => {
+              setLoading(true);
+              const response = await fetch("https://qingwei.icu/api/billing", {
+                method: "POST",
+                body: JSON.stringify({
+                  apiKey: gpt?.key,
+                }),
+              });
+
+              if (response.status == 200) {
+                const temp = await response.json();
+                if (temp.status == "success") {
+                  setBalance(temp);
+                  setLoading(false);
+                } else {
+                  toast.error(temp.message);
+                }
+              } else {
+                setLoading(false);
+              }
+            }}
+          >
+            余额查询
+          </Button>
+          {balance && (
+            <Space direction="vertical">
+              <div style={{ marginTop: 4 }}>
+                <Space direction={"vertical"}>
+                  <Space direction={"vertical"}>
+                    {/* <div>总额度：{balance.total_granted}注意：Budai</div> */}
+                    <div>已使用额度：{balance.total_used}</div>
+                    <div>剩余可用额度：{balance.total_available}</div>
+                  </Space>
+                </Space>
+              </div>
+              <div
+                style={{
+                  color: "#666666",
+                  fontSize: 12,
+                }}
+              >
+                剩余可用额度不代表余额奥。用的越多，付费就会越多，这只是代表的最大可用额度。
+              </div>
+            </Space>
           )}
         </Space>
-        <div style={{ height: 12 }} />
       </Modal>
     </>
   );
