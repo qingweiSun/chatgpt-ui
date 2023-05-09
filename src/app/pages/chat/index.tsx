@@ -5,6 +5,7 @@ import PromptView from "@/app/components/prompt-view";
 import { exportMarkdown } from "@/app/components/setting";
 import { HistoryItem } from "@/app/components/slider";
 import MobileSlider from "@/app/components/slider/mobile";
+import WifiView, { searchValue } from "@/app/components/wifi";
 import {
   db,
   updateSliderExplain,
@@ -290,6 +291,7 @@ export default function ChatView(props: { item: HistoryItem }) {
                 <Filter set="curved" size={23} />
               </MaxTokensLimit>
             </Navbar.Item>
+            <WifiView className={styles.link} item={props.item} />
             <Tooltip
               content={
                 <div

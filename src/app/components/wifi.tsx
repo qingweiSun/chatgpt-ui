@@ -72,6 +72,7 @@ export async function searchValue(messagesValue: GptMessage[]) {
   });
   if (response.ok) {
     const data = await response.json();
+
     return JSON.stringify(data);
   } else {
     return "";

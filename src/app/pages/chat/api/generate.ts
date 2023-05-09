@@ -122,12 +122,7 @@ export async function generateMessage(
     const temp = [...messagesValue];
     temp.push({
       role: "user",
-      content:
-        "请根据以上内容返回一个适合的搜索语句，补充一下" +
-        `我提问的具体时间为:
-"""
-${new Date().toISOString()}
-"""，无论你做什么都请认准这个时间，另外请只返回一个搜索语句，不需要其他任何内容`,
+      content: "请根据以上内容返回一个适合的搜索语句",
     });
     searchResult = await searchValue(temp);
     if (searchResult && searchResult.length > 0) {
@@ -136,14 +131,7 @@ ${new Date().toISOString()}
         content:
           `请总结下面的搜索结果内容以及你本身对问题的思考，回复上面的问题，如果搜索结果没有合适的答案，请结合自身知识回复.
 
-搜索结果为:` +
-          searchResult +
-          `"""
-
-当前真实的日期为:
-"""
-${new Date().toISOString()}
-"""`,
+搜索结果为:` + searchResult,
       });
     }
   }
