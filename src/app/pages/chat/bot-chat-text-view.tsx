@@ -247,7 +247,6 @@ const BotChatTextItemView = (props: {
             </div>
           </Dropdown>
         </div>
-        {/*<div style={{ width: 90 }} />*/}
       </div>
       <EditDrawerView
         content={props.children.data.content}

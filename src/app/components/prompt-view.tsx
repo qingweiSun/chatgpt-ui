@@ -1,16 +1,14 @@
+import UserImage from "@/app/icons/av1.png";
 import AiLOGO from "@/app/icons/bot.svg";
 import AiLOGODark from "@/app/icons/bot_dark.svg";
+
 import styles from "@/app/pages/chat/index.module.css";
-import { Button, Popover } from "@nextui-org/react";
 import { ConfigProvider, Tag, Tooltip } from "antd";
-import TextArea from "antd/es/input/TextArea";
 import Image from "next/image";
 import { useContext, useState } from "react";
-import { toast } from "react-hot-toast";
 import { Edit } from "react-iconly";
 import { useMediaQuery } from "react-responsive";
 import { context } from "../hooks/context-mobile";
-import UserImage from "../images/av1.png";
 import { EditDrawerView } from "./edit/edit-drawer";
 export default function PromptView(props: {
   setPrompt: (text: string) => void;

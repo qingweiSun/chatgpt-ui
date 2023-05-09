@@ -12,19 +12,19 @@ const runtimeCaching = require("next-pwa/cache");
 const withPWA = require("next-pwa")({
   dest: "public",
   runtimeCaching,
-  // disable: process.env.NODE_ENV === "development",
+  disable: process.env.NODE_ENV === "development",
 });
 
 const nextConfig = withPWA({
-  // reactStrictMode: true,
-  // swcMinify: true,
+  reactStrictMode: true,
+  swcMinify: true,
   experimental: {
     appDir: true,
   },
-  // output: "export",
-  // distDir: 'dist',
-  // images: {
-  //   unoptimized: true,
-  // },
+  output: "export",
+  distDir: "dist",
+  images: {
+    unoptimized: true,
+  },
 });
 module.exports = nextConfig;

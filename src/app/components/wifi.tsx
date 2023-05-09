@@ -68,7 +68,7 @@ export default function WifiView(props: {
 export async function searchValue(messagesValue: GptMessage[]) {
   const text = await getSearchKeywoard(messagesValue);
   const response = await fetch(`/api/wifi?query=${text}`, {
-    method: "GET",
+    method: "POST",
   });
   if (response.ok) {
     const data = await response.json();
@@ -80,10 +80,12 @@ export async function searchValue(messagesValue: GptMessage[]) {
 
 export async function getSearchKeywoard(messagesValue: GptMessage[]) {
   try {
-    const response = await fetch(`/api/gpt`, {
+    const response = await fetch(`https://qingwei.icu/api/shortcuts`, {
       method: "POST",
       body: JSON.stringify({
         messages: messagesValue,
+        model: "gpt-3.5-turbo",
+        stream: false,
       }),
     });
     if (response.ok) {

@@ -1,19 +1,18 @@
-import { context } from "@/app/hooks/context-mobile";
-import { ChatMessage } from "@/app/pages/chat/index";
-import MarkdownText, { copyToClipboard } from "@/app/pages/chat/markdown-text";
-import { util } from "@/app/utils/util";
-import Image from "next/image";
-import React, { useContext, useEffect } from "react";
-import UserImage from "../../images/av1.png";
-import styles from "./index.module.css";
-import { useMediaQuery } from "react-responsive";
-import { Dropdown, MenuProps } from "antd";
-import toast from "react-hot-toast";
 import {
   AddDrawerView,
   EditDrawerView,
 } from "@/app/components/edit/edit-drawer";
-import { Loading } from "@nextui-org/react";
+import { context } from "@/app/hooks/context-mobile";
+import UserImage from "@/app/icons/av1.png";
+import { ChatMessage } from "@/app/pages/chat/index";
+import MarkdownText, { copyToClipboard } from "@/app/pages/chat/markdown-text";
+import { util } from "@/app/utils/util";
+import { Dropdown, MenuProps } from "antd";
+import Image from "next/image";
+import React, { useContext } from "react";
+import toast from "react-hot-toast";
+import { useMediaQuery } from "react-responsive";
+import styles from "./index.module.css";
 //https://www.iconfont.cn/illustrations/detail?spm=a313x.7781069.1998910419.d9df05512&cid=43905 头像
 const UserItemView = (props: {
   deleteItem: () => void;

@@ -10,7 +10,8 @@
     "tauri": "tauri dev",
     "tauri:build": "tauri build",
     "export": "next export",
-    "build2": "next build && next export && tauri build"
+    "build2": "next build && next export && tauri build",
+    "build3": "next build && next export"
   },
   "dependencies": {
     "@nextui-org/react": "^1.0.0-beta.12",

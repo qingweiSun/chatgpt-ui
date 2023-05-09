@@ -16,16 +16,14 @@ import { Button } from "@nextui-org/react";
 import { Dropdown, MenuProps } from "antd";
 import { useLiveQuery } from "dexie-react-hooks";
 import Image from "next/image";
-import { Fragment, useContext, useEffect, useMemo } from "react";
+import { Fragment, useContext, useMemo } from "react";
 import {
-  Chat,
   Delete,
   Edit,
   EditSquare,
   Message,
   Paper,
   PaperPlus,
-  Setting,
 } from "react-iconly";
 import { useMediaQuery } from "react-responsive";
 import ChatGptLogo from "../../icons/chatgpt.svg";

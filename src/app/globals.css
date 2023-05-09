@@ -181,6 +181,17 @@ input, textarea {
 .ant-dropdown-menu-submenu-arrow-icon{
     width: 10px;
 }
+.ant-dropdown-menu-item-divider{
+    margin: 4px !important;
+}
+
+/*媒体查询*/
+@media screen and (max-width: 768px) {
+    .ant-dropdown-menu-item {
+        min-height: 40px;
+    }
+}
+
 @media (prefers-color-scheme: dark) {
     .custom-prompt::placeholder {
         color: #999;
