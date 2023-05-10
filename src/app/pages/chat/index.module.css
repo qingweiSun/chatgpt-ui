@@ -125,12 +125,7 @@
 
 /*媒体查询*/
 @media screen and (max-width: 768px) {
-    .bottom {
-        left: 0;
-    }
-    .navbar{
-        left: 0;
-    }
+   
 
     .avatar {
         display: none;

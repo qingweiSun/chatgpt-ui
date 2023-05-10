@@ -243,15 +243,17 @@ export default function ChatView(props: { item: HistoryItem }) {
             height: 68,
           }}
         >
-          <Navbar.Brand data-tauri-drag-region className={styles.nmaep}>
-            {props.item?.title && (
-              <NavbarTItleView
-                name={props.item?.title}
-                count={messages.length}
-                id={props.item.id}
-              />
-            )}
-          </Navbar.Brand>
+          {!isMobile && (
+            <Navbar.Brand data-tauri-drag-region className={styles.nmaep}>
+              {props.item?.title && (
+                <NavbarTItleView
+                  name={props.item?.title}
+                  count={messages.length}
+                  id={props.item.id}
+                />
+              )}
+            </Navbar.Brand>
+          )}
           <Navbar.Content>
             {isMobile && (
               <Navbar.Item>
