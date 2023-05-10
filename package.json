@@ -37,13 +37,13 @@
     "react-scroll": "^1.8.9",
     "react-syntax-highlighter": "^15.5.0",
     "react-transition-group": "^4.4.5",
-    "remark-gfm": "^3.0.1",
-    "replace-custom-scrollbars": "^1.0.8",
-    "tauri-plugin-window-state-api": "github:tauri-apps/tauri-plugin-window-state",
-    "typescript": "5.0.4",
     "rehype-katex": "^6.0.2",
     "remark-breaks": "^3.0.2",
-    "remark-math": "^5.1.1"
+    "remark-gfm": "^3.0.1",
+    "remark-math": "^5.1.1",
+    "replace-custom-scrollbars": "^1.0.8",
+    "tauri-plugin-window-state-api": "github:tauri-apps/tauri-plugin-window-state",
+    "typescript": "5.0.4"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.2.3",
