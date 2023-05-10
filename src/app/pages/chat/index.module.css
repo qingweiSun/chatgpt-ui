@@ -85,7 +85,7 @@
     100% { transform: translateX(-100%); } /*结束位置，向左移动父元素宽度的距离*/
 }
 .nmaep{
-    max-width: 400px;
+    max-width: 30vw;
     overflow:hidden;
 }
 .name {
@@ -122,6 +122,24 @@
     display: none;
 }
 
+/*媒体查询*/
+@media screen and (max-width: 1300px) {
+    .nmaep{
+        max-width: 20vw;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .nmaep{
+        max-width: 10vw;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .nmaep{
+        max-width: 100px;
+    }
+}
 /*媒体查询*/
 @media screen and (max-width: 768px) {
     .bottom {
