@@ -131,7 +131,12 @@ export async function generateMessage(
         content:
           `请总结下面的搜索结果内容以及你本身对问题的思考，回复上面的问题，如果搜索结果没有合适的答案，请结合自身知识回复.
 
-搜索结果为:` + searchResult,
+搜索结果为:` +
+          JSON.parse(searchResult)
+            .map((e: { body: string }, index: number) => {
+              return index + 1 + ":" + e.body;
+            })
+            .join(";"),
       });
     }
   }
