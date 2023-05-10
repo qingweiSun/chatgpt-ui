@@ -12,8 +12,8 @@ export default function NavbarTItleView(props: {
     name += props.id;
   }
   return (
-    <div >
-      <div className={styles.nmaep}>
+    <div style={{ width: "100%" }}>
+      <div style={{ width: "100%" }}>
         <div className={styles.name}>{name}</div>
       </div>
       <div style={{ fontSize: 13 }} className={styles.sub}>

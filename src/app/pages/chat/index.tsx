@@ -236,14 +236,14 @@ export default function ChatView(props: { item: HistoryItem }) {
           containerCss={{
             backgroundColor: isDarkMode
               ? "rgba(17, 17, 17, 0.8) !important"
-              : "rgba(247, 247, 247, 0.7) !important",
+              : "rgba(243, 244, 245, 0.7) !important",
             borderBottom: `1px solid ${isDarkMode ? "#1a1a1a" : "#eeeeee"}`,
             boxShadow: "0 2px 4px rgb(0 0 0 / 1%)",
             minHeight: 68,
             height: 68,
           }}
         >
-          <Navbar.Brand data-tauri-drag-region>
+          <Navbar.Brand data-tauri-drag-region className={styles.nmaep}>
             {props.item?.title && (
               <NavbarTItleView
                 name={props.item?.title}
