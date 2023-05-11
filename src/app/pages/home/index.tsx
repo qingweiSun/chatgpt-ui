@@ -5,12 +5,14 @@ import IdContext from "@/app/hooks/use-chat-id";
 import AppContext from "@/app/hooks/use-style";
 import ChatView from "@/app/pages/chat";
 import { NextUIProvider, createTheme } from "@nextui-org/react";
-import { Typography, notification } from "antd";
+import { Image, Typography, notification } from "antd";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import NoteView from "../note/note";
 import styles from "./home.module.css";
+import { copyToClipboard } from "../chat/markdown-text";
+import RewardView from "@/app/components/Reward";
 
 const { Paragraph } = Typography;
 export default function Home() {
@@ -69,11 +71,28 @@ export default function Home() {
           message: "需要自建吗？",
           duration: 0,
           description: (
-            <div>
-              随着本站用户量的增长，成本也在逐渐增高，如果你需要更好的体验，我可以帮你自建，12美元/月的消费就可以支持到几十个人使用(这
+            <div
+              style={{
+                WebkitUserSelect: "text",
+              }}
+            >
+              随着本站用户量的增长，成本也在逐渐增高，如果你需要更好的体验，我可以帮你自建，12美元/月的消费就可以支持到几十个人使用(
               12
-              美元不是给我的)，均摊下来也很便宜，你可以给别人付费使用，如果你有意向请加微信：
-              <Paragraph copyable>18300240232</Paragraph>
+              美元不是给我的)，均摊下来很便宜，你可以给别人付费使用，如果你有意请加微信：
+              <a
+                onClick={() => {
+                  copyToClipboard("18300240232");
+                }}
+              >
+                18300240232
+              </a>
+              ，如果你想更好的使用本站，也欢迎支持一下
+              <Image
+                preview={false}
+                src={"./IMG_1300.jpg"}
+                alt={"收款码"}
+                style={{ flex: 1, width: "100%", borderRadius: 32 }}
+              />
             </div>
           ),
         });
