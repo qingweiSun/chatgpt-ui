@@ -18,6 +18,11 @@ export default function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
         ></meta>
+        <meta name="color-scheme" content="light dark"></meta>
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="default"
+        ></meta>
       </head>
       <body>{children}</body>
     </html>

@@ -5,16 +5,14 @@ import IdContext from "@/app/hooks/use-chat-id";
 import AppContext from "@/app/hooks/use-style";
 import ChatView from "@/app/pages/chat";
 import { NextUIProvider, createTheme } from "@nextui-org/react";
-import { Image, Typography, notification } from "antd";
+import { Image, notification } from "antd";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { copyToClipboard } from "../chat/markdown-text";
 import NoteView from "../note/note";
 import styles from "./home.module.css";
-import { copyToClipboard } from "../chat/markdown-text";
-import RewardView from "@/app/components/Reward";
 
-const { Paragraph } = Typography;
 export default function Home() {
   const { isMobile } = useContext(context);
   const { mode, setMode } = useContext(AppContext);
@@ -86,7 +84,7 @@ export default function Home() {
               >
                 18300240232
               </a>
-              ，如果你想更好的使用本站，也欢迎支持一下
+              ，如果你想更好的使用本站，也欢迎支持一下。另外，请不要在微信内打开
               <Image
                 preview={false}
                 src={"./IMG_1300.jpg"}
