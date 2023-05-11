@@ -1,17 +1,18 @@
 import Slider, { HistoryItem } from "@/app/components/slider";
-import styles from "./home.module.css";
-import ChatView from "@/app/pages/chat";
-import { useContext, useEffect, useState } from "react";
-import { context } from "@/app/hooks/context-mobile";
-import AppContext from "@/app/hooks/use-style";
-import IdContext from "@/app/hooks/use-chat-id";
-import { toast } from "react-hot-toast";
 import { db } from "@/app/db/db";
-import { useLiveQuery } from "dexie-react-hooks";
+import { context } from "@/app/hooks/context-mobile";
+import IdContext from "@/app/hooks/use-chat-id";
+import AppContext from "@/app/hooks/use-style";
+import ChatView from "@/app/pages/chat";
 import { NextUIProvider, createTheme } from "@nextui-org/react";
+import { Typography, notification } from "antd";
+import { useLiveQuery } from "dexie-react-hooks";
+import { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import NoteView from "../note/note";
+import styles from "./home.module.css";
 
+const { Paragraph } = Typography;
 export default function Home() {
   const { isMobile } = useContext(context);
   const { mode, setMode } = useContext(AppContext);
@@ -52,6 +53,27 @@ export default function Home() {
   const lightTheme = createTheme({
     type: "light",
   });
+
+  useEffect(() => {
+    //每天触发一次
+    const lastShowTime = localStorage.getItem("show_notification_time") ?? "";
+    const now = new Date().toLocaleDateString();
+    if (lastShowTime != now) {
+      localStorage.setItem("show_notification_time", now);
+      notification.info({
+        message: "需要自建吗？",
+        duration: 0,
+        description: (
+          <div>
+            随着本站用户量的增长，成本也在逐渐增高，如果你需要更好的体验，我可以帮你自建，12美元/月的消费就可以支持到几十个人使用(这
+            12
+            美元不是给我的)，均摊下来也很便宜，你可以给别人付费使用，如果你有意向请加微信：
+            <Paragraph copyable>18300240232</Paragraph>
+          </div>
+        ),
+      });
+    }
+  }, []);
   return (
     <>
       <NextUIProvider theme={isDarkMode ? darkTheme : lightTheme} />
