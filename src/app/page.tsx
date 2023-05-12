@@ -34,6 +34,7 @@ export default function Index() {
 
   const [gpt, setGpt] = useState<{
     key: string;
+    password: string;
     temperature: string;
     presencePenalty: string;
     maxTokens: string;
@@ -123,7 +124,7 @@ export default function Index() {
               </IdContext.Provider>
             </MobileProvider>
           </ConfigProvider>
-          <Analytics />
+          {/* <Analytics /> */}
           {/*https://github.com/timolins/react-hot-toast*/}
           <Toaster />
         </Fragment>

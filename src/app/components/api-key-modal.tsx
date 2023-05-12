@@ -1,23 +1,20 @@
+import { context } from "@/app/hooks/context-mobile";
+import AppContext from "@/app/hooks/use-style";
 import {
   Button,
-  Card,
   ConfigProvider,
   Input,
-  InputNumber,
   Modal,
   Segmented,
   Slider,
   Space,
 } from "antd";
-import React, { useContext, useState } from "react";
-import { CloseSquare, Setting } from "react-iconly";
-import AppContext from "@/app/hooks/use-style";
-import { context } from "@/app/hooks/context-mobile";
-import styles from "./delete.module.css";
-import GptContext from "../hooks/use-gpt";
-import { useTheme } from "@nextui-org/react";
-import { useMediaQuery } from "react-responsive";
+import { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
+import { CloseSquare, Setting } from "react-iconly";
+import { useMediaQuery } from "react-responsive";
+import GptContext from "../hooks/use-gpt";
+import styles from "./delete.module.css";
 
 const { TextArea } = Input;
 
@@ -46,7 +43,10 @@ export default function ApiKeyModal(props: {
   const [defaultModel, setDefaultModel] = useState<string>(
     localStorage.getItem("defaultMode") ?? "default"
   );
-
+  const [isElectron, setIsElectron] = useState(
+    typeof navigator !== "undefined" &&
+      navigator.userAgent.indexOf("Electron") !== -1
+  );
   //余额查询
   async function updateBilling(key: string) {
     try {
@@ -87,10 +87,9 @@ export default function ApiKeyModal(props: {
         width={600}
         cancelText={"取消"}
         closeIcon={
-          <CloseSquare
-            set="curved"
-            primaryColor={isDarkMode ? "#bbbbbb" : undefined}
-          />
+          <a>
+            <CloseSquare set="curved" />
+          </a>
         }
         afterClose={() => {
           setShowCostType(props.showCostType);
@@ -102,52 +101,7 @@ export default function ApiKeyModal(props: {
         onCancel={() => {
           setApiKeyModalOpen(false);
         }}
-        footer={
-          [
-            // <Space key={"footer"}>
-            //   {/* <Button
-            //     onClick={async () => {
-            //       setLoading(true);
-            //       const newBalance: any[] = [];
-            //       // if (gpt.key.length > 0) {
-            //       //   for (const key of apiKey.split("\n")) {
-            //       //     const v = await updateBilling(key);
-            //       //     newBalance.push(v);
-            //       //     setLoading(false);
-            //       //   }
-            //       // } else {
-            //       //   setLoading(false);
-            //       // }
-            //     }}
-            //   >
-            //     余额查询
-            //   </Button> */}
-            //   <Button
-            //     type="primary"
-            //     size="large"
-            //     onClick={() => {
-            //       setApiKeyModalOpen(false);
-            //     }}
-            //   >
-            //     关闭
-            //   </Button>
-            //   {/* <Button
-            //     type={"primary"}
-            //     onClick={() => {
-            //       setApiKeyModalOpen(false);
-            //       window.localStorage.setItem("temperature", temperature);
-            //       props.updateTemperature(temperature);
-            //       props.setApiKey(apiKey);
-            //       props.updateShowCostType(showCostType);
-            //       props.updatePresencePenalty(presencePenalty);
-            //       props.updateMaxTokens(maxTokens);
-            //     }}
-            //   >
-            //     确定
-            //   </Button> */}
-            // </Space>,
-          ]
-        }
+        footer={[]}
       >
         <div style={{ height: 8 }} />
         <Space direction={"vertical"} style={{ width: "100%" }} size={16}>
@@ -180,6 +134,35 @@ export default function ApiKeyModal(props: {
                 }
               }}
             />
+          </div>
+          <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
+            访问码：
+            <Input
+              className="custom-prompt"
+              value={gpt?.password}
+              bordered={!isDarkMode}
+              size={"large"}
+              style={{
+                fontSize: 13,
+                flex: 1,
+                background: isDarkMode ? "#2b2f31" : undefined,
+                color: isDarkMode ? "#cccccc" : undefined,
+              }}
+              placeholder={"请输入访问密码，如果你认识开发者，可以问他要"}
+              onChange={(e) => {
+                if (gpt) {
+                  setGpt({ ...gpt, password: e.target.value });
+                }
+              }}
+            />
+          </div>
+          <div
+            style={{
+              color: "#666666",
+              fontSize: 12,
+            }}
+          >
+            如果你没有 apikey，可以使用开发者提供的访问密码
           </div>
           <Space direction={"vertical"} size={0} style={{ width: "100%" }}>
             <div
@@ -423,37 +406,43 @@ export default function ApiKeyModal(props: {
               简洁模式使得答案会更简练并且节省tokens，但是可能会导致答案不够优质，如果您需要更好的的答案，请点击恢复系统设定。
             </div>
           </Space>
-          <Button
-            loading={loading}
-            style={{
-              background: isDarkMode ? "#2b2f31" : undefined,
-              color: isDarkMode ? "#cccccc" : undefined,
-              borderColor: isDarkMode ? "#2b2f31" : undefined,
-            }}
-            onClick={async () => {
-              setLoading(true);
-              const response = await fetch("https://qingwei.icu/api/billing", {
-                method: "POST",
-                body: JSON.stringify({
-                  apiKey: gpt?.key,
-                }),
-              });
+          {isElectron ||
+            ((gpt?.key?.length ?? 0) > 0 && (
+              <Button
+                loading={loading}
+                style={{
+                  background: isDarkMode ? "#2b2f31" : undefined,
+                  color: isDarkMode ? "#cccccc" : undefined,
+                  borderColor: isDarkMode ? "#2b2f31" : undefined,
+                }}
+                onClick={async () => {
+                  setLoading(true);
+                  const response = await fetch(
+                    "https://qingwei.icu/api/billing",
+                    {
+                      method: "POST",
+                      body: JSON.stringify({
+                        apiKey: gpt?.key,
+                      }),
+                    }
+                  );
 
-              if (response.status == 200) {
-                const temp = await response.json();
-                if (temp.status == "success") {
-                  setBalance(temp);
-                  setLoading(false);
-                } else {
-                  toast.error(temp.message);
-                }
-              } else {
-                setLoading(false);
-              }
-            }}
-          >
-            余额查询
-          </Button>
+                  if (response.status == 200) {
+                    const temp = await response.json();
+                    if (temp.status == "success") {
+                      setBalance(temp);
+                      setLoading(false);
+                    } else {
+                      toast.error(temp.message);
+                    }
+                  } else {
+                    setLoading(false);
+                  }
+                }}
+              >
+                余额查询
+              </Button>
+            ))}
           {balance && (
             <Space direction="vertical">
               <div style={{ marginTop: 4 }}>

@@ -4,6 +4,7 @@ const GptContext = createContext<{
   gpt:
     | {
         key: string;
+        password: string;
         temperature: string;
         presencePenalty: string;
         maxTokens: string;
@@ -11,14 +12,22 @@ const GptContext = createContext<{
     | undefined;
   setGpt: (gpt: {
     key: string;
+    password: string;
     temperature: string;
     presencePenalty: string;
     maxTokens: string;
   }) => void;
 }>({
-  gpt: { key: "", temperature: "", presencePenalty: "", maxTokens: "" },
+  gpt: {
+    key: "",
+    password: "",
+    temperature: "",
+    presencePenalty: "",
+    maxTokens: "",
+  },
   setGpt: (gpt: {
     key: string;
+    password: string;
     temperature: string;
     presencePenalty: string;
     maxTokens: string;

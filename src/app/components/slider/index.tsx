@@ -220,9 +220,9 @@ export default function Slider(props: {
             }}
           >
             <div style={{ height: 16 }} />
-            <div className={styles.title}>ChatGPT</div>
+            <div className={styles.title}>AskMe</div>
             <div className={styles.sub}>
-              Based on OpenAI API (gpt-3.5-turbo).
+              Based on AI , Please Ask Me nything .
             </div>
           </div>
         </div>

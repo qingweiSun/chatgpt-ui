@@ -64,6 +64,7 @@ export function EditDrawerView(props: {
         <TextArea
           size="large"
           value={value}
+          autoFocus
           defaultValue={props.content}
           autoSize={{ minRows: 3, maxRows: 20 }}
           style={{
@@ -183,6 +184,7 @@ export function AddDrawerView(props: {
       <div style={{ width: "100%", display: "flex", gap: 12 }}>
         <TextArea
           size="large"
+          autoFocus
           value={value}
           defaultValue={props.content}
           autoSize={{ minRows: 3, maxRows: 20 }}
