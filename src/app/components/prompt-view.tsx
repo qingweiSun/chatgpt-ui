@@ -3,13 +3,14 @@ import AiLOGO from "@/app/icons/bot.svg";
 import AiLOGODark from "@/app/icons/bot_dark.svg";
 
 import styles from "@/app/pages/chat/index.module.css";
-import { ConfigProvider, Tag, Tooltip } from "antd";
+import { ConfigProvider, Tag } from "antd";
 import Image from "next/image";
 import { useContext, useState } from "react";
 import { Edit } from "react-iconly";
 import { useMediaQuery } from "react-responsive";
 import { context } from "../hooks/context-mobile";
 import { EditDrawerView } from "./edit/edit-drawer";
+import { Tooltip } from "@nextui-org/react";
 export default function PromptView(props: {
   setPrompt: (text: string) => void;
 }) {
@@ -47,13 +48,14 @@ export default function PromptView(props: {
           name: "JavaScript 控制台",
           desc: "我想让你充当一个 javascript 控制台。我将输入命令，你将回答 javascript 控制台应该显示什么。我希望你只回答一个独特的代码块内的终端输出，而不是其他。不要写解释",
         },
-        {
-          name: "Python 解释器",
-          desc: "我想让你像一个 Python 解释器一样行事。我将给你 Python 代码，你将执行它。不要提供任何解释。除了代码的输出，不要用任何东西来回应",
-        },
+
         {
           name: "java 教师",
           desc: "我想让你充当一位java教师。我将提供有关代码问题的具体信息，而你的工作就是想出为我解决问题的策略。这可能包括建议代码、代码逻辑思路策略，以注释的方式尽可能的对每行代码进行解释，让我通俗易懂的学会java",
+        },
+        {
+          name: "Python 解释器",
+          desc: "我想让你像一个 Python 解释器一样行事。我将给你 Python 代码，你将执行它。不要提供任何解释。除了代码的输出，不要用任何东西来回应",
         },
         {
           name: "SQL 终端",
@@ -113,10 +115,7 @@ export default function PromptView(props: {
           name: "花哨的标题生成器",
           desc: "我想让你充当一个花哨的标题生成器。我会用逗号输入关键字，你会用花哨的标题回复。你应该只回复标题，而不是其他。不要写解释",
         },
-        {
-          name: "语言润色",
-          desc: "我希望对我的文字进行润色，能否请您帮我检查一下我的语法、用词和表达是否准确，并做出优化",
-        },
+
         {
           name: "语言输入优化",
           desc: "请用简洁明了的语言，编辑以下段落，以改善其逻辑流程，消除任何印刷错误，并以中文作答。请务必保持文章的原意。请从编辑以下文字开始",
@@ -201,7 +200,7 @@ export default function PromptView(props: {
       ],
     },
   ];
-  const colors = ["purple", "magenta", "blue"];
+  const colors = ["blue"];
 
   const { isMobile } = useContext(context);
   const [showCustomPrompt, setShowCustomPrompt] = useState(false);
@@ -277,35 +276,35 @@ export default function PromptView(props: {
                           colors[Math.floor(Math.random() * colors.length)];
                         return (
                           <div key={index}>
-                            <ConfigProvider
-                              theme={{
-                                token: {
-                                  borderRadius: 12,
-                                },
+                            <Tooltip
+                              content={value.desc}
+                              hideArrow
+                              placement="bottom"
+                              css={{
+                                maxWidth: 400,
+                                maxHeight: 300,
+                                overflow: "hidden",
+                                border: "1px solid #e9e9e9",
                               }}
                             >
-                              <Tooltip
-                                title={value.desc}
-                                color={color}
-                                overlayStyle={{ maxWidth: 500 }}
+                              <Tag
+                                style={{
+                                  cursor: "pointer",
+                                  borderColor: isDarkMode
+                                    ? "#333333"
+                                    : "#e0e0e0",
+                                  color: isDarkMode ? "#cccccc" : "#444444",
+                                  backgroundColor: isDarkMode
+                                    ? "#1a1a1a"
+                                    : "#f7f7f7",
+                                }}
+                                onClick={() => {
+                                  props.setPrompt(value.desc);
+                                }}
                               >
-                                <Tag
-                                  color={isDarkMode ? "#222222" : color}
-                                  style={{
-                                    cursor: "pointer",
-                                    borderColor: isDarkMode
-                                      ? "#333333"
-                                      : undefined,
-                                    color: isDarkMode ? "#cccccc" : undefined,
-                                  }}
-                                  onClick={() => {
-                                    props.setPrompt(value.desc);
-                                  }}
-                                >
-                                  {value.name}
-                                </Tag>
-                              </Tooltip>
-                            </ConfigProvider>
+                                {value.name}
+                              </Tag>
+                            </Tooltip>
                           </div>
                         );
                       })}

@@ -80,8 +80,8 @@ export default function Index() {
         top: false,
       });
       db.sliders.put({
-        id: 1000,
-        title: "新的会话1000",
+        id: 10000,
+        title: "新的会话10000",
         top: false,
       });
       setId({ id: 1 });
@@ -124,7 +124,7 @@ export default function Index() {
               </IdContext.Provider>
             </MobileProvider>
           </ConfigProvider>
-          {/* <Analytics /> */}
+          <Analytics />
           {/*https://github.com/timolins/react-hot-toast*/}
           <Toaster />
         </Fragment>

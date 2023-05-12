@@ -16,12 +16,7 @@ import { useMediaQuery } from "react-responsive";
 import GptContext from "../hooks/use-gpt";
 import styles from "./delete.module.css";
 
-const { TextArea } = Input;
-
-export default function ApiKeyModal(props: {
-  showCostType: "tokens" | "$" | "none";
-  updateShowCostType: (e: "tokens" | "$" | "none") => void;
-}) {
+export default function ApiKeyModal(props: {}) {
   const [apiKeyModalOpen, setApiKeyModalOpen] = useState<boolean>(false);
 
   const [balance, setBalance] = useState<{
@@ -91,9 +86,7 @@ export default function ApiKeyModal(props: {
             <CloseSquare set="curved" />
           </a>
         }
-        afterClose={() => {
-          setShowCostType(props.showCostType);
-        }}
+        afterClose={() => {}}
         okText={"关闭"}
         onOk={() => {
           setApiKeyModalOpen(false);
@@ -406,43 +399,42 @@ export default function ApiKeyModal(props: {
               简洁模式使得答案会更简练并且节省tokens，但是可能会导致答案不够优质，如果您需要更好的的答案，请点击恢复系统设定。
             </div>
           </Space>
-          {isElectron ||
-            ((gpt?.key?.length ?? 0) > 0 && (
-              <Button
-                loading={loading}
-                style={{
-                  background: isDarkMode ? "#2b2f31" : undefined,
-                  color: isDarkMode ? "#cccccc" : undefined,
-                  borderColor: isDarkMode ? "#2b2f31" : undefined,
-                }}
-                onClick={async () => {
-                  setLoading(true);
-                  const response = await fetch(
-                    "https://qingwei.icu/api/billing",
-                    {
-                      method: "POST",
-                      body: JSON.stringify({
-                        apiKey: gpt?.key,
-                      }),
-                    }
-                  );
-
-                  if (response.status == 200) {
-                    const temp = await response.json();
-                    if (temp.status == "success") {
-                      setBalance(temp);
-                      setLoading(false);
-                    } else {
-                      toast.error(temp.message);
-                    }
-                  } else {
-                    setLoading(false);
+          {(isElectron || (gpt?.key?.length ?? 0) > 0) && (
+            <Button
+              loading={loading}
+              style={{
+                background: isDarkMode ? "#2b2f31" : undefined,
+                color: isDarkMode ? "#cccccc" : undefined,
+                borderColor: isDarkMode ? "#2b2f31" : undefined,
+              }}
+              onClick={async () => {
+                setLoading(true);
+                const response = await fetch(
+                  "https://qingwei.icu/api/billing",
+                  {
+                    method: "POST",
+                    body: JSON.stringify({
+                      apiKey: gpt?.key,
+                    }),
                   }
-                }}
-              >
-                余额查询
-              </Button>
-            ))}
+                );
+
+                if (response.status == 200) {
+                  const temp = await response.json();
+                  if (temp.status == "success") {
+                    setBalance(temp);
+                    setLoading(false);
+                  } else {
+                    toast.error(temp.message);
+                  }
+                } else {
+                  setLoading(false);
+                }
+              }}
+            >
+              余额查询
+            </Button>
+          )}
           {balance && (
             <Space direction="vertical">
               <div style={{ marginTop: 4 }}>

@@ -33,6 +33,7 @@ export default function WifiView(props: {
       hideArrow
       css={{
         width: props.item.openNetwork ?? false ? 200 : "unset",
+        border: "1px solid #e9e9e9",
       }}
     >
       <Navbar.Item>

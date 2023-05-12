@@ -87,6 +87,7 @@ export function SelectButtonView(props: {
             opacity: isDarkMode ? 0.6 : 0.8,
             margin: "0 12px",
             fontWeight: 400,
+            height: 38,
             flex: "0 0 auto",
             justifyContent: "start",
             backdropFilter: "blur(4px)",

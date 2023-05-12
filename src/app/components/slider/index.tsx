@@ -222,7 +222,7 @@ export default function Slider(props: {
             <div style={{ height: 16 }} />
             <div className={styles.title}>AskMe</div>
             <div className={styles.sub}>
-              Based on AI , Please Ask Me nything .
+              based on AI , please ask me anything .
             </div>
           </div>
         </div>
@@ -450,6 +450,7 @@ function HistoryItemView(props: {
             : "#444444",
           borderWidth: 1,
           paddingLeft: 8,
+          height: 38,
           lineHeight: "unset !important",
           margin: "0 12px",
           fontWeight: props.current ? 500 : 400,

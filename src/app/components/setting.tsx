@@ -6,7 +6,7 @@ import { context } from "@/app/hooks/context-mobile";
 import ApiKeyModal from "@/app/components/api-key-modal";
 
 export default function SettingModal(props: {}) {
-  return <ApiKeyModal showCostType={"tokens"} updateShowCostType={() => {}} />;
+  return <ApiKeyModal />;
 }
 
 export function exportMarkdown(props: { messages: ChatMessage[] }) {
