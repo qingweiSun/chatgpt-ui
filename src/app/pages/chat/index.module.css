@@ -122,7 +122,15 @@
 .toggle {
     display: none;
 }
-
+.tag{
+    color: #0072F5;
+    text-decoration: underline;
+    font-size: 12px;
+}
+.tag:hover{
+    text-decoration: underline;
+    color: #965aed;
+}
 
 /*媒体查询*/
 @media screen and (max-width: 768px) {

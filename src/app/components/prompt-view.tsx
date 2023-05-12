@@ -283,23 +283,14 @@ export default function PromptView(props: {
                                 border: "1px solid #e9e9e9",
                               }}
                             >
-                              <Tag
-                                style={{
-                                  cursor: "pointer",
-                                  borderColor: isDarkMode
-                                    ? "#333333"
-                                    : "#e0e0e0",
-                                  color: isDarkMode ? "#cccccc" : "#444444",
-                                  backgroundColor: isDarkMode
-                                    ? "#1a1a1a"
-                                    : "#f7f7f7",
-                                }}
+                              <a
+                                className={styles.tag}
                                 onClick={() => {
                                   props.setPrompt(value.desc);
                                 }}
                               >
                                 {value.name}
-                              </Tag>
+                              </a>
                             </Tooltip>
                           </div>
                         );
