@@ -200,7 +200,6 @@ export default function PromptView(props: {
       ],
     },
   ];
-  const colors = ["blue"];
 
   const { isMobile } = useContext(context);
   const [showCustomPrompt, setShowCustomPrompt] = useState(false);
@@ -272,8 +271,6 @@ export default function PromptView(props: {
                     </div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                       {value.value.map((value, index, array) => {
-                        const color =
-                          colors[Math.floor(Math.random() * colors.length)];
                         return (
                           <div key={index}>
                             <Tooltip
@@ -281,8 +278,7 @@ export default function PromptView(props: {
                               hideArrow
                               placement="bottom"
                               css={{
-                                maxWidth: 400,
-                                maxHeight: 300,
+                                maxWidth: value.desc.length > 200 ? 600 : 400,
                                 overflow: "hidden",
                                 border: "1px solid #e9e9e9",
                               }}
