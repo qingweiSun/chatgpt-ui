@@ -27,9 +27,7 @@ export default function ApiKeyModal(props: {}) {
     total_available: any;
   }>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [showCostType, setShowCostType] = useState<"tokens" | "$" | "none">(
-    props.showCostType
-  );
+
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
   const { mode, setMode } = useContext(AppContext);
