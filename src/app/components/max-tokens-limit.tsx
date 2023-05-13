@@ -32,7 +32,12 @@ export default function MaxTokensLimit(props: {
     {
       value: "four",
       desc: "携带上次问答",
-      tip: "携带角色属性，理解最近上下文，便于二次提问",
+      tip: "携带角色属性和最近一次的问答",
+    },
+    {
+      value: "five",
+      desc: "5分钟内连续",
+      tip: "携带角色属性和5分钟内的消息",
     },
   ];
   return (
@@ -77,8 +82,7 @@ export default function MaxTokensLimit(props: {
             >
               <div
                 style={{
-                  padding: 8,
-                  gap: 2,
+                  padding: "4px 0",
                   display: "flex",
                   flexDirection: "column",
                 }}

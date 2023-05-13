@@ -15,6 +15,7 @@ import { ChatMessage } from "../chat";
 import { Empty } from "antd";
 import BotChatTextView from "../chat/bot-chat-text-view";
 import MobileSlider from "@/app/components/slider/mobile";
+import stylesNote from "./index.module.css";
 export default function NoteView() {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
@@ -29,8 +30,31 @@ export default function NoteView() {
     localStorage.setItem("historyList" + 2, JSON.stringify(messages));
   }, [messages]);
 
+  // useEffect(() => {
+  //   document.fonts.load("GB2312").then(() => {
+  //     alert("Font loaded");
+  //   });
+  // }, []);
+
   return (
     <div className={styles.container}>
+      {/* <div
+        className={stylesNote.txt}
+        style={{
+          opacity: isDarkMode ? 0.1 : 0.1,
+        }}
+      >
+        <div>豪情在天,谁能与我争锋。</div>
+        <div>青锋在手,谁能一剑屠龙。</div>
+        <div>中原逐鹿方,显英雄本色。</div>
+        <div>武林风起,自当气吞山河。</div>
+        <div>仗剑八万里,横戈天地间。</div>
+        <div>侠骨傲群英,江湖任我行。</div>
+        <div>绝世有神功,忠义写胸中。</div>
+        <div>浩荡英雄气,叱咤武林风。</div>
+        <div style={{ width: 20 }} />
+        <div>武林风|侯健</div>
+      </div> */}
       <div
         style={{
           height: "100%",
@@ -54,9 +78,8 @@ export default function NoteView() {
           containerCss={{
             backgroundColor: isDarkMode
               ? "rgba(17, 17, 17, 0.8) !important"
-              : "rgba(247, 247, 247, 0.7) !important",
-            borderBottom: `1px solid ${isDarkMode ? "#1a1a1a" : "#eeeeee"}`,
-            boxShadow: "0 2px 4px rgb(0 0 0 / 1%)",
+              : "rgba(243, 243, 243, 0.7) !important",
+            borderBottom: `1px solid ${isDarkMode ? "#1a1a1a" : "#ebebeb"}`,
             minHeight: 68,
             height: 68,
           }}

@@ -99,6 +99,32 @@ export async function generateMessage(
         messagesValue.push(qaList[qaList.length - 1].data);
       }
       break;
+    case "five":
+      // 获取当前时间的时间戳
+      var now = new Date().getTime();
+      //携带 5分钟内的消息
+      const fiveList = param.filter((message) => {
+        if (message.time) {
+          // 将字符串格式转换为时间戳
+          var timestamp = Date.parse(message.time);
+          if (now - timestamp <= 5 * 60 * 1000) {
+            return message.data.role != "system";
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      });
+      //获取系统消息
+      const systemMessagesFive = param.filter(
+        (message) => message.data.role == "system"
+      );
+      if (systemMessagesFive.length > 0) {
+        messagesValue.push(systemMessagesFive[0].data);
+      }
+      messagesValue = messagesValue.concat(fiveList.map((item) => item.data));
+      break;
   }
 
   tempStatus = "";

@@ -1,0 +1,12 @@
+
+.txt{
+    position: absolute;
+    top: 68px;
+    padding: 16px;
+    right: 0;
+    writing-mode: vertical-rl;  
+    text-orientation: upright;  
+    font-size: 40px;
+    font-family: 'GB2312';
+    white-space: pre-wrap
+}
