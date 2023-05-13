@@ -253,7 +253,7 @@ export default function PromptView(props: {
                 flex: 1,
                 display: "flex",
                 flexDirection: "column",
-                gap: 24,
+                gap: 16,
               }}
             >
               {data.map((value, index, array) => {
@@ -263,7 +263,7 @@ export default function PromptView(props: {
                     style={{
                       display: "flex",
                       flexDirection: "column",
-                      gap: 12,
+                      gap: 8,
                     }}
                   >
                     <div style={{ fontSize: 15, fontWeight: 500 }}>
@@ -272,27 +272,26 @@ export default function PromptView(props: {
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                       {value.value.map((value, index, array) => {
                         return (
-                          <div key={index}>
-                            <Tooltip
-                              content={value.desc}
-                              hideArrow
-                              placement="bottom"
-                              css={{
-                                maxWidth: value.desc.length > 200 ? 600 : 400,
-                                overflow: "hidden",
-                                border: "1px solid #e9e9e9",
+                          <Tooltip
+                            key={index}
+                            content={value.desc}
+                            hideArrow
+                            placement="bottom"
+                            css={{
+                              maxWidth: value.desc.length > 200 ? 600 : 400,
+                              overflow: "hidden",
+                              border: "1px solid #e9e9e9",
+                            }}
+                          >
+                            <a
+                              className={styles.tag}
+                              onClick={() => {
+                                props.setPrompt(value.desc);
                               }}
                             >
-                              <a
-                                className={styles.tag}
-                                onClick={() => {
-                                  props.setPrompt(value.desc);
-                                }}
-                              >
-                                {value.name}
-                              </a>
-                            </Tooltip>
-                          </div>
+                              {value.name}
+                            </a>
+                          </Tooltip>
                         );
                       })}
                     </div>
