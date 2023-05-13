@@ -79,11 +79,6 @@ export default function ApiKeyModal(props: {}) {
         destroyOnClose
         width={600}
         cancelText={"取消"}
-        closeIcon={
-          <a>
-            <CloseSquare set="curved" />
-          </a>
-        }
         afterClose={() => {}}
         okText={"关闭"}
         onOk={() => {

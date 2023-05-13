@@ -236,7 +236,7 @@ export default function ChatView(props: { item: HistoryItem }) {
           containerCss={{
             backgroundColor: isDarkMode
               ? "rgba(17, 17, 17, 0.8) !important"
-              : "rgba(243, 244, 245, 0.7) !important",
+              : "rgba(243, 243, 243, 0.7) !important",
             borderBottom: `1px solid ${isDarkMode ? "#1a1a1a" : "#ebebeb"}`,
             minHeight: 68,
             height: 68,

@@ -240,4 +240,17 @@ input, textarea {
     .ant-input::placeholder {
         color: #999 !important;
     }
+
+    .ant-notification{
+        color: #cccccc !important;
+    }
+    .ant-notification-notice{
+        background-color: #2b2f31 !important;
+    }
+    .ant-notification-notice-message{
+        color: #eeeeee !important;
+    }
+    .anticon-close{
+        color: #cccccc !important;
+    }
 }

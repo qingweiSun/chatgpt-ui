@@ -1,11 +1,12 @@
 import { context } from "@/app/hooks/context-mobile";
-import { Button, Card, ConfigProvider, Image, Space, notification } from "antd";
+import { Button, Card, ConfigProvider, Image, notification } from "antd";
 import { useContext, useEffect, useState } from "react";
-import { CloseSquare, Scan } from "react-iconly";
+import { Danger, Notification, Scan, VolumeUp } from "react-iconly";
 import { useMediaQuery } from "react-responsive";
-import styles from "./delete.module.css";
-import { Modal, Text } from "@nextui-org/react";
 import { copyToClipboard } from "../pages/chat/markdown-text";
+import styles from "./delete.module.css";
+import { SmileOutlined } from "@ant-design/icons";
+
 export default function RewardView() {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
@@ -17,7 +18,7 @@ export default function RewardView() {
 
   function showPop() {
     notification.info({
-      message: "需要自建吗？",
+      message: "捐赠",
       duration: 0,
       description: (
         <div
@@ -35,13 +36,10 @@ export default function RewardView() {
           >
             18300240232
           </a>
-          ，如果你想更好的使用本站，也欢迎支持一下。另外，请不要在微信内打开
-          <Image
-            preview={false}
-            src={"./IMG_1300.jpg"}
-            alt={"收款码"}
-            style={{ flex: 1, width: "100%", borderRadius: 32 }}
-          />
+          ，如果你想更好的使用本站，也欢迎支持一下；另外，请不要在微信内打开。
+          <Card style={{ marginTop: 16 }}>
+            <Image preview={false} src={"./IMG_1300.jpg"} alt={"收款码"} />
+          </Card>
         </div>
       ),
     });

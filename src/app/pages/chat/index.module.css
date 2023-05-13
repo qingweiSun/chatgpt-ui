@@ -3,7 +3,7 @@
     position: relative;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    background: #f3f4f5;
+    background: #f3f3f3;
     flex: 1;
 }
 
@@ -107,7 +107,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(243, 244, 245, 0.7);
+    background: rgba(243, 243, 243, 0.7);
     backdrop-filter: blur(12px) saturate(180%) ;/* saturate(180%) blur(var(--nextui--navbarBlur)) */
     -webkit-backdrop-filter: blur(12px) saturate(180%);
     /* padding: 10px;
@@ -124,7 +124,7 @@
 .tag{
     color: #0072F5;
     text-decoration: underline;
-    font-size: 12px;
+    font-size: 13px;
 }
 .tag:hover{
     text-decoration: underline;
