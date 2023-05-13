@@ -222,7 +222,7 @@ export default function Slider(props: {
             <div style={{ height: 16 }} />
             <div className={styles.title}>AskMe</div>
             <div className={styles.sub}>
-              based on AI , please ask me anything .
+              based on ai , please ask me anything .
             </div>
           </div>
         </div>

@@ -112,8 +112,7 @@
     -webkit-backdrop-filter: blur(12px) saturate(180%);
     /* padding: 10px;
     padding-top: 20px; */
-    border-top: 1px solid #e9e9e9;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 1%);
+    border-top: 1px solid #ebebeb;
     display: flex;
     gap: 12px;
     /* border-top:1px solid #eeeeee */

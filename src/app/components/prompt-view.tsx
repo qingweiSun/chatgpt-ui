@@ -280,7 +280,9 @@ export default function PromptView(props: {
                             css={{
                               maxWidth: value.desc.length > 200 ? 600 : 400,
                               overflow: "hidden",
-                              border: "1px solid #e9e9e9",
+                              border: isDarkMode
+                                ? "1px solid #393a3c"
+                                : "1px solid #e9e9e9",
                             }}
                           >
                             <a
