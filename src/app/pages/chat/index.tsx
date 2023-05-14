@@ -292,7 +292,7 @@ export default function ChatView(props: { item: HistoryItem }) {
                 <Filter set="curved" size={23} />
               </MaxTokensLimit>
             </Navbar.Item>
-            <WifiView className={styles.link} item={props.item} />
+            {/* <WifiView className={styles.link} item={props.item} /> */}
             <Tooltip
               content={
                 <div
