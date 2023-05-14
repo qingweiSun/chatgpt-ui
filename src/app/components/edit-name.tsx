@@ -58,7 +58,13 @@ export default function EditName(props: {
       </Popover.Trigger>
       <Popover.Content>
         <Grid.Container
-          css={{ borderRadius: "14px", paddingTop: 12, width: "240px" }}
+          css={{
+            borderRadius: "14px",
+            paddingTop: 12,
+            width: "240px",
+            //@ts-ignore
+            "-webkit-app-region": "no-drag",
+          }}
         >
           <Row justify="center" align="center">
             <Text b color={isDarkMode ? "#cccccc" : undefined}>
@@ -83,6 +89,28 @@ export default function EditName(props: {
               }}
               onChange={(e) => {
                 setName(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && e.altKey) {
+                  e.preventDefault();
+                  // @ts-ignore
+                  const { selectionStart, selectionEnd, value } = e.target;
+                  const textBeforeCursor = value.substring(0, selectionStart);
+                  const textAfterCursor = value.substring(
+                    selectionEnd,
+                    value.length
+                  );
+                  setName(`${textBeforeCursor}\n${textAfterCursor}`);
+                  // 将光标移到新行的开头
+                  // @ts-ignore
+                  e.target.selectionStart = selectionEnd + 1;
+                  // @ts-ignore
+                  e.target.selectionEnd = selectionEnd + 1;
+                } else if (e.key === "Enter") {
+                  e.preventDefault();
+                  props.setName(name);
+                  setVisible(false);
+                }
               }}
             />
           </div>

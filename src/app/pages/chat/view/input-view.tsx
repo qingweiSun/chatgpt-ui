@@ -218,7 +218,17 @@ export default function InputView(props: {
           }}
         />
       </Dropdown>
-      <div style={{ position: "absolute", bottom: 0, right: 0, padding: 10 }}>
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          right: 0,
+          padding: 10,
+          opacity: props.questionText.trim().length == 0 ? 0 : 1,
+          scale: props.questionText.trim().length == 0 ? 0 : 1,
+          transition: "all 0.3s",
+        }}
+      >
         <Button
           auto
           disabled={props.questionText.trim() == "" && !props.loading}

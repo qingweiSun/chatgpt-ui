@@ -147,6 +147,9 @@ export function AddDrawerView(props: {
       width={800}
       style={{
         background: "#7f7f7",
+        // -webkit-app-region: drag;
+        // @ts-ignore
+        "-webkit-app-region": "no-drag",
       }}
       onCancel={() => props.setOpen(false)}
       open={props.open}

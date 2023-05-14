@@ -79,7 +79,7 @@ export default function NoteView() {
             backgroundColor: isDarkMode
               ? "rgba(17, 17, 17, 0.8) !important"
               : "rgba(243, 243, 243, 0.7) !important",
-            borderBottom: `1px solid ${isDarkMode ? "#1a1a1a" : "#ebebeb"}`,
+            borderBottom: `1px solid ${isDarkMode ? "#1c1c1c" : "#ebebeb"}`,
             minHeight: 68,
             height: 68,
           }}
