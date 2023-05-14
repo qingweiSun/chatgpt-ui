@@ -419,9 +419,11 @@ export default function ApiKeyModal(props: {}) {
                     setLoading(false);
                   } else {
                     toast.error(temp.message);
+                    setLoading(false);
                   }
                 } else {
                   setLoading(false);
+                  toast.error(response.statusText);
                 }
               }}
             >
