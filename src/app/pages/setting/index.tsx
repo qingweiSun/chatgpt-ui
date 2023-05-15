@@ -121,9 +121,12 @@ export default function SettingView() {
                   colorBgBase: "#16181a",
                   colorTextBase: "#bbbbbb",
                   colorBgSpotlight: "#111111",
+                  paddingLG: 16,
                 }
               : {
                   borderRadius: 8,
+                  paddingLG: 16,
+                  marginLG: 16,
                 },
           }}
         >
@@ -146,13 +149,19 @@ export default function SettingView() {
             >
               访问设置
             </div>
-            <Card bordered>
+            <Card
+              bordered
+              style={{
+                boxShadow: "0 2px 4px rgb(0 0 0 / 4%), 0 0 2px rgb(0 0 0 / 2%)",
+              }}
+            >
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
                   gap: 8,
                   fontSize: 14,
+                  marginTop: 8,
                 }}
               >
                 <div style={{ fontWeight: 500 }}>API Key:</div>
@@ -216,7 +225,11 @@ export default function SettingView() {
             >
               gpt设置
             </div>
-            <Card>
+            <Card
+              style={{
+                boxShadow: "0 2px 4px rgb(0 0 0 / 4%), 0 0 2px rgb(0 0 0 / 2%)",
+              }}
+            >
               <Space direction={"vertical"} size={0} style={{ width: "100%" }}>
                 <div
                   style={{
@@ -331,7 +344,12 @@ export default function SettingView() {
               </div>
             )}
             {!isMobile && (
-              <Card>
+              <Card
+                style={{
+                  boxShadow:
+                    "0 2px 4px rgb(0 0 0 / 4%), 0 0 2px rgb(0 0 0 / 2%)",
+                }}
+              >
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <Space direction={"horizontal"}>
                     <div style={{ fontWeight: 500 }}>布局：</div>
@@ -414,7 +432,11 @@ export default function SettingView() {
             >
               其他设置
             </div>
-            <Card>
+            <Card
+              style={{
+                boxShadow: "0 2px 4px rgb(0 0 0 / 4%), 0 0 2px rgb(0 0 0 / 2%)",
+              }}
+            >
               <Space direction={"vertical"} size={6}>
                 <Space>
                   <div style={{ fontWeight: 500 }}>创建新会话时默认使用：</div>
