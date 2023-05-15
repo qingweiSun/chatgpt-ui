@@ -153,6 +153,7 @@ export default function SettingView() {
               bordered
               style={{
                 boxShadow: "0 2px 4px rgb(0 0 0 / 4%), 0 0 2px rgb(0 0 0 / 2%)",
+                borderRadius: 12,
               }}
             >
               <div
@@ -161,10 +162,10 @@ export default function SettingView() {
                   alignItems: "center",
                   gap: 8,
                   fontSize: 14,
-                  marginTop: 8,
+                  marginTop: 2,
                 }}
               >
-                <div style={{ fontWeight: 500 }}>API Key:</div>
+                <div style={{ fontWeight: 500 }}>apiKey:</div>
                 <Input
                   value={gpt?.key}
                   className="custom-prompt"
@@ -228,6 +229,7 @@ export default function SettingView() {
             <Card
               style={{
                 boxShadow: "0 2px 4px rgb(0 0 0 / 4%), 0 0 2px rgb(0 0 0 / 2%)",
+                borderRadius: 12,
               }}
             >
               <Space direction={"vertical"} size={0} style={{ width: "100%" }}>
@@ -348,6 +350,7 @@ export default function SettingView() {
                 style={{
                   boxShadow:
                     "0 2px 4px rgb(0 0 0 / 4%), 0 0 2px rgb(0 0 0 / 2%)",
+                  borderRadius: 12,
                 }}
               >
                 <div style={{ display: "flex", flexDirection: "column" }}>
@@ -435,6 +438,7 @@ export default function SettingView() {
             <Card
               style={{
                 boxShadow: "0 2px 4px rgb(0 0 0 / 4%), 0 0 2px rgb(0 0 0 / 2%)",
+                borderRadius: 12,
               }}
             >
               <Space direction={"vertical"} size={6}>
