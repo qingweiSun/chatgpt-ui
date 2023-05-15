@@ -99,7 +99,7 @@
 }
 .name:hover{
     overflow:visible;
-    animation: marquee 5s linear infinite; /*使用animation属性来设置文字滚动动画*/
+    /* animation: marquee 5s linear infinite; 使用animation属性来设置文字滚动动画 */
 }
 
 .bottom {

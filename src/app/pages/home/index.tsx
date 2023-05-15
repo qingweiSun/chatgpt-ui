@@ -5,13 +5,14 @@ import IdContext from "@/app/hooks/use-chat-id";
 import AppContext from "@/app/hooks/use-style";
 import ChatView from "@/app/pages/chat";
 import { NextUIProvider, createTheme } from "@nextui-org/react";
-import { Image, notification } from "antd";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { copyToClipboard } from "../chat/markdown-text";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import NoteView from "../note/note";
+import SettingView from "../setting";
 import styles from "./home.module.css";
+import { toast } from "react-hot-toast";
 
 export default function Home() {
   const { isMobile } = useContext(context);
@@ -30,19 +31,69 @@ export default function Home() {
     }
   };
 
-  const recordTempDb = useLiveQuery(() => {
-    return db.sliders.get(current.id);
-  }, [current]);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const recordUseTemp = useLiveQuery(() => {
+    if (location.pathname == "/chat") {
+      const params = new URLSearchParams(location.search);
+      const id = params.get("id");
+      return db.sliders.get(+(id ?? 1));
+    } else if (location.pathname == "/note") {
+      return {
+        id: 2,
+        title: "随便记记",
+        top: true,
+      };
+    } else if (location.pathname == "/settings") {
+      return {
+        id: 2,
+        title: "设置",
+        top: true,
+      };
+    }
+  }, [location]);
+
+  useEffect(() => {
+    db.on("populate", function () {
+      db.sliders.put({
+        id: 1,
+        title: "随便聊聊",
+        top: false,
+      });
+      db.sliders.put({
+        id: 10000,
+        title: "新的会话10000",
+        top: false,
+      });
+      navigate("/chat?id=10000");
+    });
+  }, []);
 
   const [recordUse, setRecordUse] = useState<HistoryItem>();
 
   useEffect(() => {
-    if (recordTempDb) {
-      setRecordUse(recordTempDb);
-    } else if (current.id == 2) {
-      setRecordUse({ id: 2, title: "随便记记", top: true });
+    if (recordUseTemp) {
+      setRecordUse(recordUseTemp);
     }
-  }, [recordTempDb]);
+  }, [recordUseTemp]);
+
+  useEffect(() => {
+    if (location.pathname == "/chat") {
+      const params = new URLSearchParams(location.search);
+      const id = params.get("id");
+      setId({ id: Number(id) });
+    } else if (location.pathname == "/note") {
+      setId({ id: 2 });
+    } else if (location.pathname == "/settings") {
+      setId({ id: 3 });
+    } else {
+      toast("未知页面");
+      const tempCurrent = JSON.stringify({ id: 1 });
+      const tempId = JSON.parse(localStorage.getItem("current") ?? tempCurrent);
+      // setId();
+      navigate("/chat?id=" + tempId.id);
+    }
+  }, [location]);
 
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
@@ -75,19 +126,30 @@ export default function Home() {
             </div>
           )}
           <div className={styles.line} />
-          {recordUse && recordUse.id != 2 && (
-            <ChatView key={recordUse.id} item={recordUse} />
-          )}
-          {recordUse && recordUse.id == 2 && <NoteView key={recordUse.id} />}
-          {!recordUse && (
-            <div
-              style={{
-                background: isDarkMode ? "#111111" : "#f7f7f7",
-                height: "100%",
-                flex: 1,
-              }}
-            />
-          )}
+          <Routes>
+            <Route path="/settings" element={<SettingView />} />
+            <Route path="/note" element={<NoteView />} />
+            {recordUse && (
+              <Route
+                path="/chat"
+                element={<ChatView item={recordUse} key={recordUse?.id} />}
+              />
+            )}
+            {!recordUse && (
+              <Route
+                path="/chat"
+                element={
+                  <div
+                    style={{
+                      background: isDarkMode ? "#111111" : "#f3f4f5",
+                      height: "100%",
+                      flex: 1,
+                    }}
+                  />
+                }
+              />
+            )}
+          </Routes>
         </div>
       </div>
     </>

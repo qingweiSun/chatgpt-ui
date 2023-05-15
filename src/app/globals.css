@@ -34,7 +34,7 @@ code {
 
 /*code的父亲组件*/
 .md-code {
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
 }
 

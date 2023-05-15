@@ -30,7 +30,7 @@ import ChatGptLogo from "../../icons/chatgpt.svg";
 import { MaxTokensLimitProps } from "../max-tokens-limit";
 import ThemeChangeView from "../theme-change";
 import styles from "./index.module.css";
-
+import { Route, Routes, useNavigate } from "react-router-dom";
 //https://react-iconly.jrgarciadev.com/ 图标
 //https://dexie.org/docs/Tutorial/React 数据库
 export interface HistoryItem {
@@ -49,8 +49,9 @@ export default function Slider(props: {
   const historyList = useLiveQuery(() =>
     db.sliders.where("id").notEqual(1).toArray()
   );
-  const { current, setId } = useContext(IdContext);
+  const { current } = useContext(IdContext);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
+  const navigate = useNavigate();
   // useEffect(() => {
   //   db.table("sliders").hook("deleting", function (primaryKey, obj) {
   //     toast("删除");
@@ -109,12 +110,14 @@ export default function Slider(props: {
             if (propsItem.onClick) {
               propsItem.onClick();
             } else {
-              setId({ id: propsItem.item.id });
+              //setId({ id: propsItem.item.id });
+              navigate(`/chat?id=${propsItem.item.id}`);
               props.closeSlider?.();
             }
           }}
           onRename={(name) => {
-            setId({ id: propsItem.item.id });
+            //   setId({ id: propsItem.item.id });
+            navigate(`/chat?id=${propsItem.item.id}`);
             props.closeSlider?.();
           }}
           onDelete={async () => {
@@ -130,24 +133,28 @@ export default function Slider(props: {
                   //首先判断删除的是不是current，如果不是，则不需要定位，如果是，则需要定位到下一个
                   if (current.id == propsItem.item.id) {
                     //定位到当前的下一个
-                    setId({
-                      id: tempList[propsItem.index].id,
-                    });
+                    // setId({
+                    //   id: tempList[propsItem.index].id,
+                    // });
+                    navigate(`/chat?id=${tempList[propsItem.index].id}`);
                   }
                 } else {
-                  setId({
-                    id: tempList[tempList.length - 1].id,
-                  });
+                  // setId({
+                  //   id: tempList[tempList.length - 1].id,
+                  // });
+                  navigate(`/chat?id=${tempList[tempList.length - 1].id}`);
                 }
               } else {
-                setId({
-                  id: 1,
-                });
+                // setId({
+                //   id: 1,
+                // });
+                navigate(`/chat?id=1`);
               }
             } else {
-              setId({
-                id: 1,
-              });
+              // setId({
+              //   id: 1,
+              // });
+              navigate(`/chat?id=1`);
             }
           }}
           isTop={propsItem.item.top}
@@ -236,7 +243,8 @@ export default function Slider(props: {
           showEdit={false}
           icon=<Message set="curved" size={17} style={{ flexShrink: 0 }} />
           onClick={() => {
-            setId({ id: 1 });
+            // setId({ id: 1 });
+            navigate(`/chat?id=${1}`);
             props.closeSlider?.();
           }}
         />
@@ -250,7 +258,8 @@ export default function Slider(props: {
           icon=<EditSquare set="curved" size={17} style={{ flexShrink: 0 }} />
           showEdit={false}
           onClick={() => {
-            setId({ id: 2 });
+            // setId({ id: 2 });
+            navigate("/note");
             props.closeSlider?.();
           }}
         />
@@ -279,7 +288,8 @@ export default function Slider(props: {
                     localStorage.removeItem(keys[i]);
                   }
                 }
-                setId({ id: 10000 });
+                //  setId({ id: 10000 });
+                navigate(`/chat?id=${10000}`);
               }}
               title="警告"
               placement="top-right"
@@ -321,7 +331,8 @@ export default function Slider(props: {
               explain:
                 (localStorage.getItem("defaultMode") ?? "default") == "default",
             });
-            setId({ id: newId });
+            // setId({ id: newId });
+            navigate(`/chat?id=${newId}`);
             props.closeSlider?.();
           }}
         >

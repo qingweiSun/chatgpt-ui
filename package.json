@@ -18,6 +18,7 @@
     "@types/node": "18.15.11",
     "@types/react": "18.0.35",
     "@types/react-dom": "18.0.11",
+    "react-router-dom": "^6.10.0",
     "@vercel/analytics": "^0.1.11",
     "antd": "^5.4.2",
     "dexie": "^3.2.3",

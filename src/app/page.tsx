@@ -14,7 +14,7 @@ import { Toaster } from "react-hot-toast";
 import { HistoryItem } from "./components/slider";
 import { db } from "./db/db";
 import GptContext from "./hooks/use-gpt";
-
+import { HashRouter as Router } from "react-router-dom";
 const theme = createTheme({
   type: "light", // it could be "light" or "dark"
   theme: {},
@@ -22,7 +22,7 @@ const theme = createTheme({
 
 export default function Index() {
   const [loading, setLoading] = useState(true);
-  const tempCurrent = JSON.stringify({ id: 1 });
+
   const [current, setId] = useState({ id: -1 });
   const [mode, setMode] = useState<{
     mode: "card" | "normal" | string;
@@ -44,48 +44,6 @@ export default function Index() {
     setLoading(false);
     setMode(JSON.parse(localStorage.getItem("mode-new") ?? "{}") ?? {});
     setGpt(JSON.parse(localStorage.getItem("gpt") ?? "{}") ?? {});
-    //获取地址栏参数
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const id = urlParams.get("id");
-    if (id) {
-      const historyList = JSON.parse(
-        localStorage.getItem("historyList") || "[]"
-      );
-      if (historyList && historyList.length > 0) {
-        let hasId = false;
-        historyList.forEach((item: HistoryItem) => {
-          if (item.id == +id) {
-            setId({ id: item.id });
-            hasId = true;
-            return;
-          }
-        });
-        if (!hasId) {
-          setId(JSON.parse(localStorage.getItem("current") ?? tempCurrent));
-        }
-      } else {
-        setId(JSON.parse(localStorage.getItem("current") ?? tempCurrent));
-      }
-    } else {
-      setId(JSON.parse(localStorage.getItem("current") ?? tempCurrent));
-    }
-  }, []);
-
-  useEffect(() => {
-    db.on("populate", function () {
-      db.sliders.put({
-        id: 1,
-        title: "随便聊聊",
-        top: false,
-      });
-      db.sliders.put({
-        id: 10000,
-        title: "新的会话10000",
-        top: false,
-      });
-      setId({ id: 1 });
-    });
   }, []);
 
   useEffect(() => {
@@ -95,9 +53,8 @@ export default function Index() {
   }, [gpt]);
 
   useEffect(() => {
-    if (current.id != -1) {
+    if (current.id > 999 || current.id == 1) {
       localStorage.setItem("current", JSON.stringify(current));
-      window.history.replaceState(null, "", "/?id=" + current.id);
     }
   }, [current]);
 
@@ -118,7 +75,9 @@ export default function Index() {
               <IdContext.Provider value={{ current, setId }}>
                 <AppContext.Provider value={{ mode, setMode }}>
                   <GptContext.Provider value={{ gpt, setGpt }}>
-                    <Home />
+                    <Router>
+                      <Home />
+                    </Router>
                   </GptContext.Provider>
                 </AppContext.Provider>
               </IdContext.Provider>

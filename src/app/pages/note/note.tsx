@@ -84,9 +84,15 @@ export default function NoteView() {
             height: 68,
           }}
         >
-          <Navbar.Brand data-tauri-drag-region>
-            <NavbarTItleView name={"随便记记"} count={messages.length} id={2} />
-          </Navbar.Brand>
+          {!isMobile && (
+            <Navbar.Brand data-tauri-drag-region>
+              <NavbarTItleView
+                name={"随便记记"}
+                count={messages.length}
+                id={2}
+              />
+            </Navbar.Brand>
+          )}
           <Navbar.Content>
             {isMobile && (
               <Navbar.Item>
