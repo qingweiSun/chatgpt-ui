@@ -127,6 +127,7 @@ export default function SettingView() {
                   borderRadius: 8,
                   paddingLG: 16,
                   marginLG: 16,
+                  fontSize: 13,
                 },
           }}
         >
@@ -152,8 +153,8 @@ export default function SettingView() {
             <Card
               bordered
               style={{
-                boxShadow: "0 2px 4px rgb(0 0 0 / 4%), 0 0 2px rgb(0 0 0 / 2%)",
                 borderRadius: 12,
+                borderColor: isDarkMode ? "#2b2f31" : "#ebebeb",
               }}
             >
               <div
@@ -169,16 +170,13 @@ export default function SettingView() {
                 <Input
                   value={gpt?.key}
                   className="custom-prompt"
-                  size={"large"}
                   style={{
                     fontSize: 13,
                     flex: isMobile ? 1 : 0.7,
                     background: isDarkMode ? "#2b2f31" : undefined,
                     color: isDarkMode ? "#cccccc" : undefined,
                   }}
-                  placeholder={
-                    "请输入您自己的apiKey，以便获得更好的体验，本站不会做任何记录"
-                  }
+                  placeholder={"请输入您自己的apiKey"}
                   onChange={(e) => {
                     if (gpt) {
                       setGpt({ ...gpt, key: e.target.value });
@@ -186,13 +184,21 @@ export default function SettingView() {
                   }}
                 />
               </div>
+              <div
+                style={{
+                  color: "#666666",
+                  fontSize: 12,
+                  marginTop: 8,
+                }}
+              >
+                请输入您自己的apiKey，以便获得更好的体验，本站不会做任何记录
+              </div>
               <Divider />
               <Space>
                 <div style={{ fontWeight: 500 }}>访问码:</div>
                 <Input
                   className="custom-prompt"
                   value={gpt?.password}
-                  size={"large"}
                   style={{
                     fontSize: 13,
                     background: isDarkMode ? "#2b2f31" : undefined,
@@ -215,6 +221,47 @@ export default function SettingView() {
               >
                 如果你没有 apikey，可以使用开发者提供的访问密码
               </div>
+              {(isElectron || (gpt?.key?.length ?? 0) > 0) && <Divider />}
+              {(isElectron || (gpt?.key?.length ?? 0) > 0) && (
+                <Space>
+                  <div>
+                    已消费：${balance?.total_used ?? "未知"}，最高额度为： $
+                    {balance?.total_granted ?? "未知"}
+                  </div>
+                  <div />
+                  <Button
+                    loading={loading}
+                    onClick={async () => {
+                      setLoading(true);
+                      const response = await fetch(
+                        "https://qingwei.icu/api/billing",
+                        {
+                          method: "POST",
+                          body: JSON.stringify({
+                            apiKey: gpt?.key,
+                          }),
+                        }
+                      );
+
+                      if (response.status == 200) {
+                        const temp = await response.json();
+                        if (temp.status == "success") {
+                          setBalance(temp);
+                          setLoading(false);
+                        } else {
+                          toast.error(temp.message);
+                          setLoading(false);
+                        }
+                      } else {
+                        setLoading(false);
+                        toast.error(response.statusText);
+                      }
+                    }}
+                  >
+                    查询
+                  </Button>
+                </Space>
+              )}
             </Card>
             <div
               style={{
@@ -224,12 +271,12 @@ export default function SettingView() {
                 marginTop: 12,
               }}
             >
-              gpt设置
+              ai设置
             </div>
             <Card
               style={{
-                boxShadow: "0 2px 4px rgb(0 0 0 / 4%), 0 0 2px rgb(0 0 0 / 2%)",
                 borderRadius: 12,
+                borderColor: isDarkMode ? "#2b2f31" : "#ebebeb",
               }}
             >
               <Space direction={"vertical"} size={0} style={{ width: "100%" }}>
@@ -305,7 +352,6 @@ export default function SettingView() {
                   <div style={{ fontWeight: 500 }}>max_tokens:</div>
                   <Input
                     placeholder={"不限制请留空"}
-                    size="large"
                     className="custom-prompt"
                     style={{
                       width: "100%",
@@ -348,9 +394,8 @@ export default function SettingView() {
             {!isMobile && (
               <Card
                 style={{
-                  boxShadow:
-                    "0 2px 4px rgb(0 0 0 / 4%), 0 0 2px rgb(0 0 0 / 2%)",
                   borderRadius: 12,
+                  borderColor: isDarkMode ? "#2b2f31" : "#ebebeb",
                 }}
               >
                 <div style={{ display: "flex", flexDirection: "column" }}>
@@ -388,7 +433,6 @@ export default function SettingView() {
                   {mode.mode != "normal" && (
                     <Space>
                       <div style={{ fontWeight: 500 }}>卡片边距：</div>
-
                       <Segmented
                         options={[
                           {
@@ -437,8 +481,8 @@ export default function SettingView() {
             </div>
             <Card
               style={{
-                boxShadow: "0 2px 4px rgb(0 0 0 / 4%), 0 0 2px rgb(0 0 0 / 2%)",
                 borderRadius: 12,
+                borderColor: isDarkMode ? "#2b2f31" : "#ebebeb",
               }}
             >
               <Space direction={"vertical"} size={6}>
@@ -475,66 +519,6 @@ export default function SettingView() {
                 </div>
               </Space>
             </Card>
-
-            {(isElectron || (gpt?.key?.length ?? 0) > 0) && (
-              <Button
-                loading={loading}
-                style={{
-                  background: isDarkMode ? "#2b2f31" : undefined,
-                  color: isDarkMode ? "#cccccc" : undefined,
-                  borderColor: isDarkMode ? "#2b2f31" : undefined,
-                }}
-                onClick={async () => {
-                  setLoading(true);
-                  const response = await fetch(
-                    "https://qingwei.icu/api/billing",
-                    {
-                      method: "POST",
-                      body: JSON.stringify({
-                        apiKey: gpt?.key,
-                      }),
-                    }
-                  );
-
-                  if (response.status == 200) {
-                    const temp = await response.json();
-                    if (temp.status == "success") {
-                      setBalance(temp);
-                      setLoading(false);
-                    } else {
-                      toast.error(temp.message);
-                      setLoading(false);
-                    }
-                  } else {
-                    setLoading(false);
-                    toast.error(response.statusText);
-                  }
-                }}
-              >
-                余额查询
-              </Button>
-            )}
-            {balance && (
-              <Space direction="vertical">
-                <div style={{ marginTop: 4 }}>
-                  <Space direction={"vertical"}>
-                    <Space direction={"vertical"}>
-                      {/* <div>总额度：{balance.total_granted}注意：Budai</div> */}
-                      <div>已消费额度：{balance.total_used}</div>
-                      <div>剩余可用额度：{balance.total_available}</div>
-                    </Space>
-                  </Space>
-                </div>
-                <div
-                  style={{
-                    color: "#666666",
-                    fontSize: 12,
-                  }}
-                >
-                  剩余可用额度不代表余额奥。用的越多，付费就会越多，这只是代表的最大可用额度。
-                </div>
-              </Space>
-            )}
           </div>
         </ConfigProvider>
       </div>

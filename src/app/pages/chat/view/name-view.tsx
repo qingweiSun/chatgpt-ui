@@ -1,5 +1,6 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import styles from "../index.module.css";
+import { ChevronLeft } from "react-iconly";
 export default function NavbarTItleView(props: {
   name: string;
   id: number;
@@ -20,8 +21,8 @@ export default function NavbarTItleView(props: {
             style={{
               display: "flex",
               alignItems: "center",
-              marginRight: 8 /* 鼠标手指 */,
               cursor: "pointer",
+              paddingRight: 8,
             }}
             onClick={() => {
               history.back();
