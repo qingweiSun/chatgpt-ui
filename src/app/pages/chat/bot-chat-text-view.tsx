@@ -104,6 +104,9 @@ const BotChatTextItemView = (props: {
         operations.push({ type: "divider" });
         operations.push(addBeforeO);
         operations.push(addAfterO);
+        operations.push({ type: "divider" });
+        operations.push(deleteO);
+        operations.push(addNoteO);
         break;
       case 2:
         operations.push(copyO);
