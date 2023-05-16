@@ -120,14 +120,14 @@ export default function NoteView() {
               </SelectView>
             </Navbar.Item>
             <Navbar.Item>
-              <div
+              <a
                 className={styles.link}
                 onClick={() => {
                   exportMarkdown({ messages: messages });
                 }}
               >
                 <Download set="curved" size={23} />
-              </div>
+              </a>
             </Navbar.Item>
           </Navbar.Content>
         </Navbar>

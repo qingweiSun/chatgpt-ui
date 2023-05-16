@@ -15,15 +15,17 @@ import {
 } from "antd";
 import { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
-import { MoreSquare } from "react-iconly";
+import { CloseSquare, MoreSquare } from "react-iconly";
 import { useMediaQuery } from "react-responsive";
 import styles from "../chat/index.module.css";
 import styleSetting from "./index.module.css";
 import NavbarTItleView from "../chat/view/name-view";
+import { useNavigate } from "react-router-dom";
+import { copyToClipboard } from "../chat/markdown-text";
 export default function SettingView() {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
-
+  const navigate = useNavigate();
   const [balance, setBalance] = useState<{
     status: string;
     total_granted: any;
@@ -110,6 +112,16 @@ export default function SettingView() {
                 </div>
               </Navbar.Item>
             )}
+            <Navbar.Item>
+              <a
+                className={styles.link}
+                onClick={() => {
+                  navigate(-1);
+                }}
+              >
+                <CloseSquare set="curved" size={23} />
+              </a>
+            </Navbar.Item>
           </Navbar.Content>
         </Navbar>
         <ConfigProvider
@@ -120,14 +132,14 @@ export default function SettingView() {
                   colorBgBase: "#16181a",
                   colorTextBase: "#bbbbbb",
                   colorBgSpotlight: "#111111",
-                  paddingLG: 12,
-                  marginLG: 12,
+                  paddingLG: 14,
+                  marginLG: 14,
                   fontSize: 13,
                 }
               : {
                   borderRadius: 8,
-                  paddingLG: 12,
-                  marginLG: 12,
+                  paddingLG: 14,
+                  marginLG: 14,
                   fontSize: 13,
                 },
           }}
@@ -156,10 +168,21 @@ export default function SettingView() {
               className={styleSetting["list-item"]}
               bordered
               style={{
-                borderRadius: 12,
+                borderRadius: 14,
                 borderColor: isDarkMode ? "#2b2f31" : "#ebebeb",
               }}
             >
+              <div style={{ fontSize: 14 }}>
+                随着本站用户量的增长，成本也在逐渐增高，如果你需要更好的体验，我可以帮你自建，你可以自行充值额度，也可以给别人付费使用，如果你有意请加微信：
+                <a
+                  onClick={() => {
+                    copyToClipboard("18300240232");
+                  }}
+                >
+                  18300240232
+                </a>
+              </div>
+              <Divider />
               <div
                 style={{
                   display: "flex",
@@ -280,7 +303,7 @@ export default function SettingView() {
             <Card
               className={styleSetting["list-item"]}
               style={{
-                borderRadius: 12,
+                borderRadius: 14,
                 borderColor: isDarkMode ? "#2b2f31" : "#ebebeb",
               }}
             >
@@ -401,7 +424,7 @@ export default function SettingView() {
               <Card
                 className={styleSetting["list-item"]}
                 style={{
-                  borderRadius: 12,
+                  borderRadius: 14,
                   borderColor: isDarkMode ? "#2b2f31" : "#ebebeb",
                 }}
               >
@@ -490,7 +513,7 @@ export default function SettingView() {
             <Card
               className={styleSetting["list-item"]}
               style={{
-                borderRadius: 12,
+                borderRadius: 14,
                 borderColor: isDarkMode ? "#2b2f31" : "#ebebeb",
               }}
             >

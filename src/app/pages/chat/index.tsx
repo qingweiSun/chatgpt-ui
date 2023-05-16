@@ -367,14 +367,14 @@ export default function ChatView(props: { item: HistoryItem }) {
             </Navbar.Item>
             {!isMobile && (
               <Navbar.Item>
-                <div
+                <a
                   className={styles.link}
                   onClick={() => {
                     exportMarkdown({ messages });
                   }}
                 >
                   <Download set="curved" size={23} />
-                </div>
+                </a>
               </Navbar.Item>
             )}
           </Navbar.Content>

@@ -8,11 +8,11 @@ export default function NavbarTItleView(props: {
   back?: boolean;
 }) {
   let name = props.name ?? "新的会话";
-  const navigate = useNavigate();
+
   return (
     <div style={{ width: "100%" }}>
       <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
-        {props.back && (
+        {/* {props.back && (
           <a
             className={styles.link}
             style={{
@@ -27,7 +27,7 @@ export default function NavbarTItleView(props: {
           >
             <ArrowLeftOutlined />
           </a>
-        )}
+        )} */}
         <div className={styles.name}>{name}</div>
       </div>
       <div style={{ fontSize: 13 }} className={styles.sub}>
