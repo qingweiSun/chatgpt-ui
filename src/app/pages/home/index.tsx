@@ -1,23 +1,20 @@
-import Slider, { HistoryItem } from "@/app/components/slider";
+import Slider from "@/app/components/slider";
 import { db } from "@/app/db/db";
 import { context } from "@/app/hooks/context-mobile";
-import IdContext from "@/app/hooks/use-chat-id";
 import AppContext from "@/app/hooks/use-style";
 import ChatView from "@/app/pages/chat";
 import { NextUIProvider, createTheme } from "@nextui-org/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import NoteView from "../note/note";
 import SettingView from "../setting";
 import styles from "./home.module.css";
-import { toast } from "react-hot-toast";
 
 export default function Home() {
   const { isMobile } = useContext(context);
   const { mode, setMode } = useContext(AppContext);
-  const { current, setId } = useContext(IdContext);
   const cardStyle = () => {
     switch (mode.size) {
       case "small":
@@ -33,7 +30,7 @@ export default function Home() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const recordUseTemp = useLiveQuery(() => {
+  const recordUse = useLiveQuery(() => {
     if (location.pathname == "/chat") {
       const params = new URLSearchParams(location.search);
       const id = params.get("id");
@@ -69,29 +66,14 @@ export default function Home() {
     });
   }, []);
 
-  const [recordUse, setRecordUse] = useState<HistoryItem>();
-
   useEffect(() => {
-    if (recordUseTemp) {
-      setRecordUse(recordUseTemp);
+    if (location.pathname == "/") {
+      const tempPath = localStorage.getItem("current_path") ?? "/chat?id=1";
+      navigate(tempPath);
+    } else if (location.pathname == "/chat" || location.pathname == "/note") {
+      localStorage.setItem("current_path", location.pathname + location.search);
     }
-  }, [recordUseTemp]);
-
-  useEffect(() => {
-    if (location.pathname == "/chat") {
-      const params = new URLSearchParams(location.search);
-      const id = params.get("id");
-      setId({ id: Number(id) });
-    } else if (location.pathname == "/note") {
-      setId({ id: 2 });
-    } else if (location.pathname == "/settings") {
-      setId({ id: 3 });
-    } else {
-      const tempCurrent = JSON.stringify({ id: 1 });
-      const tempId = JSON.parse(localStorage.getItem("current") ?? tempCurrent);
-      navigate("/chat?id=" + tempId.id);
-    }
-  }, [location]);
+  }, [location.pathname]);
 
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
@@ -125,26 +107,12 @@ export default function Home() {
           )}
           <div className={styles.line} />
           <Routes>
-            <Route path="/settings" element={<SettingView />} />
-            <Route path="/note" element={<NoteView />} />
+            <Route path="/settings" element={<SettingView key={3} />} />
+            <Route path="/note" element={<NoteView key={2} />} />
             {recordUse && (
               <Route
                 path="/chat"
                 element={<ChatView item={recordUse} key={recordUse?.id} />}
-              />
-            )}
-            {!recordUse && (
-              <Route
-                path="/chat"
-                element={
-                  <div
-                    style={{
-                      background: isDarkMode ? "#111111" : "#f3f4f5",
-                      height: "100%",
-                      flex: 1,
-                    }}
-                  />
-                }
               />
             )}
           </Routes>

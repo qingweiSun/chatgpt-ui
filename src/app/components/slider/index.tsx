@@ -9,14 +9,13 @@ import {
   insertSlider,
   updateSlider,
 } from "@/app/db/db";
-import IdContext from "@/app/hooks/use-chat-id";
 import { ChatMessage } from "@/app/pages/chat";
 import { copyToClipboard } from "@/app/pages/chat/markdown-text";
 import { Button } from "@nextui-org/react";
 import { Dropdown, MenuProps } from "antd";
 import { useLiveQuery } from "dexie-react-hooks";
 import Image from "next/image";
-import { Fragment, useContext, useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import {
   Delete,
   Edit,
@@ -26,11 +25,11 @@ import {
   PaperPlus,
 } from "react-iconly";
 import { useMediaQuery } from "react-responsive";
+import { useLocation, useNavigate } from "react-router-dom";
 import ChatGptLogo from "../../icons/chatgpt.svg";
 import { MaxTokensLimitProps } from "../max-tokens-limit";
 import ThemeChangeView from "../theme-change";
 import styles from "./index.module.css";
-import { Route, Routes, useNavigate } from "react-router-dom";
 //https://react-iconly.jrgarciadev.com/ 图标
 //https://dexie.org/docs/Tutorial/React 数据库
 export interface HistoryItem {
@@ -49,9 +48,9 @@ export default function Slider(props: {
   const historyList = useLiveQuery(() =>
     db.sliders.where("id").notEqual(1).toArray()
   );
-  const { current } = useContext(IdContext);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
   const navigate = useNavigate();
+  const location = useLocation();
   // useEffect(() => {
   //   db.table("sliders").hook("deleting", function (primaryKey, obj) {
   //     toast("删除");
@@ -73,6 +72,7 @@ export default function Slider(props: {
   function ItemView(propsItem: {
     item: HistoryItem;
     index: number;
+    current: boolean;
     showEdit: boolean;
     onClick?: () => void;
     icon?: React.ReactNode;
@@ -104,7 +104,7 @@ export default function Slider(props: {
           showEdit={propsItem.showEdit}
           key={propsItem.index}
           title={propsItem.item.title}
-          current={current.id == propsItem.item.id}
+          current={propsItem.current}
           icon={propsItem.icon}
           onClick={() => {
             if (propsItem.onClick) {
@@ -130,30 +130,19 @@ export default function Slider(props: {
             if (tempList) {
               if (tempList.length > 0) {
                 if (tempList.length > propsItem.index) {
+                  const params = new URLSearchParams(location.search);
+                  const id = params.get("id") ?? -1;
                   //首先判断删除的是不是current，如果不是，则不需要定位，如果是，则需要定位到下一个
-                  if (current.id == propsItem.item.id) {
-                    //定位到当前的下一个
-                    // setId({
-                    //   id: tempList[propsItem.index].id,
-                    // });
+                  if (+id == propsItem.item.id) {
                     navigate(`/chat?id=${tempList[propsItem.index].id}`);
                   }
                 } else {
-                  // setId({
-                  //   id: tempList[tempList.length - 1].id,
-                  // });
                   navigate(`/chat?id=${tempList[tempList.length - 1].id}`);
                 }
               } else {
-                // setId({
-                //   id: 1,
-                // });
                 navigate(`/chat?id=1`);
               }
             } else {
-              // setId({
-              //   id: 1,
-              // });
               navigate(`/chat?id=1`);
             }
           }}
@@ -184,12 +173,15 @@ export default function Slider(props: {
             item={item}
             index={index}
             key={item.id}
+            current={
+              location.pathname + location.search == "/chat?id=" + item.id
+            }
             showEdit
             icon=<Paper set="curved" size={18} style={{ flexShrink: 0 }} />
           />
         );
       });
-  }, [historyList, current, isDarkMode]);
+  }, [historyList, isDarkMode, location]);
 
   return (
     <div className={`${styles.slider}`}>
@@ -240,6 +232,7 @@ export default function Slider(props: {
             top: false,
           }}
           index={1}
+          current={location.pathname + location.search == "/chat?id=1"}
           showEdit={false}
           icon=<Message set="curved" size={17} style={{ flexShrink: 0 }} />
           onClick={() => {
@@ -255,6 +248,7 @@ export default function Slider(props: {
             top: false,
           }}
           index={1}
+          current={location.pathname == "/note"}
           icon=<EditSquare set="curved" size={17} style={{ flexShrink: 0 }} />
           showEdit={false}
           onClick={() => {
