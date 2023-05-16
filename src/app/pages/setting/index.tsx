@@ -1,7 +1,6 @@
 import MobileSlider from "@/app/components/slider/mobile";
 import { context } from "@/app/hooks/context-mobile";
 import GptContext from "@/app/hooks/use-gpt";
-import { useScroll } from "@/app/hooks/use-scroll";
 import AppContext from "@/app/hooks/use-style";
 import { Navbar } from "@nextui-org/react";
 import {
@@ -14,12 +13,12 @@ import {
   Slider,
   Space,
 } from "antd";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { MoreSquare } from "react-iconly";
 import { useMediaQuery } from "react-responsive";
-import { ChatMessage } from "../chat";
 import styles from "../chat/index.module.css";
+import styleSetting from "./index.module.css";
 import NavbarTItleView from "../chat/view/name-view";
 export default function SettingView() {
   const { isMobile } = useContext(context);
@@ -121,12 +120,14 @@ export default function SettingView() {
                   colorBgBase: "#16181a",
                   colorTextBase: "#bbbbbb",
                   colorBgSpotlight: "#111111",
-                  paddingLG: 16,
+                  paddingLG: 12,
+                  marginLG: 12,
+                  fontSize: 13,
                 }
               : {
                   borderRadius: 8,
-                  paddingLG: 16,
-                  marginLG: 16,
+                  paddingLG: 12,
+                  marginLG: 12,
                   fontSize: 13,
                 },
           }}
@@ -142,6 +143,7 @@ export default function SettingView() {
             }}
           >
             <div
+              className={styleSetting["list-item"]}
               style={{
                 fontWeight: 600,
                 fontSize: 16,
@@ -151,6 +153,7 @@ export default function SettingView() {
               访问设置
             </div>
             <Card
+              className={styleSetting["list-item"]}
               bordered
               style={{
                 borderRadius: 12,
@@ -264,6 +267,7 @@ export default function SettingView() {
               )}
             </Card>
             <div
+              className={styleSetting["list-item"]}
               style={{
                 fontWeight: 600,
                 fontSize: 16,
@@ -274,6 +278,7 @@ export default function SettingView() {
               ai设置
             </div>
             <Card
+              className={styleSetting["list-item"]}
               style={{
                 borderRadius: 12,
                 borderColor: isDarkMode ? "#2b2f31" : "#ebebeb",
@@ -381,6 +386,7 @@ export default function SettingView() {
             </Card>
             {!isMobile && (
               <div
+                className={styleSetting["list-item"]}
                 style={{
                   fontWeight: 600,
                   fontSize: 16,
@@ -393,6 +399,7 @@ export default function SettingView() {
             )}
             {!isMobile && (
               <Card
+                className={styleSetting["list-item"]}
                 style={{
                   borderRadius: 12,
                   borderColor: isDarkMode ? "#2b2f31" : "#ebebeb",
@@ -470,6 +477,7 @@ export default function SettingView() {
               </Card>
             )}
             <div
+              className={styleSetting["list-item"]}
               style={{
                 fontWeight: 600,
                 fontSize: 16,
@@ -480,6 +488,7 @@ export default function SettingView() {
               其他设置
             </div>
             <Card
+              className={styleSetting["list-item"]}
               style={{
                 borderRadius: 12,
                 borderColor: isDarkMode ? "#2b2f31" : "#ebebeb",

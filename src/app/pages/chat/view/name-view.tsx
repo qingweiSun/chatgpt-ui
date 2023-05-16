@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 import styles from "../index.module.css";
-import { ChevronLeft } from "react-iconly";
 export default function NavbarTItleView(props: {
   name: string;
   id: number;
@@ -8,10 +8,7 @@ export default function NavbarTItleView(props: {
   back?: boolean;
 }) {
   let name = props.name ?? "新的会话";
-  //如果name是新的会话就把id加上
-  if (name === "新的会话" && props.id != -1) {
-    name += props.id;
-  }
+  const navigate = useNavigate();
   return (
     <div style={{ width: "100%" }}>
       <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
@@ -25,7 +22,7 @@ export default function NavbarTItleView(props: {
               paddingRight: 8,
             }}
             onClick={() => {
-              history.back();
+              navigate(-1);
             }}
           >
             <ArrowLeftOutlined />

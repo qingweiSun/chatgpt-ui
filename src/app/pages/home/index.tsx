@@ -87,10 +87,8 @@ export default function Home() {
     } else if (location.pathname == "/settings") {
       setId({ id: 3 });
     } else {
-      toast("未知页面");
       const tempCurrent = JSON.stringify({ id: 1 });
       const tempId = JSON.parse(localStorage.getItem("current") ?? tempCurrent);
-      // setId();
       navigate("/chat?id=" + tempId.id);
     }
   }, [location]);

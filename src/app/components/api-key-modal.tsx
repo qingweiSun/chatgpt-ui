@@ -11,7 +11,7 @@ export default function ApiKeyModal(props: {}) {
       type="link"
       onClick={(event) => {
         if (location.pathname == "/settings") {
-          history.back();
+          navigate(-1);
         } else {
           navigate("/settings");
         }

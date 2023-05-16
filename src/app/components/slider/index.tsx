@@ -337,7 +337,7 @@ export default function Slider(props: {
           }}
         >
           <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
-            <div>新建会话</div>
+            <div style={{ fontSize: 13 }}>新建会话</div>
             <PaperPlus set="curved" size={18} />
           </div>
         </Button>
