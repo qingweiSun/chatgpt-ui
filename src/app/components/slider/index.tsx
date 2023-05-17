@@ -39,6 +39,7 @@ export interface HistoryItem {
   mode?: MaxTokensLimitProps;
   explain?: boolean;
   openNetwork?: boolean;
+  model?: "gpt-3.5-turbo" | "gpt-4";
 }
 
 export default function Slider(props: {

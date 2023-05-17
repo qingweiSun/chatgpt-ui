@@ -18,7 +18,8 @@ export async function generateMessage(
   controller: AbortController,
   explain: boolean,
   openNetwork: boolean,
-  setMessages: (messages: ChatMessage[]) => void
+  setMessages: (messages: ChatMessage[]) => void,
+  model?: string
 ) {
   const newMessages = [...messages];
   newMessages.push({
@@ -173,6 +174,7 @@ export async function generateMessage(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        model: model ?? "gpt-3.5-turbo",
         messages: messagesValue,
         apiKey: apiKey,
         temperature: temperature,

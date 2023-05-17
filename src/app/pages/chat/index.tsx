@@ -35,6 +35,7 @@ import { useMediaQuery } from "react-responsive";
 import styles from "./index.module.css";
 import InputView from "./view/input-view";
 import NavbarTItleView from "./view/name-view";
+import ChangeGpt from "@/app/components/change-gpt";
 
 export interface ChatMessage {
   data: GptMessage;
@@ -137,7 +138,8 @@ export default function ChatView(props: { item: HistoryItem }) {
         props.item.openNetwork == true,
         (newMessages) => {
           setMessages(newMessages);
-        }
+        },
+        props.item.model
       );
       setLoading(false);
       canScroll.current = true;
@@ -292,6 +294,7 @@ export default function ChatView(props: { item: HistoryItem }) {
                 <Filter set="curved" size={23} />
               </MaxTokensLimit>
             </Navbar.Item>
+            <ChangeGpt className={styles.link} item={props.item} />
             {/* <WifiView className={styles.link} item={props.item} /> */}
             <Tooltip
               content={

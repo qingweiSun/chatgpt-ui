@@ -16,8 +16,8 @@ export class MyAiDexie extends Dexie {
 
   constructor() {
     super("myDatabase");
-    this.version(3).stores({
-      sliders: "++id,title,top,mode,openNetwork", // Primary key and indexed props
+    this.version(4).stores({
+      sliders: "++id,title,top,mode,openNetwork,model", // Primary key and indexed props
       templates: "++id,message",
     });
   }
@@ -48,7 +48,13 @@ export async function updateSliderOpenNetwork(
 ) {
   await db.sliders?.update(id, { openNetwork: openNetwork });
 }
-
+//根据 id 更新model
+export async function updateSliderModel(
+  id: number,
+  model: "gpt-3.5-turbo" | "gpt-4"
+) {
+  await db.sliders?.update(id, { model: model });
+}
 export async function updateSliderExplain(id: number, explain: boolean) {
   await db.sliders?.update(id, { explain: explain });
 }
