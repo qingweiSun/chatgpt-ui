@@ -30,7 +30,6 @@ export async function generateMessage(
     time: new Date().toLocaleString(),
   });
   setMessages(newMessages);
-  const url = "https://qingwei.icu/api/generate";
 
   let param = messages.filter(
     (message) =>
@@ -168,8 +167,11 @@ export async function generateMessage(
   }
 
   try {
-    const response = await fetch(url, {
+    const response = await fetch("/chat", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         messages: messagesValue,
         apiKey: apiKey,
