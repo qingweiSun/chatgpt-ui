@@ -8,8 +8,7 @@ import RewardView from "./Reward";
 import styles from "./delete.module.css";
 export default function ThemeChangeView() {
   const [isElectron, setIsElectron] = useState(
-    typeof navigator !== "undefined" &&
-      navigator.userAgent.indexOf("Electron") !== -1
+    navigator.userAgent.indexOf("Electron") !== -1
   );
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
@@ -51,7 +50,7 @@ export default function ThemeChangeView() {
           },
         }}
       >
-        <Button className={styles.link} type={"link"} style={{ fontSize: 15 }}>
+        <a className={styles.link} type={"link"} style={{ fontSize: 15 }}>
           {/* <TimeCircle set="two-tone" /> */}
           <div
             style={{
@@ -63,7 +62,7 @@ export default function ThemeChangeView() {
           >
             <DarkIcon />
           </div>
-        </Button>
+        </a>
       </Dropdown.Trigger>
       <Dropdown.Menu
         aria-label="Single selection actions"

@@ -55,6 +55,12 @@ export async function updateSliderModel(
 ) {
   await db.sliders?.update(id, { model: model });
 }
+//根据 id 判断是否存在
+export async function isExist(id: number): Promise<boolean> {
+  const count = await db.sliders?.where("id").equals(id).count();
+  return count > 0;
+}
+
 export async function updateSliderExplain(id: number, explain: boolean) {
   await db.sliders?.update(id, { explain: explain });
 }

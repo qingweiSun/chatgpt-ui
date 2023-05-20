@@ -30,6 +30,8 @@ import ChatGptLogo from "../../icons/chatgpt.svg";
 import { MaxTokensLimitProps } from "../max-tokens-limit";
 import ThemeChangeView from "../theme-change";
 import styles from "./index.module.css";
+import UserInfoView from "../user/user-view";
+import UserView from "@/app/pages/chat/user-chat-view";
 //https://react-iconly.jrgarciadev.com/ 图标
 //https://dexie.org/docs/Tutorial/React 数据库
 export interface HistoryItem {
@@ -111,14 +113,16 @@ export default function Slider(props: {
             if (propsItem.onClick) {
               propsItem.onClick();
             } else {
-              //setId({ id: propsItem.item.id });
               navigate(`/chat?id=${propsItem.item.id}`);
               props.closeSlider?.();
             }
           }}
           onRename={(name) => {
-            //   setId({ id: propsItem.item.id });
-            navigate(`/chat?id=${propsItem.item.id}`);
+            updateSlider({
+              id: propsItem.item.id,
+              title: name,
+              top: propsItem.item.top,
+            });
             props.closeSlider?.();
           }}
           onDelete={async () => {
@@ -290,15 +294,24 @@ export default function Slider(props: {
               placement="top-right"
               description="清理后无法找回，数据无价，请注意保存！"
             />
-            <div style={{ color: "transparent", height: 72 }}></div>
+            <div style={{ color: "transparent", height: 60 }}></div>
           </div>
         )}
       </div>
       <div className={styles.bottom}>
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flex: 1,
+            justifyContent: "space-around",
+          }}
+        >
+          <UserInfoView />
           <SettingModal />
           <ThemeChangeView />
         </div>
+        <div style={{ width: 12 }} />
         <Button
           auto
           bordered
@@ -306,9 +319,10 @@ export default function Slider(props: {
           borderWeight={"light"}
           color={"primary"}
           css={{
-            padding: "0 16px",
+            padding: "0 20px",
             fontSize: 14,
             fontWeight: 400,
+            lineHeight: 1,
             height: 36,
             "&:hover": {
               background: isDarkMode

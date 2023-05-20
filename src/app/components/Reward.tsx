@@ -26,7 +26,7 @@ export default function RewardView() {
             WebkitUserSelect: "text",
           }}
         >
-          随着本站用户量的增长，成本也在逐渐增高，如果你需要更好的体验，我可以帮你自建，你可以自行充值额度，均摊下来很便宜，你可以给别人付费使用，如果你有意请加微信：
+          随着本站用户量的增长，成本也在逐渐增高，如果你需要更好的体验，我可以帮你自建，你可以自行充值额度，也可以给别人付费使用，如果你有意请加微信：
           <a
             onClick={() => {
               copyToClipboard("18300240232");
@@ -50,17 +50,17 @@ export default function RewardView() {
     }
   }, [rewardModalOpen]);
 
-  useEffect(() => {
-    if (!isElectron) {
-      //每天触发一次
-      const lastShowTime = localStorage.getItem("show_notification_time") ?? "";
-      const now = new Date().toLocaleDateString();
-      if (lastShowTime != now) {
-        localStorage.setItem("show_notification_time", now);
-        setRewardModalOpen(true);
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!isElectron) {
+  //     //每天触发一次
+  //     const lastShowTime = localStorage.getItem("show_notification_time") ?? "";
+  //     const now = new Date().toLocaleDateString();
+  //     if (lastShowTime != now) {
+  //       localStorage.setItem("show_notification_time", now);
+  //       setRewardModalOpen(true);
+  //     }
+  //   }
+  // }, []);
   return (
     <ConfigProvider
       theme={{
@@ -69,7 +69,7 @@ export default function RewardView() {
         },
       }}
     >
-      <Button
+      <a
         className={styles.link}
         type={"link"}
         style={{ fontSize: 15 }}
@@ -77,8 +77,8 @@ export default function RewardView() {
           setRewardModalOpen(true);
         }}
       >
-        <Scan set="two-tone" size={22} />
-      </Button>
+        <Scan set="curved" size={22} />
+      </a>
     </ConfigProvider>
   );
 }

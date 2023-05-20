@@ -47,7 +47,8 @@ export default function MaxTokensLimit(props: {
         size={isMobile ? "sm" : "md"}
         isDisabled={props.isDisabled}
         css={{
-          background: isDarkMode ? "#1b1b1b" : "var(--nextui-colors-accents1)",
+          padding: "0 16px",
+          background: isDarkMode ? "#16181a" : "var(--nextui-colors-accents1)",
           color: isDarkMode ? "#cccccc" : "#444444",
           "&:hover": {
             color: "var(--nextui-colors-primary)",

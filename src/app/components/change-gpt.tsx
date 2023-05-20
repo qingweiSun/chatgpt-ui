@@ -1,78 +1,95 @@
-import { Navbar, Tooltip } from "@nextui-org/react";
+import { Dropdown, Navbar, Tooltip } from "@nextui-org/react";
 import { HistoryItem } from "./slider";
 import { useMediaQuery } from "react-responsive";
 import toast from "react-hot-toast";
 import { TwoUsers, User } from "react-iconly";
 import { updateSliderModel } from "../db/db";
+import { Segmented } from "antd";
+import { useContext } from "react";
+import { context } from "../hooks/context-mobile";
 
 export default function ChangeGpt(props: {
   className: string;
   item: HistoryItem;
 }) {
+  const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({
     query: "(prefers-color-scheme: dark)",
   });
-
+  //"gpt-3.5-turbo" | "gpt-4"
+  const data = [
+    {
+      value: "gpt-3.5-turbo",
+      tip: "速度快，价格便宜,推荐使用",
+    },
+    {
+      value: "gpt-4",
+      tip: "更智能，但是速度慢，价格也更贵",
+    },
+  ];
   return (
-    <Tooltip
-      content={
-        <div
-          style={{
-            padding: 2,
-            display: "flex",
-            gap: 4,
-            flexDirection: "column",
+    <Navbar.Item>
+      <Dropdown placement="bottom-right" isBordered>
+        <Dropdown.Button
+          flat
+          size={isMobile ? "sm" : "md"}
+          css={{
+            padding: "0 16px",
+            background: isDarkMode
+              ? "#16181a"
+              : "var(--nextui-colors-accents1)",
+            color: isDarkMode ? "#cccccc" : "#444444",
+            "&:hover": {
+              color: "var(--nextui-colors-primary)",
+              // background: "#b7d5f8",
+            },
           }}
         >
-          <div>
-            {(props.item.model ?? "gpt-3.5-turbo") == "gpt-4"
-              ? "gpt4"
-              : "gpt3.5"}
+          <div style={{ fontSize: 13 }}>
+            {isMobile ? "模型" : props.item?.model ?? data[0].value}
           </div>
-          {(props.item.model ?? "gpt-3.5-turbo") == "gpt-4" && (
-            <div style={{ fontSize: 12, color: "#999999" }}>
-              更加智能，但是速度较慢，也更加耗费tokens,请酌情使用
-            </div>
-          )}
-          {(props.item.model ?? "gpt-3.5-turbo") == "gpt-3.5-turbo" && (
-            <div style={{ fontSize: 12, color: "#999999" }}>
-              速度较快，tokens消耗也较少，虽然不如gpt4智能，但是也足够用了
-            </div>
-          )}
-        </div>
-      }
-      placement="bottom"
-      hideArrow
-      css={{
-        width: 200,
-        border: isDarkMode ? "1px solid #393a3c" : "1px solid #e9e9e9",
-      }}
-    >
-      <Navbar.Item>
-        <a
-          className={props.className}
-          onClick={() => {
-            //切换模型
-            if ((props.item.model ?? "gpt-3.5-turbo") == "gpt-3.5-turbo") {
-              updateSliderModel(props.item.id, "gpt-4");
-              toast.success("已切换至 gpt4");
-            } else {
-              updateSliderModel(props.item.id, "gpt-3.5-turbo");
-              toast.success("已切换至 gpt3.5");
+        </Dropdown.Button>
+        <Dropdown.Menu
+          aria-label="Single selection actions"
+          disallowEmptySelection
+          selectionMode="single"
+          selectedKeys={[props.item?.model || data[0].value]}
+          onSelectionChange={(value) => {
+            //@ts-ignore
+            const key = value.currentKey;
+            const select = data.find((item) => item.value == key);
+            if (select) {
+              //@ts-ignore
+              updateSliderModel(props.item.id, select.value);
             }
           }}
         >
-          {(props.item.model ?? "gpt-3.5-turbo") == "gpt-3.5-turbo" ? (
-            <User set="curved" size={23} />
-          ) : (
-            <TwoUsers
-              size={23}
-              primaryColor="var(--nextui-colors-primary)"
-              set="bold"
-            />
-          )}
-        </a>
-      </Navbar.Item>
-    </Tooltip>
+          {data.map((item) => {
+            return (
+              <Dropdown.Item
+                key={item.value}
+                css={{
+                  height: "auto",
+                  color: isDarkMode ? "#cccccc" : undefined,
+                }}
+              >
+                <div
+                  style={{
+                    padding: "4px 0",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  {item.value}
+                  <div style={{ color: "#999999", fontSize: 11 }}>
+                    {item.tip}
+                  </div>
+                </div>
+              </Dropdown.Item>
+            );
+          })}
+        </Dropdown.Menu>
+      </Dropdown>
+    </Navbar.Item>
   );
 }

@@ -27,4 +27,25 @@ const nextConfig = withPWA({
     unoptimized: true,
   },
 });
-module.exports = nextConfig;
+
+const nextDevConfig = withPWA({
+  reactStrictMode: true,
+  swcMinify: true,
+  experimental: {
+    appDir: true,
+  },
+  distDir: "dist",
+  images: {
+    unoptimized: true,
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "http://localhost:3000/api/:path*", // 将接口请求代理到本地地址
+      },
+    ];
+  },
+});
+module.exports =
+  process.env.NODE_ENV === "development" ? nextDevConfig : nextConfig;

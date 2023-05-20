@@ -17,6 +17,7 @@ import { context } from "@/app/hooks/context-mobile";
 import { Input, Modal } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useMediaQuery } from "react-responsive";
+import { toast } from "react-hot-toast";
 
 const RESPONSIVE_MOBILE = 768;
 

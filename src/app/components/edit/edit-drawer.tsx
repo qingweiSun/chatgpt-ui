@@ -38,9 +38,9 @@ export function EditDrawerView(props: {
         <Space key={"footer"}>
           <Button
             auto
+            flat
+            color="error"
             size={"sm"}
-            light
-            color={"default"}
             onClick={() => props.setOpen(false)}
           >
             取消
@@ -162,9 +162,9 @@ export function AddDrawerView(props: {
         <Space key={"footer"}>
           <Button
             auto
+            flat
+            color="error"
             size={"sm"}
-            light
-            color={"default"}
             onClick={() => props.setOpen(false)}
           >
             取消

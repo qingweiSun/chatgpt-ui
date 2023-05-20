@@ -1,5 +1,6 @@
 import { searchValue } from "@/app/components/wifi";
 import { ChatMessage, GptMessage } from "@/app/pages/chat";
+import { util } from "@/app/utils/util";
 import { message } from "antd";
 
 let tempStatus = "";
@@ -166,12 +167,17 @@ export async function generateMessage(
       });
     }
   }
-
+  const token = localStorage.getItem("token");
+  const url =
+    token != null
+      ? util.host + "/api/gpt/chat"
+      : "https://qingwei.icu/api/generate";
   try {
-    const response = await fetch("/chat", {
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
         model: model ?? "gpt-3.5-turbo",

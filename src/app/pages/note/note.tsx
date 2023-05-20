@@ -92,7 +92,7 @@ export default function NoteView() {
               />
             </Navbar.Brand>
           )}
-          <Navbar.Content>
+          <Navbar.Content css={{ gap: isMobile ? 12 : undefined }}>
             {isMobile && (
               <Navbar.Item>
                 <div className={styles.toggle} onClick={() => {}}>

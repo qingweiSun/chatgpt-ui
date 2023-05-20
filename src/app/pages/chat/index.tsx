@@ -255,7 +255,7 @@ export default function ChatView(props: { item: HistoryItem }) {
               )}
             </Navbar.Brand>
           )}
-          <Navbar.Content>
+          <Navbar.Content css={{ gap: isMobile ? 12 : undefined }}>
             {isMobile && (
               <Navbar.Item>
                 <div className={styles.toggle} onClick={() => {}}>
@@ -267,22 +267,7 @@ export default function ChatView(props: { item: HistoryItem }) {
                 </div>
               </Navbar.Item>
             )}
-            {!isMobile && props.item.id != 1 && (
-              <Navbar.Item>
-                <EditName
-                  className={styles.link}
-                  name={props.item?.title}
-                  setName={(text) => {
-                    updateSliderTitle(props.item.id, text);
-                  }}
-                >
-                  <div className={styles.link}>
-                    {/*<Edit set="light" size={23} />*/}
-                    <Edit set="curved" size={23} />
-                  </div>
-                </EditName>
-              </Navbar.Item>
-            )}
+
             <Navbar.Item>
               <MaxTokensLimit
                 isDisabled={false}

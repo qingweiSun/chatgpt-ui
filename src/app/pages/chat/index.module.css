@@ -99,7 +99,7 @@
 }
 .name:hover{
     overflow:visible;
-    /* animation: marquee 5s linear infinite; 使用animation属性来设置文字滚动动画 */
+    animation: marquee 5s linear infinite; /*使用animation属性来设置文字滚动动画 */
 }
 
 .bottom {
@@ -122,13 +122,13 @@
     display: none;
 }
 .tag{
-    color: #0072F5;
+    color: #444444;
     text-decoration: underline;
     font-size: 13px;
 }
 .tag:hover{
     text-decoration: underline;
-    color: #965aed;
+    color: #0362cc;
 }
 
 /*媒体查询*/
@@ -294,5 +294,8 @@
     }
     .prompt:hover{
         color: #dddddd;
+    }
+    .tag{
+        color: #bcbcbc;
     }
 }

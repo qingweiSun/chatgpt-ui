@@ -1,5 +1,6 @@
 import "./globals.css";
 import React from "react";
+import { util } from "./utils/util";
 
 export default function RootLayout({
   children,

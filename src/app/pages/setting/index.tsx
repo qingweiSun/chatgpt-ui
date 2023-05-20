@@ -22,16 +22,14 @@ import styleSetting from "./index.module.css";
 import NavbarTItleView from "../chat/view/name-view";
 import { useNavigate } from "react-router-dom";
 import { copyToClipboard } from "../chat/markdown-text";
+import { util } from "@/app/utils/util";
 export default function SettingView() {
   const { isMobile } = useContext(context);
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
   const navigate = useNavigate();
   const [balance, setBalance] = useState<{
-    status: string;
-    total_granted: any;
-    message: "查询成功";
-    total_used: any;
-    total_available: any;
+    balanceTotal: any;
+    balanceUsed: any;
   }>();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -44,26 +42,7 @@ export default function SettingView() {
     typeof navigator !== "undefined" &&
       navigator.userAgent.indexOf("Electron") !== -1
   );
-  //余额查询
-  async function updateBilling(key: string) {
-    try {
-      const response = await fetch("/api/billing", {
-        method: "POST",
-        body: JSON.stringify({
-          apiKey: key,
-        }),
-      });
-      if (!response.ok) {
-        return {
-          type: "error",
-          message: response.statusText,
-        };
-      }
-      return response.json();
-    } catch (e) {
-      return {};
-    }
-  }
+
   return (
     <div className={styles.container}>
       <div
@@ -116,7 +95,13 @@ export default function SettingView() {
               <a
                 className={styles.link}
                 onClick={() => {
-                  navigate(-1);
+                  const tempPathName =
+                    window.sessionStorage.getItem("tempPathName") ?? "";
+                  if (tempPathName.length > 0) {
+                    navigate(tempPathName);
+                  } else {
+                    navigate(-1);
+                  }
                 }}
               >
                 <CloseSquare set="curved" size={23} />
@@ -129,7 +114,8 @@ export default function SettingView() {
             token: isDarkMode
               ? {
                   borderRadius: 8,
-                  colorBgBase: "#16181a",
+                  colorBgContainer: "#191919",
+                  colorBgBase: "#333333",
                   colorTextBase: "#bbbbbb",
                   colorBgSpotlight: "#111111",
                   paddingLG: 14,
@@ -158,7 +144,7 @@ export default function SettingView() {
               className={styleSetting["list-item"]}
               style={{
                 fontWeight: 600,
-                fontSize: 16,
+                fontSize: 15,
                 color: isDarkMode ? "#cccccc" : undefined,
               }}
             >
@@ -169,7 +155,7 @@ export default function SettingView() {
               bordered
               style={{
                 borderRadius: 14,
-                borderColor: isDarkMode ? "#2b2f31" : "#ebebeb",
+                borderColor: isDarkMode ? "#222222" : "#ebebeb",
               }}
             >
               <div style={{ fontSize: 14 }}>
@@ -251,32 +237,47 @@ export default function SettingView() {
               {(isElectron || (gpt?.key?.length ?? 0) > 0) && (
                 <Space>
                   <div>
-                    已消费：${balance?.total_used ?? "未知"}，最高额度为： $
-                    {balance?.total_granted ?? "未知"}
+                    已消费：${balance?.balanceUsed ?? "未知"}，最高额度： $
+                    {balance?.balanceTotal ?? "未知"}
                   </div>
                   <div />
                   <Button
                     loading={loading}
                     onClick={async () => {
                       setLoading(true);
-                      const response = await fetch(
-                        "https://qingwei.icu/api/billing",
-                        {
-                          method: "POST",
-                          body: JSON.stringify({
-                            apiKey: gpt?.key,
-                          }),
-                        }
-                      );
+                      const token = localStorage.getItem("token");
+                      const url =
+                        token != null
+                          ? util.host + "/api/gpt/balance"
+                          : "https://qingwei.icu/api/billing";
 
+                      const response = await fetch(url, {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                          Authorization:
+                            "Bearer " + localStorage.getItem("token"),
+                        },
+                        body: JSON.stringify({
+                          apiKey: gpt?.key,
+                        }),
+                      });
                       if (response.status == 200) {
                         const temp = await response.json();
-                        if (temp.status == "success") {
+                        if (temp.ok) {
                           setBalance(temp);
                           setLoading(false);
                         } else {
-                          toast.error(temp.message);
-                          setLoading(false);
+                          if (temp.status == "success") {
+                            setBalance({
+                              balanceTotal: temp.total_granted,
+                              balanceUsed: temp.total_used,
+                            });
+                            setLoading(false);
+                          } else {
+                            toast.error(temp.message);
+                            setLoading(false);
+                          }
                         }
                       } else {
                         setLoading(false);
@@ -284,7 +285,15 @@ export default function SettingView() {
                       }
                     }}
                   >
-                    查询
+                    余额查询
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      //打开新的标签
+                      window.open("https://api.chatanywhere.cn");
+                    }}
+                  >
+                    明细
                   </Button>
                 </Space>
               )}
@@ -293,7 +302,7 @@ export default function SettingView() {
               className={styleSetting["list-item"]}
               style={{
                 fontWeight: 600,
-                fontSize: 16,
+                fontSize: 15,
                 color: isDarkMode ? "#cccccc" : undefined,
                 marginTop: 12,
               }}
@@ -304,7 +313,7 @@ export default function SettingView() {
               className={styleSetting["list-item"]}
               style={{
                 borderRadius: 14,
-                borderColor: isDarkMode ? "#2b2f31" : "#ebebeb",
+                borderColor: isDarkMode ? "#222222" : "#ebebeb",
               }}
             >
               <Space direction={"vertical"} size={0} style={{ width: "100%" }}>
@@ -412,7 +421,7 @@ export default function SettingView() {
                 className={styleSetting["list-item"]}
                 style={{
                   fontWeight: 600,
-                  fontSize: 16,
+                  fontSize: 15,
                   color: isDarkMode ? "#cccccc" : undefined,
                   marginTop: 12,
                 }}
@@ -425,7 +434,7 @@ export default function SettingView() {
                 className={styleSetting["list-item"]}
                 style={{
                   borderRadius: 14,
-                  borderColor: isDarkMode ? "#2b2f31" : "#ebebeb",
+                  borderColor: isDarkMode ? "#222222" : "#ebebeb",
                 }}
               >
                 <div style={{ display: "flex", flexDirection: "column" }}>
@@ -503,7 +512,7 @@ export default function SettingView() {
               className={styleSetting["list-item"]}
               style={{
                 fontWeight: 600,
-                fontSize: 16,
+                fontSize: 15,
                 color: isDarkMode ? "#cccccc" : undefined,
                 marginTop: 12,
               }}
@@ -514,7 +523,7 @@ export default function SettingView() {
               className={styleSetting["list-item"]}
               style={{
                 borderRadius: 14,
-                borderColor: isDarkMode ? "#2b2f31" : "#ebebeb",
+                borderColor: isDarkMode ? "#222222" : "#ebebeb",
               }}
             >
               <Space direction={"vertical"} size={6}>

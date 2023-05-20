@@ -5,8 +5,6 @@
 import MobileProvider from "@/app/hooks/context-mobile";
 import AppContext from "@/app/hooks/use-style";
 import Home from "@/app/pages/home";
-import { createTheme } from "@nextui-org/react";
-import { Analytics } from "@vercel/analytics/react";
 import { ConfigProvider } from "antd";
 import { Fragment, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
@@ -67,7 +65,6 @@ export default function Index() {
               </AppContext.Provider>
             </MobileProvider>
           </ConfigProvider>
-          <Analytics />
           {/*https://github.com/timolins/react-hot-toast*/}
           <Toaster />
         </Fragment>

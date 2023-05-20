@@ -6,13 +6,23 @@ export default function ApiKeyModal(props: {}) {
   const navigate = useNavigate();
   const location = useLocation();
   return (
-    <Button
+    <a
       className={styles.link}
       type="link"
       onClick={(event) => {
         if (location.pathname == "/settings") {
-          navigate(-1);
+          const tempPathName =
+            window.sessionStorage.getItem("tempPathName") ?? "";
+          if (tempPathName.length > 0) {
+            navigate(tempPathName);
+          } else {
+            navigate(-1);
+          }
         } else {
+          window.sessionStorage.setItem(
+            "tempPathName",
+            location.pathname + location.search
+          );
           navigate("/settings");
         }
       }}
@@ -22,6 +32,6 @@ export default function ApiKeyModal(props: {}) {
       ) : (
         <Setting set="curved" />
       )}
-    </Button>
+    </a>
   );
 }

@@ -1,5 +1,5 @@
 import Slider from "@/app/components/slider";
-import { db } from "@/app/db/db";
+import { db, isExist } from "@/app/db/db";
 import { context } from "@/app/hooks/context-mobile";
 import AppContext from "@/app/hooks/use-style";
 import ChatView from "@/app/pages/chat";
@@ -66,14 +66,26 @@ export default function Home() {
     });
   }, []);
 
+  async function openDefault(id: string | null) {
+    //数据库中没有这个id
+    if (id && !(await isExist(+id))) {
+      navigate("/chat?id=1");
+    }
+  }
+
   useEffect(() => {
     if (location.pathname == "/") {
       const tempPath = localStorage.getItem("current_path") ?? "/chat?id=1";
       navigate(tempPath);
     } else if (location.pathname == "/chat" || location.pathname == "/note") {
       localStorage.setItem("current_path", location.pathname + location.search);
+      if (location.pathname == "/chat") {
+        const params = new URLSearchParams(location.search);
+        const id = params.get("id");
+        openDefault(id);
+      }
     }
-  }, [location.pathname]);
+  }, [location]);
 
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
