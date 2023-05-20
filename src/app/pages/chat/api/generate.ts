@@ -167,17 +167,12 @@ export async function generateMessage(
       });
     }
   }
-  const token = localStorage.getItem("token");
-  const url =
-    token != null
-      ? util.host + "/api/gpt/chat"
-      : "https://qingwei.icu/api/generate";
+
   try {
-    const response = await fetch(url, {
+    const response = await fetch("/api/gpt/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
         model: model ?? "gpt-3.5-turbo",

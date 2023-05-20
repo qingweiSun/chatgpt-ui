@@ -1,7 +1,7 @@
 import { context } from "@/app/hooks/context-mobile";
 import { Button, Card, ConfigProvider, Image, notification } from "antd";
 import { useContext, useEffect, useState } from "react";
-import { Danger, Notification, Scan, VolumeUp } from "react-iconly";
+import { Buy, Danger, Notification, Scan, VolumeUp } from "react-iconly";
 import { useMediaQuery } from "react-responsive";
 import { copyToClipboard } from "../pages/chat/markdown-text";
 import styles from "./delete.module.css";
@@ -74,10 +74,11 @@ export default function RewardView() {
         type={"link"}
         style={{ fontSize: 15 }}
         onClick={() => {
-          setRewardModalOpen(true);
+          //setRewardModalOpen(true);
+          window.open("http://zhg12.top/?cid=14");
         }}
       >
-        <Scan set="curved" size={22} />
+        <Buy set="curved" />
       </a>
     </ConfigProvider>
   );

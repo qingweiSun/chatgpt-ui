@@ -158,7 +158,7 @@ export default function SettingView() {
                 borderColor: isDarkMode ? "#222222" : "#ebebeb",
               }}
             >
-              <div style={{ fontSize: 14 }}>
+              {/* <div style={{ fontSize: 14 }}>
                 随着本站用户量的增长，成本也在逐渐增高，如果你需要更好的体验，我可以帮你自建，你可以自行充值额度，也可以给别人付费使用，如果你有意请加微信：
                 <a
                   onClick={() => {
@@ -167,8 +167,8 @@ export default function SettingView() {
                 >
                   18300240232
                 </a>
-              </div>
-              <Divider />
+              </div> */}
+              {/* <Divider /> */}
               <div
                 style={{
                   display: "flex",
@@ -178,7 +178,7 @@ export default function SettingView() {
                   marginTop: 2,
                 }}
               >
-                <div style={{ fontWeight: 500 }}>apiKey:</div>
+                <div style={{ fontWeight: 500 }}>密钥:</div>
                 <Input
                   value={gpt?.key}
                   className="custom-prompt"
@@ -188,7 +188,7 @@ export default function SettingView() {
                     background: isDarkMode ? "#2b2f31" : undefined,
                     color: isDarkMode ? "#cccccc" : undefined,
                   }}
-                  placeholder={"请输入您自己的apiKey"}
+                  placeholder={"请输入密钥"}
                   onChange={(e) => {
                     if (gpt) {
                       setGpt({ ...gpt, key: e.target.value });
@@ -196,7 +196,7 @@ export default function SettingView() {
                   }}
                 />
               </div>
-              <div
+              {/* <div
                 style={{
                   color: "#666666",
                   fontSize: 12,
@@ -204,9 +204,9 @@ export default function SettingView() {
                 }}
               >
                 请输入您自己的apiKey，以便获得更好的体验，本站不会做任何记录
-              </div>
-              <Divider />
-              <Space>
+              </div> */}
+              {/* <Divider /> */}
+              {/* <Space>
                 <div style={{ fontWeight: 500 }}>访问码:</div>
                 <Input
                   className="custom-prompt"
@@ -223,7 +223,7 @@ export default function SettingView() {
                     }
                   }}
                 />
-              </Space>
+              </Space> */}
               <div
                 style={{
                   color: "#666666",
@@ -231,7 +231,8 @@ export default function SettingView() {
                   marginTop: 8,
                 }}
               >
-                如果你没有 apikey，可以使用开发者提供的访问密码
+                如果你没有密钥，请在此处后买：
+                <a href="http://zhg12.top/?cid=14">http://zhg12.top/?cid=14</a>
               </div>
               {(isElectron || (gpt?.key?.length ?? 0) > 0) && <Divider />}
               {(isElectron || (gpt?.key?.length ?? 0) > 0) && (
@@ -245,18 +246,10 @@ export default function SettingView() {
                     loading={loading}
                     onClick={async () => {
                       setLoading(true);
-                      const token = localStorage.getItem("token");
-                      const url =
-                        token != null
-                          ? util.host + "/api/gpt/balance"
-                          : "https://qingwei.icu/api/billing";
-
-                      const response = await fetch(url, {
+                      const response = await fetch("/api/gpt/balance", {
                         method: "POST",
                         headers: {
                           "Content-Type": "application/json",
-                          Authorization:
-                            "Bearer " + localStorage.getItem("token"),
                         },
                         body: JSON.stringify({
                           apiKey: gpt?.key,
@@ -287,14 +280,14 @@ export default function SettingView() {
                   >
                     余额查询
                   </Button>
-                  <Button
+                  {/* <Button
                     onClick={() => {
                       //打开新的标签
                       window.open("https://api.chatanywhere.cn");
                     }}
                   >
                     明细
-                  </Button>
+                  </Button> */}
                 </Space>
               )}
             </Card>
@@ -325,7 +318,7 @@ export default function SettingView() {
                     gap: 8,
                   }}
                 >
-                  <div style={{ fontWeight: 500 }}>随机性(temperature):</div>
+                  <div style={{ fontWeight: 500 }}>随机性：</div>
                   <Slider
                     min={0}
                     max={2}
@@ -358,9 +351,7 @@ export default function SettingView() {
                     gap: 8,
                   }}
                 >
-                  <div style={{ fontWeight: 500 }}>
-                    话题新鲜度 (presence_penalty):
-                  </div>
+                  <div style={{ fontWeight: 500 }}>话题新鲜度：</div>
                   <Slider
                     min={-2}
                     max={2}
@@ -386,7 +377,7 @@ export default function SettingView() {
               <Divider />
               <Space direction={"vertical"} size={6}>
                 <Space>
-                  <div style={{ fontWeight: 500 }}>max_tokens:</div>
+                  <div style={{ fontWeight: 500 }}>最大输出:</div>
                   <Input
                     placeholder={"不限制请留空"}
                     className="custom-prompt"
@@ -412,7 +403,7 @@ export default function SettingView() {
                   }}
                 >
                   聊天完成时生成的最大令牌数。
-                  输入标记和生成标记的总长度受模型上下文长度的限制。越大或者留空越会消耗apiKey的额度
+                  输入标记和生成标记的总长度受模型上下文长度的限制。越大或者留空越会消耗apiKey的额度，请自己尝试合理取值
                 </div>
               </Space>
             </Card>

@@ -17,6 +17,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import Image from "next/image";
 import { Fragment, useMemo } from "react";
 import {
+  Buy,
   Delete,
   Edit,
   EditSquare,
@@ -32,6 +33,7 @@ import ThemeChangeView from "../theme-change";
 import styles from "./index.module.css";
 import UserInfoView from "../user/user-view";
 import UserView from "@/app/pages/chat/user-chat-view";
+import ShopView from "../shop-view";
 //https://react-iconly.jrgarciadev.com/ 图标
 //https://dexie.org/docs/Tutorial/React 数据库
 export interface HistoryItem {
@@ -304,11 +306,13 @@ export default function Slider(props: {
             display: "flex",
             alignItems: "center",
             flex: 1,
-            justifyContent: "space-around",
+            gap: 34,
+            justifyContent: "center",
           }}
         >
-          <UserInfoView />
+          {/* <UserInfoView /> */}
           <SettingModal />
+          {/* <ShopView /> */}
           <ThemeChangeView />
         </div>
         <div style={{ width: 12 }} />
