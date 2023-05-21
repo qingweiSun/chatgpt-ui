@@ -169,7 +169,11 @@ export async function generateMessage(
   }
 
   try {
-    const response = await fetch(util.host + "/api/gpt/chat", {
+    const url =
+      (gpt?.key?.length ?? 0) > 0
+        ? util.host + "/api/gpt/chat"
+        : "https://qingwei.icu/api/generate";
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

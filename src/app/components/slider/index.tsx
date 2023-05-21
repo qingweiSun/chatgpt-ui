@@ -259,7 +259,6 @@ export default function Slider(props: {
           icon=<EditSquare set="curved" size={17} style={{ flexShrink: 0 }} />
           showEdit={false}
           onClick={() => {
-            // setId({ id: 2 });
             navigate("/note");
             props.closeSlider?.();
           }}
@@ -289,7 +288,6 @@ export default function Slider(props: {
                     localStorage.removeItem(keys[i]);
                   }
                 }
-                //  setId({ id: 10000 });
                 navigate(`/chat?id=${10000}`);
               }}
               title="警告"
@@ -306,13 +304,13 @@ export default function Slider(props: {
             display: "flex",
             alignItems: "center",
             flex: 1,
-            gap: 34,
-            justifyContent: "center",
+            gap: 30,
+            padding: "0 16px",
+            justifyContent: "flex-start",
           }}
         >
           {/* <UserInfoView /> */}
           <SettingModal />
-          {/* <ShopView /> */}
           <ThemeChangeView />
         </div>
         <div style={{ width: 12 }} />
@@ -344,7 +342,6 @@ export default function Slider(props: {
               explain:
                 (localStorage.getItem("defaultMode") ?? "default") == "default",
             });
-            // setId({ id: newId });
             navigate(`/chat?id=${newId}`);
             props.closeSlider?.();
           }}

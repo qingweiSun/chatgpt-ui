@@ -224,16 +224,7 @@ export default function SettingView() {
                   }}
                 />
               </Space> */}
-              <div
-                style={{
-                  color: "#666666",
-                  fontSize: 12,
-                  marginTop: 8,
-                }}
-              >
-                如果你没有密钥，请在此处后买：
-                <a href="http://zhg12.top/?cid=14">http://zhg12.top/?cid=14</a>
-              </div>
+
               {(isElectron || (gpt?.key?.length ?? 0) > 0) && <Divider />}
               {(isElectron || (gpt?.key?.length ?? 0) > 0) && (
                 <Space>
@@ -246,18 +237,20 @@ export default function SettingView() {
                     loading={loading}
                     onClick={async () => {
                       setLoading(true);
-                      const response = await fetch(
-                        util.host + "/api/gpt/balance",
-                        {
-                          method: "POST",
-                          headers: {
-                            "Content-Type": "application/json",
-                          },
-                          body: JSON.stringify({
-                            apiKey: gpt?.key,
-                          }),
-                        }
-                      );
+                      const url =
+                        (gpt?.key?.length ?? 0) > 0
+                          ? util.host + "/api/gpt/balance"
+                          : "https://qingwei.icu/api/billing";
+
+                      const response = await fetch(url, {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          apiKey: gpt?.key,
+                        }),
+                      });
                       if (response.status == 200) {
                         const temp = await response.json();
                         if (temp.ok) {
@@ -283,14 +276,14 @@ export default function SettingView() {
                   >
                     余额查询
                   </Button>
-                  {/* <Button
+                  <Button
                     onClick={() => {
                       //打开新的标签
                       window.open("https://api.chatanywhere.cn");
                     }}
                   >
                     明细
-                  </Button> */}
+                  </Button>
                 </Space>
               )}
             </Card>
