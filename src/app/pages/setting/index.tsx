@@ -246,15 +246,18 @@ export default function SettingView() {
                     loading={loading}
                     onClick={async () => {
                       setLoading(true);
-                      const response = await fetch("/api/gpt/balance", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          apiKey: gpt?.key,
-                        }),
-                      });
+                      const response = await fetch(
+                        util.host + "/api/gpt/balance",
+                        {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({
+                            apiKey: gpt?.key,
+                          }),
+                        }
+                      );
                       if (response.status == 200) {
                         const temp = await response.json();
                         if (temp.ok) {

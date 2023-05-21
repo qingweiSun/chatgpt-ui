@@ -169,7 +169,7 @@ export async function generateMessage(
   }
 
   try {
-    const response = await fetch("/api/gpt/chat", {
+    const response = await fetch(util.host + "/api/gpt/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

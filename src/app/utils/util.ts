@@ -28,5 +28,5 @@ export const util = {
     return num < 10 ? `0${num}` : `${num}`;
   },
   //host: process.env.NEXT_PUBLIC_HOST_URL ?? "https://ai.qingwei.site",
-  host: "",
+  host: "https://ai.qingwei.site",
 };
