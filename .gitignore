@@ -45,3 +45,6 @@ yarn.lock
 /web
 
 .env
+node_modules
+/electron/web
+/electron/dist

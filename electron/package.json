@@ -1,0 +1,25 @@
+{
+  "name": "chatgpt",
+  "productName": "ChatGPT",
+  "version": "1.0.0",
+  "main": "main.js",
+  "license": "MIT",
+  "build": {
+    "productName": "ChatGPT",
+    "appId": "com.sun.gpt.app",
+    "mac": {
+      "icon": "build/ChatGPT.icns"
+    }
+  },
+  "scripts": {
+    "electron-start": "export FAVOR=debug && electron .",
+    "electron-builder": "electron-builder"
+  },
+  "dependencies": {
+    "electron-packager": "^17.0.0",
+    "electron-store": "^8.1.0"
+  },
+  "devDependencies": {
+    "electron": "^21.2.0"
+  }
+}

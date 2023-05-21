@@ -23,7 +23,7 @@ const nextConfig = withPWA({
     appDir: true,
   },
   output: "export",
-  distDir: "dist",
+  distDir: "electron/web",
   images: {
     unoptimized: true,
   },
