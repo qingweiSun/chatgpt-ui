@@ -64,10 +64,6 @@ function createWindow(key) {
   app.dock.bounce("critical");
   // trafficLightPosition控制三个点的位置
   // 并且装载应用的index.html页面
-  //win.loadURL(`https://ai.qingwei.icu`);
-  //win.loadURL("http://localhost:3000")
-  //win.loadURL('https://ai.qingwei.site');
-
   win.loadFile(`./web/index.html`);
 
   // 打开开发工具页面

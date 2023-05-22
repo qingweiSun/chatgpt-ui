@@ -30,42 +30,7 @@ export default function InputView(props: {
     props.send();
   }
   function send() {
-    //MzcxMzIyLjIwMjMtMDctMzE=
-    //解密后的结果是 "371322.2023-07-31"。
-    if ((gpt?.key?.length ?? 0) > 0) {
-      props.send();
-    } else {
-      const password = gpt?.password ?? "";
-      if (password.length > 0) {
-        //校验密码
-        //1.base64解码
-        try {
-          const text = atob(password);
-          //2.转成字符串
-          const array = text.split(".");
-          //3.校验
-          if (array.length == 2) {
-            if (array[0] == "371322") {
-              //密码正确，校验过期时间
-              const date = new Date(array[1]);
-              if (date.getTime() > new Date().getTime()) {
-                props.send();
-              } else {
-                error("密码已过期");
-              }
-            } else {
-              error("密码错误");
-            }
-          } else {
-            error("密码错误");
-          }
-        } catch (e) {
-          error("密码错误");
-        }
-      } else {
-        error("密码错误");
-      }
-    }
+    props.send();
   }
   return (
     <div className={styles.bottom}>

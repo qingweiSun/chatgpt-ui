@@ -6,7 +6,11 @@ async function createStream(req: Request) {
   const decoder = new TextDecoder();
   const body = await req.json();
   const messages = body.messages;
+  const model = body.model || "gpt-3.5-turbo";
   const apiKey = body.apiKey || process.env.API_KEY;
+  if (apiKey == null || apiKey == "") {
+    return "API Key is empty. 请参阅Readme";
+  }
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     headers: {
       "Content-Type": "application/json",
@@ -14,7 +18,7 @@ async function createStream(req: Request) {
     },
     method: "POST",
     body: JSON.stringify({
-      model: "gpt-3.5-turbo",
+      model: model,
       messages,
       stream: true,
     }),
@@ -53,7 +57,6 @@ export async function POST(req: Request) {
     const stream = await createStream(req);
     return new Response(stream);
   } catch (error) {
-    console.error("[Chat Stream]", error);
     return new Response(
       ["```json\n", JSON.stringify(error, null, "  "), "\n```"].join("")
     );

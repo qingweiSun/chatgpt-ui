@@ -27,6 +27,4 @@ export const util = {
   addZero(num: number): string {
     return num < 10 ? `0${num}` : `${num}`;
   },
-  //host: process.env.NEXT_PUBLIC_HOST_URL ?? "https://ai.qingwei.site",
-  host: "https://ai.qingwei.site",
 };

@@ -1,10 +1,8 @@
 import { Dropdown } from "@nextui-org/react";
-import { Button } from "antd";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useMediaQuery } from "react-responsive";
 import { DarkIcon } from "../icons/theme-iocn";
-import RewardView from "./Reward";
 import styles from "./delete.module.css";
 export default function ThemeChangeView() {
   const [isElectron, setIsElectron] = useState(

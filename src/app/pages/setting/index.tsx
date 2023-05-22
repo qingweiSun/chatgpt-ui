@@ -178,7 +178,7 @@ export default function SettingView() {
                   marginTop: 2,
                 }}
               >
-                <div style={{ fontWeight: 500 }}>密钥:</div>
+                <div style={{ fontWeight: 500 }}>apiKey:</div>
                 <Input
                   value={gpt?.key}
                   className="custom-prompt"
@@ -188,7 +188,7 @@ export default function SettingView() {
                     background: isDarkMode ? "#2b2f31" : undefined,
                     color: isDarkMode ? "#cccccc" : undefined,
                   }}
-                  placeholder={"请输入密钥"}
+                  placeholder={"请输入apiKey"}
                   onChange={(e) => {
                     if (gpt) {
                       setGpt({ ...gpt, key: e.target.value });
@@ -237,10 +237,8 @@ export default function SettingView() {
                     loading={loading}
                     onClick={async () => {
                       setLoading(true);
-                      const url =
-                        (gpt?.key?.length ?? 0) > 0
-                          ? util.host + "/api/gpt/balance"
-                          : "https://qingwei.icu/api/billing";
+                      //TODO
+                      const url = "/api/balance";
 
                       const response = await fetch(url, {
                         method: "POST",

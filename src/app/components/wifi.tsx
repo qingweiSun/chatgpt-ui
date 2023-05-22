@@ -68,39 +68,13 @@ export default function WifiView(props: {
     </Tooltip>
   );
 }
-
+//不可用
 export async function searchValue(messagesValue: GptMessage[]) {
   const text = await getSearchKeywoard(messagesValue);
-  const response = await fetch(`/api/wifi?query=${text}`, {
-    method: "GET",
-  });
-  if (response.ok) {
-    const data = await response.json();
-
-    return JSON.stringify(data);
-  } else {
-    return "";
-  }
+  return text + "搜索结果";
 }
 
 export async function getSearchKeywoard(messagesValue: GptMessage[]) {
-  try {
-    const response = await fetch(`https://qingwei.icu/api/shortcuts`, {
-      method: "POST",
-      body: JSON.stringify({
-        messages: messagesValue,
-        model: "gpt-3.5-turbo",
-        stream: false,
-      }),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      const text = data.choices[0].message.content;
-      return text;
-    } else {
-      return "";
-    }
-  } catch (e) {
-    return "";
-  }
+  //TODO 搜索不可用，请自行替换此处代码
+  return "关键词";
 }

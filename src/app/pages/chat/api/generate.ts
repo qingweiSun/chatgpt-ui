@@ -1,7 +1,5 @@
 import { searchValue } from "@/app/components/wifi";
 import { ChatMessage, GptMessage } from "@/app/pages/chat";
-import { util } from "@/app/utils/util";
-import { message } from "antd";
 
 let tempStatus = "";
 
@@ -167,12 +165,10 @@ export async function generateMessage(
       });
     }
   }
-
+  //TODO如果只想部署这一个项目，直接把 url 改为 /api/chat，但是需要部署在可访问 openai api 的服务器上
+  //如果搭配后端使用，可以把 url 改为 自己的后端接口，这样需要部署两个项目
   try {
-    const url =
-      (gpt?.key?.length ?? 0) > 0
-        ? util.host + "/api/gpt/chat"
-        : "https://qingwei.icu/api/generate";
+    const url = "/api/chat";
     const response = await fetch(url, {
       method: "POST",
       headers: {

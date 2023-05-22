@@ -353,7 +353,6 @@ export default function Slider(props: {
             justifyContent: "flex-start",
           }}
         >
-          {/* <UserInfoView /> */}
           <SettingModal />
           <ThemeChangeView />
         </div>
