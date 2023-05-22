@@ -16,8 +16,8 @@ export class MyAiDexie extends Dexie {
 
   constructor() {
     super("myDatabase");
-    this.version(4).stores({
-      sliders: "++id,title,top,mode,openNetwork,model", // Primary key and indexed props
+    this.version(5).stores({
+      sliders: "++id,title,top,mode,openNetwork,model,updateTime", // Primary key and indexed props
       templates: "++id,message",
     });
   }
@@ -77,6 +77,7 @@ export async function clearSlider() {
       id: 10000,
       top: false,
       explain: (localStorage.getItem("defaultMode") ?? "default") == "default",
+      updateTime: new Date().getTime(),
     });
   });
 }

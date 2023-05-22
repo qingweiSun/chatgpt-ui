@@ -16,8 +16,8 @@ import { Dropdown, MenuProps } from "antd";
 import { useLiveQuery } from "dexie-react-hooks";
 import Image from "next/image";
 import { Fragment, useMemo } from "react";
+import { toast } from "react-hot-toast";
 import {
-  Buy,
   Delete,
   Edit,
   EditSquare,
@@ -31,9 +31,6 @@ import ChatGptLogo from "../../icons/chatgpt.svg";
 import { MaxTokensLimitProps } from "../max-tokens-limit";
 import ThemeChangeView from "../theme-change";
 import styles from "./index.module.css";
-import UserInfoView from "../user/user-view";
-import UserView from "@/app/pages/chat/user-chat-view";
-import ShopView from "../shop-view";
 //https://react-iconly.jrgarciadev.com/ 图标
 //https://dexie.org/docs/Tutorial/React 数据库
 export interface HistoryItem {
@@ -44,14 +41,31 @@ export interface HistoryItem {
   explain?: boolean;
   openNetwork?: boolean;
   model?: "gpt-3.5-turbo" | "gpt-4";
+  updateTime?: number;
 }
 
 export default function Slider(props: {
   isMobile?: boolean;
   closeSlider?: () => void;
 }) {
-  const historyList = useLiveQuery(() =>
-    db.sliders.where("id").notEqual(1).toArray()
+  const historyListTop = useLiveQuery(() =>
+    db.sliders
+      .where("id")
+      .notEqual(1)
+      .and((slider) => {
+        return slider.top == true;
+      })
+      .sortBy("updateTime")
+  );
+  const historyListNormal = useLiveQuery(() =>
+    db.sliders
+      .where("id")
+      .notEqual(1)
+      .and((slider) => {
+        return slider.top != true;
+      })
+      .reverse()
+      .toArray()
   );
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
   const navigate = useNavigate();
@@ -84,25 +98,25 @@ export default function Slider(props: {
   }) {
     return (
       <Fragment>
-        {historyList &&
+        {/* {historyList &&
           propsItem.item.id != 1 &&
           propsItem.item.id != 2 &&
           historyList[propsItem.index - 1]?.top &&
           !(historyList[propsItem.index]?.top ?? false) && (
             <div className={styles.label}>其他会话</div>
-          )}
+          )} */}
 
-        {propsItem.index == 0 &&
+        {/* {propsItem.index == 0 &&
           historyList &&
           (historyList[propsItem.index]?.top ?? false) && (
             <div className={styles.label}>置顶会话</div>
-          )}
+          )} */}
 
-        {propsItem.index == 0 &&
+        {/* {propsItem.index == 0 &&
           historyList &&
           !(historyList[propsItem.index]?.top ?? false) && (
             <div className={styles.label}>全部会话</div>
-          )}
+          )} */}
         <HistoryItemView
           id={propsItem.item.id}
           isDarkMode={isDarkMode}
@@ -130,21 +144,24 @@ export default function Slider(props: {
           onDelete={async () => {
             await deleteSlider(propsItem.item.id);
             localStorage.removeItem("historyList" + propsItem.item.id);
-            //从 historyList 中删除 获得临时数据
-            const tempList = historyList?.filter(
-              (_, i) => i != propsItem.index
-            );
+            // 从 historyList 中删除 获得临时数据
+            const tempList = [
+              ...(historyListTop?.slice().reverse() ?? []),
+              ...(historyListNormal ?? []),
+            ];
             if (tempList) {
               if (tempList.length > 0) {
-                if (tempList.length > propsItem.index) {
-                  const params = new URLSearchParams(location.search);
-                  const id = params.get("id") ?? -1;
-                  //首先判断删除的是不是current，如果不是，则不需要定位，如果是，则需要定位到下一个
-                  if (+id == propsItem.item.id) {
-                    navigate(`/chat?id=${tempList[propsItem.index].id}`);
+                const params = new URLSearchParams(location.search);
+                const id = params.get("id") ?? -1;
+                //首先判断删除的是不是current，如果不是，则不需要定位，如果是，则需要定位到下一个
+                if (+id == propsItem.item.id) {
+                  //从 tempList 查找 id 是propsItem.item.id的下标
+                  const index = tempList.indexOf(propsItem.item);
+                  if (index - 1 >= 0) {
+                    navigate(`/chat?id=${tempList[index - 1].id}`);
+                  } else {
+                    navigate(`/chat?id=1`);
                   }
-                } else {
-                  navigate(`/chat?id=${tempList[tempList.length - 1].id}`);
                 }
               } else {
                 navigate(`/chat?id=1`);
@@ -159,22 +176,18 @@ export default function Slider(props: {
               id: propsItem.item.id,
               title: propsItem.item.title,
               top: !propsItem.item.top,
+              updateTime: new Date().getTime(),
             });
           }}
         />
       </Fragment>
     );
   }
-
-  const sliderList = useMemo(() => {
-    return historyList
-      ?.sort((a, b) => {
-        return b.id - a.id;
-      })
-      .sort((i) => {
-        return i.top ? -1 : 1;
-      })
-      .map((item, index) => {
+  const SliderTopList = useMemo(() => {
+    return historyListTop
+      ?.slice()
+      ?.reverse()
+      ?.map((item, index) => {
         return (
           <ItemView
             item={item}
@@ -188,7 +201,22 @@ export default function Slider(props: {
           />
         );
       });
-  }, [historyList, isDarkMode, location]);
+  }, [historyListTop, isDarkMode, location]);
+
+  const SliderNormalList = useMemo(() => {
+    return historyListNormal?.map((item, index) => {
+      return (
+        <ItemView
+          item={item}
+          index={index}
+          key={item.id}
+          current={location.pathname + location.search == "/chat?id=" + item.id}
+          showEdit
+          icon=<Paper set="curved" size={18} style={{ flexShrink: 0 }} />
+        />
+      );
+    });
+  }, [historyListNormal, isDarkMode, location]);
 
   return (
     <div className={`${styles.slider}`}>
@@ -228,7 +256,7 @@ export default function Slider(props: {
             <div style={{ height: 16 }} />
             <div className={styles.title}>AskMe</div>
             <div className={styles.sub}>
-              based on ai , please ask me anything .
+              Based on OpenAI API (gpt-3.5-turbo).
             </div>
           </div>
         </div>
@@ -243,7 +271,6 @@ export default function Slider(props: {
           showEdit={false}
           icon=<Message set="curved" size={17} style={{ flexShrink: 0 }} />
           onClick={() => {
-            // setId({ id: 1 });
             navigate(`/chat?id=${1}`);
             props.closeSlider?.();
           }}
@@ -263,8 +290,25 @@ export default function Slider(props: {
             props.closeSlider?.();
           }}
         />
-        {sliderList}
-        {(historyList?.length ?? 0) > 0 && (
+        {(historyListTop?.length ?? 0) > 0 && (
+          <div className={styles.label}>置顶会话({historyListTop?.length})</div>
+        )}
+        {SliderTopList}
+        {(historyListNormal?.length ?? 0) > 0 &&
+          (historyListTop?.length ?? 0) == 0 && (
+            <div className={styles.label}>
+              全部会话({historyListNormal?.length})
+            </div>
+          )}
+        {(historyListNormal?.length ?? 0) > 0 &&
+          (historyListTop?.length ?? 0) > 0 && (
+            <div className={styles.label}>
+              其他会话({historyListNormal?.length})
+            </div>
+          )}
+        {SliderNormalList}
+        {((historyListNormal?.length ?? 0) > 0 ||
+          (historyListTop?.length ?? 0) > 0) && (
           <div
             className={styles.clear}
             style={{
@@ -341,6 +385,7 @@ export default function Slider(props: {
               top: false,
               explain:
                 (localStorage.getItem("defaultMode") ?? "default") == "default",
+              updateTime: new Date().getTime(),
             });
             navigate(`/chat?id=${newId}`);
             props.closeSlider?.();
@@ -522,31 +567,6 @@ function HistoryItemView(props: {
                 !props.current ? styles.hide : undefined
               }`}
             >
-              {/* <Button
-                light
-                auto
-                css={{
-                  height: "auto",
-                  padding: 0,
-                  color: props.current
-                    ? props.isDarkMode
-                      ? "#cccccc"
-                      : "var(--nextui-colors-primary)"
-                    : props.isDarkMode
-                    ? "#999999"
-                    : "#696969",
-                }}
-                className={props.current ? styles.current : styles.delete}
-                onClick={() => {
-                  props.onTop();
-                }}
-              >
-                {props.isTop ? (
-                  <ArrowDown set="curved" size={18} />
-                ) : (
-                  <ArrowUp set="curved" size={18} />
-                )}
-              </Button> */}
               <EditName
                 setName={props.onRename}
                 name={props.title}

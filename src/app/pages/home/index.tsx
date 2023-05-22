@@ -61,6 +61,7 @@ export default function Home() {
         id: 10000,
         title: "新的会话10000",
         top: false,
+        updateTime: new Date().getTime(),
       });
       navigate("/chat?id=10000");
     });

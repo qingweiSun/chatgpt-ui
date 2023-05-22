@@ -11,7 +11,8 @@ import toast from "react-hot-toast";
 import { useMediaQuery } from "react-responsive";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-export default function MarkdownText(props: { children: string }) {
+import React from "react";
+function MarkdownTextItem(props: { children: string }) {
   const isDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
   return (
@@ -89,3 +90,9 @@ export async function copyToClipboard(text: string, isToast?: boolean) {
     document.body.removeChild(textArea);
   }
 }
+// eslint-disable-next-line react/display-name
+const MarkdownText = React.memo((props: { children: string }) => {
+  return <MarkdownTextItem>{props.children}</MarkdownTextItem>;
+});
+
+export default MarkdownText;

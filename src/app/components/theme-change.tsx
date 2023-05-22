@@ -123,6 +123,6 @@ export default function ThemeChangeView() {
       </Dropdown.Menu>
     </Dropdown>
   ) : (
-    <RewardView />
+    <div />
   );
 }
