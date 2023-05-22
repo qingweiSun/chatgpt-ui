@@ -1,10 +1,6 @@
 //常量
 export const Constants = {
   token: "token",
-  ano: "ano",
-  hasLastPrompt: "hasLastPrompt",
-  baseUrl: process.env.host,
-  historyList: "historyList",
 };
 
 const storageUtil = {
